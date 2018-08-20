@@ -1,5 +1,7 @@
 package com.mio.jrdv.ambientnotifs;
 
+import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -8,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.hardware.display.DisplayManager;
+
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
@@ -15,6 +18,10 @@ import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
 import android.view.Display;
+
+import com.mio.jrdv.ambientnotifs.helpers.ScreenController;
+
+import java.util.Calendar;
 
 /**
  * Created by joseramondelgado on 19/08/18.
@@ -98,6 +105,12 @@ public class NOTIFSService extends NotificationListenerService{
 
 */
 
+
+            //TODO si es una llmada del tiron pasamos:
+
+            if (sbn.isOngoing()) {
+                return;
+            }
 
               packageNameWhataspp  = sbn.getPackageName();
 
@@ -316,6 +329,9 @@ public class NOTIFSService extends NotificationListenerService{
 
                     Notification mNotification = sbn.getNotification();
 
+
+                    //TODO luego vemos que hacemos..de moento encender pantalla:
+                /*
                     Log.i("NEW", "enviando a MAIN!!!");
                     if (mNotification != null) {
 
@@ -342,8 +358,39 @@ public class NOTIFSService extends NotificationListenerService{
                     Log.e("ES UN WHAATSAPP", "NO!!!!");
                 }
 
+*/
+                    //TODO luego vemos que hacemos..de moento encender pantalla:
+
+
+
+                     //   new ScreenController(this, false).handleNotification(packageNameWhataspp);
+
+
+
+
+                        //TODO  o esto de alarma:
+
+                    /*
+                    //Create an offset from the current time in which the alarm will go off.
+                    Calendar cal = Calendar.getInstance();
+                    cal.add(Calendar.SECOND, 2);
+
+                    //Create a new PendingIntent and add it to the AlarmManager
+                    Intent intent = new Intent(this, AlarmReceiverActivity.class);
+                    PendingIntent pendingIntent = PendingIntent.getActivity(this,
+                            12345, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                    AlarmManager am = (AlarmManager)getSystemService(Activity.ALARM_SERVICE);
+                    am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
+                            pendingIntent);
+                    */
+
+
+                    Intent dialogIntent = new Intent(this, AlarmReceiverActivity.class);
+                    dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(dialogIntent);
+                }
             }
-        }
+            }
 
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {

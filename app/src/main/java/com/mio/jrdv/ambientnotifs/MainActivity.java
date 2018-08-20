@@ -22,6 +22,9 @@ import java.util.Set;
 public class MainActivity extends AppCompatActivity {
 
 
+    //v015 añadido que se encienda pantalla completa con uneca activity al recibir un whatsapp pte de pasarle la notificacion y sacar luego de ahi lo que queramos
+
+
     //para el device manager
 
     private static final int REQUEST_CODE = 0;

@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mio.jrdv.ambientnotifs">
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,6 +18,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+
+    <!-- This activity is the activity that will be launched by the alarm -->
+    <activity android:name="com.mio.jrdv.ambientnotifs.AlarmReceiverActivity" />
 
         //para hacerlo auto boot
         <receiver android:name=".BootCompletedIntentReceiver">
