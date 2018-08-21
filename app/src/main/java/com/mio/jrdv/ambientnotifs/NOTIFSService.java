@@ -1,5 +1,6 @@
 package com.mio.jrdv.ambientnotifs;
 
+import android.app.ActivityManager;
 import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +15,9 @@ import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
 import android.view.Display;
+
+import java.io.ByteArrayOutputStream;
+import java.util.List;
 
 /**
  * Created by joseramondelgado on 19/08/18.
@@ -36,9 +40,11 @@ public class NOTIFSService extends NotificationListenerService{
     private Context mContext;
 
 
-    //
+    //para el icono
 
     String packageNameWhataspp;
+
+
 
 
     public void onCreate() {
@@ -78,6 +84,33 @@ public class NOTIFSService extends NotificationListenerService{
 
 
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////MANDAMOS UN BROADCAST PARA CERRAR SI YA EXISTIA UNA ACTIVITY//// ///// ////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+           // if (AlarmReceiverActivity.active) {
+
+            if (isActivityRunning(AlarmReceiverActivity.class)) {
+
+                //esto es lento y llega despues de abrir la activity!!!
+                /*
+
+                Log.i(TAG,"MANDO BROADCAST PARA CERRAR ACTIVITY NOTIF");
+
+                LocalBroadcastManager localBroadcastManager = LocalBroadcastManager
+                        .getInstance(NOTIFSService.this);
+                localBroadcastManager.sendBroadcast(new Intent(
+                        "com.mio.jrdv.action.close"));
+
+                        */
+
+
+                Log.i(TAG,"DEBERIA  CERRAR ACTIVITY NOTIF");
+
+           }
+
+
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             //////////////////////////////////////PARA ER EL LOGGING SOLO//////////////////////////////////////////////////////////////
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -103,6 +136,7 @@ public class NOTIFSService extends NotificationListenerService{
             if (sbn.isOngoing()) {
                 return;
             }
+
 
               packageNameWhataspp  = sbn.getPackageName();
 
@@ -379,7 +413,41 @@ public class NOTIFSService extends NotificationListenerService{
 
                     Intent dialogIntent = new Intent(this, AlarmReceiverActivity.class);
                     dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    dialogIntent.putExtras(mNotification.extras);
+                    dialogIntent.putExtras(mNotification.extras);//esto no pasa el picture de la foto si la mandan ?¿?
+                    dialogIntent.putExtra("packageName",packageNameWhataspp);
+
+
+
+                    //voy a pasar la notificaione entera :
+                    //pero da un error si lleva foto de :Caused by: android.os.TransactionTooLargeException: data parcel size
+                    //dialogIntent.putExtra("sbn",sbn);
+                    //asi que mejor paso solo la foto comprimida si existe:
+                    //NO SE PUEDE SOLO LA PASA AL EXPANDIR LA NOTIFICACION PANEL.....TODO
+
+
+                    if (sbn.getNotification().extras.containsKey(Notification.EXTRA_PICTURE)) {
+
+
+                        Bitmap fotodelaNotif = (Bitmap) mNotification.extras.get(Notification.EXTRA_PICTURE);
+
+                        //si queremos comprimir:
+                        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                        fotodelaNotif.compress(Bitmap.CompressFormat.PNG, 10, byteArrayOutputStream);
+
+
+
+                        Log.i(TAG, "SI FOTO DESDE SERVICE" + fotodelaNotif);
+
+                        //y lo ponemos de extra en el intent:
+                        dialogIntent.putExtra("foto",fotodelaNotif);
+
+
+                    }
+                    else {
+
+                        Log.i(TAG, "NO FOTO DESDE SERVICE !!!!!"  );
+                    }
+
 
                     /*
                 //ESTO NUCA LANZA EL RECEIVER Y ES NULL..NO LE LLEGA:
@@ -397,6 +465,11 @@ public class NOTIFSService extends NotificationListenerService{
 
                     startActivity(dialogIntent);
                 }
+            }
+
+            else if (isScreenOn(mContext)&& (packageNameWhataspp.equals("com.whatsapp") && isActivityRunning(AlarmReceiverActivity.class))){
+
+                Log.i(TAG,"LA PANTALLA ESTA ENCENDIDA PERO ES UN WHATASPP..DEBERIA HACER ALGO...");
             }
             }
 
@@ -466,6 +539,30 @@ Constant Value: 4 (0x00000004
         }
     }
 
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////PARA SABER SI MI ACTIVITY ESTA ACTIVA//////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+    protected Boolean isActivityRunning(Class activityClass)
+
+
+    {
+        ActivityManager activityManager = (ActivityManager) getBaseContext().getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> tasks = activityManager.getRunningTasks(Integer.MAX_VALUE);
+
+        for (ActivityManager.RunningTaskInfo task : tasks) {
+            if (activityClass.getCanonicalName().equalsIgnoreCase(task.baseActivity.getClassName()))
+                return true;
+        }
+
+        return false;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////LO QUE SE CAPTA AL EXPANDIR UN WHASTAPP CON FOTO//////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -521,6 +618,57 @@ Constant Value: 4 (0x00000004
            secPriority=0)
      */
 
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////LO QUE SE CAPTA AL ENVIAR UN WHASTAPP CON FOTO//////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+    SBN notification extras :
+    Bundle[{android.title=Yo Philips,
+     android.subText=null,
+     android.car.EXTENSIONS=Bundle[mParcelledData.dataSize=1052],
+
+      android.showChronometer=false,
+       android.icon=2131231583,
+       android.text=📷 Foto,
+        android.progress=0,
+        android.progressMax=0,
+
+          android.showWhen=true,
+           android.rebuild.applicationInfo=ApplicationInfo{76e5758 com.whatsapp},
+           android.people=[Ljava.lang.String;@ea830b1, android.largeIcon=android.graphics.Bitmap@658d996, android.infoText=null, android.wearable.EXTENSIONS=Bundle[mParcelledData.dataSize=5904],
+            android.originatingUserId=0,
+             android.progressIndeterminate=false,
+             android.summaryText=📷 Foto}]
+*/
+
+/*
+
+    SBN notification  :Notification(
+    pri=0 cOntentView=com.whatsapp/0x10900b4
+     vibrate=null
+      sound=null
+      tick defaults=0x0
+      flags=0x200
+       color=0xff075e54
+        category=msg
+         groupKey=group_key_messages actions=2
+         vis=PRIVATE publicVersion=Notification(
+         pri=0
+         contentView=com.whatsapp/0x10900b4
+         vibrate=null
+          sound=null
+           defaults=0x0
+           flags=0x0
+           color=0xff075e54
+           category=msg
+           vis=PRIVATE
+           secFlags=0x0
+           secPriority=0)
+            secFlags=0x0
+            secPriority=0)
+*/
 
 
 }

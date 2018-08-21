@@ -3,13 +3,21 @@ package com.mio.jrdv.ambientnotifs;
 import android.app.Activity;
 import android.app.Notification;
 import android.app.admin.DevicePolicyManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.PowerManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -40,11 +48,40 @@ public class AlarmReceiverActivity extends Activity {
     protected TextView text;
     protected TextView subtext;
     protected ImageView largeIcon;
+    protected ImageView FotoWhastapp;
+    protected ImageView IconoApp;
+
+
+    //icono app
+    String packageNameWhataspp;
 
 
     //PARA EL LOGGING
 
     private String TAG = this.getClass().getSimpleName();
+
+
+    //para el autolock timepo
+
+    long tiempoAutoLock=5000;//5 secs
+
+
+    //para el broadcast:
+
+    LocalBroadcastManager mLocalBroadcastManager;
+    BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            Log.i(TAG,"RECIBIDO BROADCAST PARA CERRAR ACTIVITY NOTIF ES PARA CERRAR?¿?");
+            if(intent.getAction().equals("com.mio.jrdv.action.close")){
+
+                Log.i(TAG,"  BROADCAST PARA CERRAR ACTIVITY NOTIF...CIERRO!!!");
+                finish();
+            }
+        }
+    };
 
 
 
@@ -53,6 +90,27 @@ public class AlarmReceiverActivity extends Activity {
     	super.onCreate(savedInstanceState);
 
         Log.i("INICIO :", "AlarmReceiverActivity:");
+
+
+
+        //a los 5 segundos se autocerrara si no hemos pulasdo antes
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                AutoLock();
+            }
+        }, tiempoAutoLock);
+
+
+
+        //lo primero es crear un broadcast receiver para que desde el service no sobligue a cerralas si hay una nueva NOTIF:
+        //https://stackoverflow.com/questions/25841544/how-to-finish-activity-from-service-class-in-android
+
+        mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
+        IntentFilter mIntentFilter = new IntentFilter();
+        mIntentFilter.addAction("com.mio.jrdv.action.close");
+        mLocalBroadcastManager.registerReceiver(mBroadcastReceiver, mIntentFilter);
 
 
 
@@ -83,7 +141,8 @@ public class AlarmReceiverActivity extends Activity {
         text = (TextView) findViewById(R.id.nt_text);
         subtext = (TextView) findViewById(R.id.nt_subtext);
         largeIcon = (ImageView) findViewById(R.id.nt_largeicon);
-
+        FotoWhastapp = (ImageView) findViewById(R.id.fotowhastapp);
+        IconoApp = (ImageView) findViewById(R.id.iconoApp);
 
 
 
@@ -103,23 +162,50 @@ public class AlarmReceiverActivity extends Activity {
         mDPM = (DevicePolicyManager)getSystemService(Context.DEVICE_POLICY_SERVICE);
 
 
-        //recibimos data extra del intent?
+        //recibimos data extra del intent el notification.extras!!(desde el Service)
+
+        //FORMA 1 PASADO EN EL INTENT EXTRAS
+
+        Bundle extrasfromService = getIntent().getExtras();
+        if(extrasfromService !=null){
+
+
+            Log.i(TAG, "SBN notification  :" + extrasfromService.toString() );
 
 
 
-        Bundle b = getIntent().getExtras();
-        if(b !=null){
 
-
-            Log.i(TAG, "SBN notification  :" + b );
 
             //rellenamos como en Main
 
-            String notificationTitle = b.getString(Notification.EXTRA_TITLE);
-            int notificationIcon = b.getInt(Notification.EXTRA_SMALL_ICON);
-            Bitmap notificationLargeIcon = ((Bitmap) b.getParcelable(Notification.EXTRA_LARGE_ICON));
-            CharSequence notificationText = b.getCharSequence(Notification.EXTRA_TEXT);
-            CharSequence notificationSubText = b.getCharSequence(Notification.EXTRA_SUB_TEXT);
+            String notificationTitle = extrasfromService.getString(Notification.EXTRA_TITLE);
+            int notificationIcon = extrasfromService.getInt(Notification.EXTRA_SMALL_ICON);
+            Bitmap notificationLargeIcon = ((Bitmap) extrasfromService.getParcelable(Notification.EXTRA_LARGE_ICON));
+
+
+            /*
+            //foto ..no simepore tiene  la recueprpo del intent si existe mejor ver FORMA 3
+
+            if (extrasfromService.containsKey(Notification.EXTRA_PICTURE)) {
+
+
+                Bitmap fotodelaNotif = (Bitmap) extrasfromService.get(Notification.EXTRA_PICTURE);
+
+                //si queremos comprimir:
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                fotodelaNotif.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+
+                //Bitmap fotodelaNotif = ((Bitmap) extrasfromService.getParcelable(Notification.EXTRA_PICTURE));
+                FotoWhastapp.setImageBitmap(fotodelaNotif);
+
+                Log.i(TAG, "SI FOTO::" + fotodelaNotif);
+
+            }
+
+            */
+
+            CharSequence notificationText = extrasfromService.getCharSequence(Notification.EXTRA_TEXT);
+            CharSequence notificationSubText = extrasfromService.getCharSequence(Notification.EXTRA_SUB_TEXT);
 
             title.setText(notificationTitle);
             text.setText(notificationText);
@@ -130,6 +216,63 @@ public class AlarmReceiverActivity extends Activity {
 
             }
 
+
+            /*
+            if (fotodelaNotif != null) {
+
+                Log.i(TAG, "SI FOTO::" + fotodelaNotif);
+                FotoWhastapp.setImageBitmap(fotodelaNotif);
+
+            }*/
+
+
+        }
+
+
+        //FORMA 2 PASADO EN EL INTENT PARCELABLE CON   EL SBN COMPLETO...no da error de too large size..asi que mejor recuperamos solo la foto si la tiene
+
+/*
+        Intent FULLNOTIFICfromService = getIntent();
+        StatusBarNotification myNotificationFULL = (StatusBarNotification)FULLNOTIFICfromService.getParcelableExtra("sbn");
+        if(myNotificationFULL != null) {
+            //StatusBarNotification successfully retrieved
+
+            Log.i(TAG, "SI SBN FULL::" + myNotificationFULL.getNotification().extras);
+
+        }
+
+        */
+
+        //forma 3 si tiene una foto el whataspp lo recuperamos:
+
+        //foto ..no simepore tiene
+
+        Intent FotoFromService = getIntent();
+
+
+        if(FotoFromService.hasExtra("foto")) {
+
+            Bitmap fotodelaNotif = BitmapFactory.decodeByteArray( FotoFromService.getByteArrayExtra("byteArray"),0,FotoFromService.getByteArrayExtra("foto").length);
+            FotoWhastapp.setImageBitmap(fotodelaNotif);
+
+            Log.i(TAG, "SI FOTO RECIBIDO EN ACTIVITY" + fotodelaNotif);
+        }
+
+
+
+        packageNameWhataspp  = FotoFromService.getExtras().getString("packageName");
+
+
+        Log.i(TAG, "el package name es:" + packageNameWhataspp);
+
+        //el icono de wahastpp:
+        Drawable appIcon = null;
+        try {
+            appIcon = getPackageManager().getApplicationIcon(packageNameWhataspp);
+
+            IconoApp.setImageDrawable(appIcon);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
         }
 
 
@@ -149,12 +292,23 @@ public class AlarmReceiverActivity extends Activity {
 
 
     }
-    
+
+    private void AutoLock() {
+
+        if (wl.isHeld())
+            wl.release();
+
+
+        this.finish();
+        mDPM.lockNow();
+    }
+
     @Override
     protected void onStop() {
     	super.onStop();
         if (wl.isHeld())
             wl.release();
+
     }
 
 
@@ -162,8 +316,11 @@ public class AlarmReceiverActivity extends Activity {
     public boolean onTouchEvent(MotionEvent event) {
         Log.i("INFO", "pulsado para dismiss");
 
-        mDPM.lockNow();
+
+
         this.finish();
+        mDPM.lockNow();
+
         return false;
     }
 
@@ -227,4 +384,17 @@ public class AlarmReceiverActivity extends Activity {
 
 */
 
+
+//para cerrar con un broadcast:https://stackoverflow.com/questions/25841544/how-to-finish-activity-from-service-class-in-android
+
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (wl.isHeld())
+            wl.release();
+
+
+
+        mLocalBroadcastManager.unregisterReceiver(mBroadcastReceiver);
+    }
 }

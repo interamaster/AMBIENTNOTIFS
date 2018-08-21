@@ -27,7 +27,8 @@ public class MainActivity extends AppCompatActivity {
 
     //v015 añadido que se encienda pantalla completa con uneca activity al recibir un whatsapp pte de pasarle la notificacion y sacar luego de ahi lo que queramos
     //V02 AÑADIDO PANTALLA EN GRIS CON DATOS DE TEXTO Y FOTO REMITENTE ..PTE DISEÑO
-
+    //V03 AÑADIDO ICONO APK,IMPOSIBLE PONER FOTO ADJUNTA PUES SOLO SALE AL DESPLEGAR LA NOTIF,AÑADIDO AUTO BLOCK NOTIF A LOS 5 SECS,AÑADIDO LOGICA
+    // SI MANDAN OTRO WHATSAPP COPN NOTIF ENCENDIDO..OTE DE IMPLEMENTAR
 
     //para el device manager
 
