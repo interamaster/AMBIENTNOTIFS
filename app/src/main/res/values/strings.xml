@@ -33,6 +33,7 @@
         This is experimental and will only work on a small number of devices.</string>
 
 
+    <string name="device_admin_explanation">Screen Notifications needs device admin access to turn off your screen after a notification</string>
 
 
 

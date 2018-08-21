@@ -1,5 +1,6 @@
 package com.mio.jrdv.ambientnotifs;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.admin.DevicePolicyManager;
@@ -17,19 +18,23 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mio.jrdv.ambientnotifs.receivers.DeviceAdmin;
+
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
 
     //v015 añadido que se encienda pantalla completa con uneca activity al recibir un whatsapp pte de pasarle la notificacion y sacar luego de ahi lo que queramos
+    //V02 AÑADIDO PANTALLA EN GRIS CON DATOS DE TEXTO Y FOTO REMITENTE ..PTE DISEÑO
 
 
     //para el device manager
 
-    private static final int REQUEST_CODE = 0;
+    private static final int REQUEST_CODE_ENABLE_ADMIN = 1;
     private DevicePolicyManager mDPM;
     private ComponentName mAdminName;
+   // private CheckBoxPreference mDeviceAdminPreference;
 
 
     //PARA VERLO DE MOMENTO  AQUI
@@ -73,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+
+        //ver si ya sou admin:
+
+        EnableAdmin();
 
         // StartServiceYa();
 
@@ -143,7 +152,6 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-/*
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////device manager//////////////////////////////////////////////////////
@@ -152,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
     private void EnableAdmin() {
 
 
-
+        Log.i("MAIN:", "CHECK ADMIN?¿");
 
         try
         {
@@ -165,11 +173,13 @@ public class MainActivity extends AppCompatActivity {
                 // try to become active
                 Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
                 intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, mAdminName);
-                intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "Pulsa activar app!!");
-                startActivityForResult(intent, REQUEST_CODE);
+                intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, R.string.device_admin_explanation);
+                startActivityForResult(intent, REQUEST_CODE_ENABLE_ADMIN);
             }
             else
             {
+
+                Log.i("MAIN:", "YA SOY ADMIN!!!");
                 // Already is a device administrator, can do security operations now.
                 //TODO asi se puede bloquear!!! : mDPM.lockNow();
             }
@@ -179,9 +189,67 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(REQUEST_CODE_ENABLE_ADMIN == requestCode)
+        {
+            if(requestCode == Activity.RESULT_OK)
+            {
+                // done with activate to Device Admin
+            }
+            else
+            {
+                // cancle it.
+            }
+        }
+    }
+
+ /*
+// o asi:
+
+private void initializeDeviceAdmin() {
+        mDPM = (DevicePolicyManager)  getSystemService(Context.DEVICE_POLICY_SERVICE);
+    mDeviceAdmin = new ComponentName(this, ScreenNotificationsDeviceAdminReceiver.class);
+      //  mDeviceAdminPreference = (CheckBoxPreference) findPreference("device_admin");
+
+        mDeviceAdminPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                if ((Boolean) newValue) {
+                    // Launch the activity to have the user enable our admin.
+                    Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
+                    intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, mDeviceAdmin);
+                    intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, R.string.device_admin_explanation);
+                    startActivityForResult(intent, REQUEST_CODE_ENABLE_ADMIN);
+
+                    // don't update checkbox until we're really active
+                    return false;
+                } else {
+                    mDPM.removeActiveAdmin(mDeviceAdmin);
+
+
+                    return true;
+                }
+            }
+        });
+    }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////device manager//////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private void checkForActiveDeviceAdmin() {
+        if(mDPM.isAdminActive(mDeviceAdmin)) {
+            mDeviceAdminPreference.setChecked(true);
+
+        } else {
+            mDeviceAdminPreference.setChecked(false);
+
+        }
+    }
+
 
 */
 

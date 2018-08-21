@@ -1,16 +1,12 @@
 package com.mio.jrdv.ambientnotifs;
 
-import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.Notification;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.hardware.display.DisplayManager;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
@@ -18,10 +14,6 @@ import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
 import android.view.Display;
-
-import com.mio.jrdv.ambientnotifs.helpers.ScreenController;
-
-import java.util.Calendar;
 
 /**
  * Created by joseramondelgado on 19/08/18.
@@ -297,7 +289,7 @@ public class NOTIFSService extends NotificationListenerService{
 
 
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            //////////////////////////////////////PARA PASARLO A ALGUN SITIO DE MOMENTO A  MAIN//////////////////////////////////////////////////////////////
+            //////////////////////////////////////PARA PASARLO A ALARMRECEIVERACTIVITY//////////////////////////////////////////////////////////////
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /*
@@ -330,7 +322,7 @@ public class NOTIFSService extends NotificationListenerService{
                     Notification mNotification = sbn.getNotification();
 
 
-                    //TODO luego vemos que hacemos..de moento encender pantalla:
+                    //TODO luego vemos que hacemos..de momento encender pantalla:
                 /*
                     Log.i("NEW", "enviando a MAIN!!!");
                     if (mNotification != null) {
@@ -387,6 +379,22 @@ public class NOTIFSService extends NotificationListenerService{
 
                     Intent dialogIntent = new Intent(this, AlarmReceiverActivity.class);
                     dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    dialogIntent.putExtras(mNotification.extras);
+
+                    /*
+                //ESTO NUCA LANZA EL RECEIVER Y ES NULL..NO LE LLEGA:
+                    if (mNotification != null) {
+
+                        Log.i("NEW", "NO ERA NULL--VA  A ALARMRECEIVERACTIVITY!!!");
+                        Intent intent = new Intent(AlarmReceiverActivity.INTENT_ACTION_NOTIFICATION);
+                        intent.putExtras(mNotification.extras);
+                        sendBroadcast(intent);
+
+
+
+                    }
+*/
+
                     startActivity(dialogIntent);
                 }
             }
@@ -457,5 +465,62 @@ Constant Value: 4 (0x00000004
             return pm.isScreenOn();
         }
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////LO QUE SE CAPTA AL EXPANDIR UN WHASTAPP CON FOTO//////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    /*
+     SBN notification extras :Bundle[
+     {android.title=Yo Philips,
+      android.subText=null,
+      android.car.EXTENSIONS=Bundle[mParcelledData.dataSize=1052],
+       android.template=android.app.Notification$BigPictureStyle,
+        android.showChronometer=false
+        , android.icon=2131231583
+        , android.text=📷 Foto,
+         android.progress=0,
+          android.progressMax=0,
+          android.picture=android.graphics.Bitmap@fb2eb8f,
+           android.showWhen=true,
+            android.rebuild.applicationInfo=ApplicationInfo{28e0e1c com.whatsapp},
+             android.people=[Ljava.lang.String;@470ba25, android.largeIcon=android.graphics.Bitmap@a54b7fa, android.infoText=null, android.wearable.EXTENSIONS=Bundle[mParcelledData.dataSize=5904],
+              android.originatingUserId=0, a
+              ndroid.progressIndeterminate=false,
+               android.summaryText=📷 Foto}]
+     */
+
+    /*
+
+     SBN notification  :Notification
+     (pri=0
+     contentView=com.whatsapp/0x10900b4
+     vibrate=null
+      sound=null
+      tick defaults=0x0
+      flags=0x200
+      color=0xff075e54
+      category=msg
+      groupKey=group_key_messages
+       actions=2
+       vis=PRIVATE
+
+
+        publicVersion=Notification
+        (pri=0
+        contentView=com.whatsapp/0x10900b4
+        vibrate=null sound=null defaults=0x0
+        flags=0x0
+         color=0xff075e54
+          category=msg
+          vis=PRIVATE
+          secFlags=0x0
+          secPriority=0)
+           secFlags=0x0
+           secPriority=0)
+     */
+
+
 
 }

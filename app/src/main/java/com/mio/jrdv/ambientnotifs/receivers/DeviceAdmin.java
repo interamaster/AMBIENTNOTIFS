@@ -1,4 +1,4 @@
-package com.mio.jrdv.ambientnotifs;
+package com.mio.jrdv.ambientnotifs.receivers;
 
 import android.app.admin.DeviceAdminReceiver;
 import android.content.Context;
