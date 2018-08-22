@@ -42,7 +42,7 @@ public class AlarmReceiverActivity extends Activity {
     //PARA VERLO DE MOMENTO  AQUI
 
 
-   // protected MyInfoNotifcReceiver mReceiver = new MyInfoNotifcReceiver();// //NUCA LLEGABAN DATOS
+    //protected MyInfoNotifcReceiver mReceiver = new MyInfoNotifcReceiver();// //NUCA LLEGABAN DATOS
     //public static String INTENT_ACTION_NOTIFICATION = "com.mio.jrdv.ambientnotifs";//NUCA LLEGABAN DATOS
     protected TextView title;
     protected TextView text;
@@ -63,24 +63,129 @@ public class AlarmReceiverActivity extends Activity {
 
     //para el autolock timepo
 
-    long tiempoAutoLock=5000;//5 secs
+    long tiempoAutoLock=10000;//5 secs
 
 
     //para el broadcast:
 
     LocalBroadcastManager mLocalBroadcastManager;
+
+
+
+    //para guardar el ultimo text recibido del whataspp
+
+    private  String lastWhaatspptext; //paso actualizo de moento
+
     BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            Log.i(TAG,"RECIBIDO BROADCAST PARA CERRAR ACTIVITY NOTIF ES PARA CERRAR?�?");
+            Log.i(TAG,"RECIBIDO BROADCAST PARA CERRAR ACTIVITY NOTIF ES PARA CERRAR?�?");
             if(intent.getAction().equals("com.mio.jrdv.action.close")){
 
-                Log.i(TAG,"  BROADCAST PARA CERRAR ACTIVITY NOTIF...CIERRO!!!");
-                finish();
+                Log.i(TAG,"  BROADCAST PARA CERRAR ACTIVITY NOTIF...!!!");
+                //finish();//ahora NO CIERRO actualizo INFO
+
+
+
+
+                //TODO aqui deberiamos chequear si es lo mismo que ya teniamos ..o no
+
+                //1º)sacamos el texto solo del intent
+
+
+                Bundle extrasfromService = getIntent().getExtras();
+
+
+                Log.i(TAG,"ESTO LLEGO"+extrasfromService.toString());
+
+
+                if(extrasfromService !=null) {
+
+
+                    CharSequence notificationText = extrasfromService.getCharSequence(Notification.EXTRA_TEXT);
+
+                    /*
+
+                    // de meonteo actuzalio
+
+                    //2º)lo compàramos con el que teniamos
+
+                    if (notificationText.toString().equals(lastWhaatspptext)) {
+
+                        //3º)si es igual ignoramos
+
+                        Log.i(TAG," ES EL MISMO WHATSPP TEXT..IGNORAMOS!!!");
+
+                    } else {
+
+                    */
+
+                        // TODO 4º)si es distinto ACTUALIZAMOS
+
+
+
+                        //rellenamos como en Main
+
+                        String notificationTitle = extrasfromService.getString(Notification.EXTRA_TITLE);
+                        int notificationIcon = extrasfromService.getInt(Notification.EXTRA_SMALL_ICON);
+                        Bitmap notificationLargeIcon = ((Bitmap) extrasfromService.getParcelable(Notification.EXTRA_LARGE_ICON));
+
+                        CharSequence notificationSubText = extrasfromService.getCharSequence(Notification.EXTRA_SUB_TEXT);
+
+                        title.setText(notificationTitle);
+                        text.setText(notificationText);
+                        //guardamos el ultimo text
+
+                        lastWhaatspptext= (String) notificationText;
+
+                        subtext.setText(notificationSubText);
+
+                        if (notificationLargeIcon != null) {
+                            largeIcon.setImageBitmap(notificationLargeIcon);
+
+                        }
+
+
+
+                    Intent FotoFromService = getIntent();
+
+
+                        packageNameWhataspp  = FotoFromService.getExtras().getString("packageName");
+
+
+                        Log.i(TAG, "el package name es:" + packageNameWhataspp);
+
+                        //el icono de wahastpp:
+                        Drawable appIcon = null;
+                        try {
+                            appIcon = getPackageManager().getApplicationIcon(packageNameWhataspp);
+
+                            IconoApp.setImageDrawable(appIcon);
+                        } catch (PackageManager.NameNotFoundException e) {
+                            e.printStackTrace();
+                        }
+
+
+
+
+
+                        lastWhaatspptext=notificationText.toString();
+
+
+                    //actuzalizamos viewgruop
+
+
+
+
+                }
+
+                }
+
+
             }
-        }
+
     };
 
 
@@ -209,6 +314,10 @@ public class AlarmReceiverActivity extends Activity {
 
             title.setText(notificationTitle);
             text.setText(notificationText);
+            //guardamos el ultimo text
+
+            lastWhaatspptext= (String) notificationText;
+
             subtext.setText(notificationSubText);
 
             if (notificationLargeIcon != null) {
@@ -307,7 +416,16 @@ public class AlarmReceiverActivity extends Activity {
     protected void onStop() {
     	super.onStop();
         if (wl.isHeld())
-            wl.release();
+
+
+
+             /*
+         * Step 4: Ensure to unregister the receiver when the activity is destroyed so that
+         * you don't face any memory leak issues in the app
+         */
+            if(mLocalBroadcastManager != null) {
+                mLocalBroadcastManager.unregisterReceiver(mBroadcastReceiver);
+            }
 
     }
 

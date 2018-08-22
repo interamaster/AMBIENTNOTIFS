@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Display;
 
@@ -105,7 +106,17 @@ public class NOTIFSService extends NotificationListenerService{
                         */
 
 
-                Log.i(TAG,"DEBERIA  CERRAR ACTIVITY NOTIF");
+                Log.i(TAG,"DEBERIA  CERRAR ACTIVITY NOTIF...VOY AMANDAR LA SBN.extras POR BROADCAST");
+
+                Intent intentbrodcast = new Intent("com.mio.jrdv.action.close");
+               // Bundle extras = new Bundle();
+               // extras=sbn.getNotification().extras;
+               // intentbrodcast.putExtras(extras);
+                intentbrodcast.putExtras(sbn.getNotification().extras);
+
+                LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(NOTIFSService.this);
+                localBroadcastManager.sendBroadcast(intentbrodcast);
+                //mContext.sendBroadcast(intentbrodcast);
 
            }
 
@@ -470,6 +481,34 @@ public class NOTIFSService extends NotificationListenerService{
             else if (isScreenOn(mContext)&& (packageNameWhataspp.equals("com.whatsapp") && isActivityRunning(AlarmReceiverActivity.class))){
 
                 Log.i(TAG,"LA PANTALLA ESTA ENCENDIDA PERO ES UN WHATASPP..DEBERIA HACER ALGO...");
+
+
+
+                Log.i(TAG," VOY AMANDAR LA SBN.extras POR BROADCAST");
+                /*
+
+                Intent intentbrodcast = new Intent("com.mio.jrdv.action.close");
+                // Bundle extras = new Bundle();
+                // extras=sbn.getNotification().extras;
+                // intentbrodcast.putExtras(extras);
+                intentbrodcast.putExtras(sbn.getNotification().extras);
+
+                LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(NOTIFSService.this);
+                localBroadcastManager.sendBroadcast(intentbrodcast);
+                //mContext.sendBroadcast(intentbrodcast);
+
+                */
+
+                // en ve x de boradcast lanzo activity ?¿?...tampoco actualiza?¿
+
+
+                Intent dialogIntent = new Intent(this, AlarmReceiverActivity.class);
+                dialogIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                dialogIntent.putExtras(sbn.getNotification().extras);//esto no pasa el picture de la foto si la mandan ?¿?
+                dialogIntent.putExtra("packageName",packageNameWhataspp);
+                startActivity(dialogIntent);
+
+
             }
             }
 
