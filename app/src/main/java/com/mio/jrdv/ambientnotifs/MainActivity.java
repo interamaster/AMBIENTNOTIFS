@@ -32,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
 
     //v04 AÑADIDO DETECTAR NUEVOS WHATASPP SEGUIDO Y QUE LOS PONGA EL TRUCO ERA:  dialogIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 
+    //v045 ANULADAS LAS SBNM DUPLICADAS..WHATASPP MANDA 2 SEGUIDAS!!!
+
+
     //para el device manager
 
     private static final int REQUEST_CODE_ENABLE_ADMIN = 1;

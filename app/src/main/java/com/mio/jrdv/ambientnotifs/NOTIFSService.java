@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Display;
 
@@ -43,8 +42,7 @@ public class NOTIFSService extends NotificationListenerService{
 
     //para el icono
 
-    String packageNameWhataspp;
-
+    private String packageNameWhataspp;
 
 
 
@@ -77,11 +75,38 @@ public class NOTIFSService extends NotificationListenerService{
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        //////////////////////////////////////METODO QUE SE EJECUTA CADA VEZ QUE SE RECIBE NOTIFICATION//////////////////////////////////////////////////////////////
+        //////////////////////////////////////METODO QUE SE EJECUTA CADA VEZ QUE SE RECIBE NOTIFICATION////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
+
+
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////para detectar sbn duplicado///////////////////////////// ///// ////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+            Log.d(TAG, "Notification has arrived");
+            Log.d(TAG, "KEY: " + sbn.getKey() +" ID: " + sbn.getId() + " Posted by: " + sbn.getPackageName() + " at: " + sbn.getPostTime() + " ");
+
+
+            //1º) KEY: 0|com.whatsapp|1|34639689367@s.whatsapp.net|10185 ID: 1 Posted by: com.whatsapp at: 1534961145878
+
+            //2º KEY: 0|com.whatsapp|1|null|10185 ID: 1 Posted by: com.whatsapp at: 1534961145913
+
+
+            String[] separated = sbn.getKey().split("\\|");
+            if (separated[3].equalsIgnoreCase("null")){
+
+                Log.d(TAG, "Notification has arrived but the terrcer campo es null!!!..duplicada");
+                return;
+
+            }
+
+
+
+
 
 
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -105,6 +130,8 @@ public class NOTIFSService extends NotificationListenerService{
 
                         */
 
+                /*
+                //PASO DE BROADCAST CRE UNA NUEVA ACTIVITY Y PUNTO CERANDO LA OPTRA DEL STACK:FLAG_ACTIVITY_CLEAR_TASK
 
                 Log.i(TAG,"DEBERIA  CERRAR ACTIVITY NOTIF...VOY AMANDAR LA SBN.extras POR BROADCAST");
 
@@ -117,6 +144,7 @@ public class NOTIFSService extends NotificationListenerService{
                 LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(NOTIFSService.this);
                 localBroadcastManager.sendBroadcast(intentbrodcast);
                 //mContext.sendBroadcast(intentbrodcast);
+                */
 
            }
 
@@ -423,7 +451,9 @@ public class NOTIFSService extends NotificationListenerService{
 
 
                     Intent dialogIntent = new Intent(this, AlarmReceiverActivity.class);
-                    dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                   // dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    //MEJO ASI CIERRA LA OTRA SI EXISTIA
+                    dialogIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     dialogIntent.putExtras(mNotification.extras);//esto no pasa el picture de la foto si la mandan ?¿?
                     dialogIntent.putExtra("packageName",packageNameWhataspp);
 
@@ -500,6 +530,7 @@ public class NOTIFSService extends NotificationListenerService{
                 */
 
                 // en ve x de boradcast lanzo activity ?¿?...tampoco actualiza?¿
+                //SI CON ESTE FLAG:  dialogIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 
 
                 Intent dialogIntent = new Intent(this, AlarmReceiverActivity.class);
@@ -601,6 +632,8 @@ Constant Value: 4 (0x00000004
 
         return false;
     }
+
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////LO QUE SE CAPTA AL EXPANDIR UN WHASTAPP CON FOTO//////////////////////////////////////////////////////////////
