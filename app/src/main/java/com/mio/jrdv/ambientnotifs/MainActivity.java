@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     //v04 AÑADIDO DETECTAR NUEVOS WHATASPP SEGUIDO Y QUE LOS PONGA EL TRUCO ERA:  dialogIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 
     //v045 ANULADAS LAS SBNM DUPLICADAS..WHATASPP MANDA 2 SEGUIDAS!!!
+    //v050 añadido clock modifcable en mis clases
 
 
     //para el device manager

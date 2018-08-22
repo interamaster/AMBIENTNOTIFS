@@ -83,7 +83,7 @@ public class NOTIFSService extends NotificationListenerService{
 
 
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            /////////////////////////////////////para detectar sbn duplicado///////////////////////////// ///// ////////////////////
+            /////////////////////////////////////para detectar sbn duplicado en whastapp///////////////////////////// ///// ////////////////////
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -97,7 +97,7 @@ public class NOTIFSService extends NotificationListenerService{
 
 
             String[] separated = sbn.getKey().split("\\|");
-            if (separated[3].equalsIgnoreCase("null")){
+            if (separated[3].equalsIgnoreCase("null")&&sbn.getPackageName().equals("com.whatsapp")){
 
                 Log.d(TAG, "Notification has arrived but the terrcer campo es null!!!..duplicada");
                 return;
