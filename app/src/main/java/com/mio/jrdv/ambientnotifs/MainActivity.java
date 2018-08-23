@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     //v050 añadido clock modifcable en mis clases
     //v055 VERSION .8 DEL XML DEL NOTIF LISTA
     //v059 QUITADO ADMIN MANAGER PORQUE NOS EPODIA DESBLOQUEAR CON HUELLA
+    //v065 AÑADIDO PANTALLAINICIAL DE PREFERENCIA CON QUIETE TIME PTE DE IMPLEMENTAR SU LOGICA PERO CON LOGGING EN SERVICE
 
 /*
     //para el device manager
@@ -56,8 +57,7 @@ public class MainActivity extends AppCompatActivity {
     //PARA VERLO DE MOMENTO  AQUI
 
 
-    protected MyReceiver mReceiver = new MyReceiver();
-    public static String INTENT_ACTION_NOTIFICATION = "com.mio.jrdv.ambientnotifs";
+
 
     protected TextView title;
     protected TextView text;
@@ -75,15 +75,24 @@ public class MainActivity extends AppCompatActivity {
 
         //https://stackoverflow.com/questions/30246425/turning-on-screen-from-receiver-service:
 
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON | WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
+       // getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON | WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
 
 
 
         super.onCreate(savedInstanceState);
        // setContentView(R.layout.activity_main);
 
-        setContentView(R.layout.alarm);
 
+
+
+        setContentView(R.layout.settings);
+
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////PARA PROBAR LA VENTANA NOTIF////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+        setContentView(R.layout.alarm);
 
         //Retrieve ui elements
         title = (TextView) findViewById(R.id.nt_title);
@@ -106,9 +115,15 @@ public class MainActivity extends AppCompatActivity {
 
         LinearLayout RV=(LinearLayout) findViewById(R.id.relative1);
         RV.setLayerType(View.LAYER_TYPE_HARDWARE,greyscalePaint);
+*/
+
+
 
 
 //ver si ya esta habilñotado el acceso a notifs
+        /*
+
+        //LO HAGO EN EL FRAGMET SETTINGS
 
         if (!isNotificationAccessGiven()) {
 
@@ -116,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
-
+*/
 
         //ver si ya sou admin:
         //mejor no o no funciona luego lahuella
@@ -126,11 +141,15 @@ public class MainActivity extends AppCompatActivity {
 
         //en vez de arrancarlo comprobamo si ya esta runnnig!!
 
+        /*
+
+        //LO HAGO EN EL FRAGMET SETTINGS
         if (!isMyServiceRunning(NOTIFSService.class)){
             StartServiceYa();
         }
 
 
+*/
 
 
 
@@ -162,6 +181,10 @@ public class MainActivity extends AppCompatActivity {
 
 */
 
+
+/*
+
+//LO HAGO EN EL FRAGMET SETTINGS
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////saber si mi service esat runnig/////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -174,8 +197,11 @@ public class MainActivity extends AppCompatActivity {
         }
         return false;
     }
+*/
 
+/*
 
+//LO HAGO EN EL FRAGMET SETTINGS
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////ARRANCAR SERVICE/////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -183,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent =new Intent(this,NOTIFSService.class);
 
-        //TODO LOS NotificationListenerService NO TIENEN EXTRAS..CREO
+        //  LOS NotificationListenerService NO TIENEN EXTRAS..CREO
        // intent.putExtra(NOTIFSService.EXTRA_MESSAGE,"DesdeMain");
        // intent.putExtra(NOTIFSService.EXTRA_TIME,"0");//al arranacra no le damos mas tiempo pero hay que psar el intent
         startService(intent);
@@ -192,6 +218,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+*/
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////device manager//////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -223,7 +251,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Log.i("MAIN:", "YA SOY ADMIN!!!");
                 // Already is a device administrator, can do security operations now.
-                //TODO asi se puede bloquear!!! : mDPM.lockNow();
+                // asi se puede bloquear!!! : mDPM.lockNow();
             }
         } catch (Exception e)
         {
@@ -297,6 +325,10 @@ private void initializeDeviceAdmin() {
 
 */
 
+
+ /*
+
+ //LO HAGO EN EL FRAGMET SETTINGS
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////SABER SI PUEDO LEER NOTIFS//////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -315,59 +347,21 @@ private void initializeDeviceAdmin() {
         return enabled;
     }
 
+*/
 
 
-
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////PARA PASARLO A ALGUN SITIO DE MOMENTO A  MAIN//////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    public class MyReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            Log.i("NEW", "recibido en MAIN!!!");
-
-            if (intent != null) {
-                Bundle extras = intent.getExtras();
-                String notificationTitle = extras.getString(Notification.EXTRA_TITLE);
-                int notificationIcon = extras.getInt(Notification.EXTRA_SMALL_ICON);
-                Bitmap notificationLargeIcon = ((Bitmap) extras.getParcelable(Notification.EXTRA_LARGE_ICON));
-                CharSequence notificationText = extras.getCharSequence(Notification.EXTRA_TEXT);
-                CharSequence notificationSubText = extras.getCharSequence(Notification.EXTRA_SUB_TEXT);
-
-                title.setText(notificationTitle);
-                text.setText(notificationText);
-                subtext.setText(notificationSubText);
-
-                if (notificationLargeIcon != null) {
-                    largeIcon.setImageBitmap(notificationLargeIcon);
-
-                }
-
-
-
-
-                }
-            }
-
-
-    }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (mReceiver == null) mReceiver = new MyReceiver();
-        registerReceiver(mReceiver, new IntentFilter(INTENT_ACTION_NOTIFICATION));
+
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        unregisterReceiver(mReceiver);
+
     }
 
 

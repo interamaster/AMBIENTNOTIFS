@@ -4,6 +4,7 @@ import android.app.ActivityManager;
 import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -17,6 +18,8 @@ import android.util.Log;
 import android.view.Display;
 
 import java.io.ByteArrayOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -46,6 +49,11 @@ public class NOTIFSService extends NotificationListenerService{
     //para el color reloj igual que del icono:
 
     private int colorNotif;
+
+
+    //para el quiet time
+
+    private SharedPreferences mPrefs;
 
 
 
@@ -108,6 +116,14 @@ public class NOTIFSService extends NotificationListenerService{
             }
 
 
+
+
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            ////////////////////////////////////ES QUIET TIME?¿?//// ///// ////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+            isInQuietTime();
 
 
 
@@ -641,6 +657,46 @@ Constant Value: 4 (0x00000004
         return false;
     }
 
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////PARA SABER SI ES QUIET TIME//////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+    private boolean isInQuietTime() {
+        boolean quietTime = false;
+
+        if(mPrefs.getBoolean("quiet", false)) {
+            String startTime = mPrefs.getString("startTime", "22:00");
+            String stopTime = mPrefs.getString("stopTime", "08:00");
+
+            SimpleDateFormat sdfDate = new SimpleDateFormat("H:mm");
+            String currentTimeStamp = sdfDate.format(new Date());
+            int currentHour = Integer.parseInt(currentTimeStamp.split("[:]+")[0]);
+            int currentMinute = Integer.parseInt(currentTimeStamp.split("[:]+")[1]);
+
+            int startHour = Integer.parseInt(startTime.split("[:]+")[0]);
+            int startMinute = Integer.parseInt(startTime.split("[:]+")[1]);
+
+            int stopHour = Integer.parseInt(stopTime.split("[:]+")[0]);
+            int stopMinute = Integer.parseInt(stopTime.split("[:]+")[1]);
+
+            if (startHour < stopHour && currentHour > startHour && currentHour < stopHour) {
+                quietTime = true;
+            } else if (startHour > stopHour && (currentHour > startHour || currentHour < stopHour)) {
+                quietTime = true;
+            } else if (currentHour == startHour && currentMinute >= startMinute) {
+                quietTime = true;
+            } else if (currentHour == stopHour && currentMinute < stopMinute) {
+                quietTime = true;
+            }
+        }
+
+        Log.d(TAG,"Device is in quiet time: " + quietTime);
+        return quietTime;
+    }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,24 +1,10 @@
 <resources>
     <string name="app_name">AMBIENT NOTIFS</string>
 
-    <string name="service">Service</string>
-    <string name="service_title">Screen Notifications Service</string>
-    <string name="service_summary">Enable to turn on Screen Notifications</string>
-    <string name="admin_title">Device Admin</string>
-    <string name="admin_summary">Enable to allow shorter screen timeouts</string>
+
     <string name="apps">Apps</string>
-    <string name="select_apps">Select Apps</string>
-    <string name="more_apps">More apps will appear as notifications are received</string>
-    <string name="no_apps">No app has created a notification yet. Check back later to enable or disable an app. By default any notification will turn the screen on unless the app is disabled here.</string>
-    <string name="select_apps_summary">Enable and disable apps to turn the screen on for notifications. Apps that create a notification for the first time will automatically turn the screen on.</string>
     <string name="options">Options</string>
-    <string name="wake_length">Screen wake length</string>
-    <string name="wake_length_summary">Keep screen on for</string>
-    <string name="wake_length_summary_2">seconds after notification</string>
-    <string name="disabled_wake_length">Device Admin option must be enabled first</string>
-    <string name="delay_title">Delay</string>
-    <string name="delay_summary">Wait %d seconds before turning the screen on.\n\nUse this option if turning the screen on prevents notification sounds from playing.</string>
-    <string name="quiet_time">Quiet Time</string>
+     <string name="quiet_time">Quiet Time</string>
     <string name="select">Select Apps</string>
     <string name="inverse">Inverse</string>
     <string name="uncheck_all">Uncheck all</string>
@@ -28,15 +14,28 @@
     <string name="startTime">Start quiet hours</string>
     <string name="stopTime">Stop quiet hours</string>
     <string name="set">Set</string>
-    <string name="statusBar">Open notification tray</string>
-    <string name="statusBarSum">Open the tray when the screen is turned for a notification.
-        This is experimental and will only work on a small number of devices.</string>
-
-
-    <string name="device_admin_explanation">Screen Notifications needs device admin access to turn off your screen after a notification</string>
+    <string name="notification_listener_launch">You will be now taken to the notification settings.
+        If you wish to stop Screen Notifications, simply turn it off.</string>
+    <string name="notification_listener_warning">Clicking ok will take you to the notification settings.
+        For this app to work you will need to turn on Screen Notifications.
+        Android will warn you that the app may capture your private data, Screen Notifications never reads the content of notifications.</string>
 
 
 
     <string name="stop_alarm">Stop Alarm</string>
+
+
+    <string name="service">Service</string>
+    <string name="service_title">Screen Notifications Service</string>
+    <string name="service_summary">Enable to turn on Screen Notifications</string>
+    <string name="admin_title">Device Admin</string>
+    <string name="admin_summary">Enable to allow shorter screen timeouts</string>
+    <string name="select_apps">Select Apps</string>
+    <string name="select_apps_summary">Enable and disable apps to turn the screen on for notifications. Apps that create a notification for the first time will automatically turn the screen on.</string>
+    <string name="wake_length">Screen wake length</string>
+    <string name="delay_title">Delay</string>
+    <string name="help">Help</string>
+    <string name="version">Version</string>
+
 
 </resources>

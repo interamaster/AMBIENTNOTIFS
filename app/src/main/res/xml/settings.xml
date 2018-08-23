@@ -12,41 +12,10 @@
             android:summary="@string/service_summary"
             android:widgetLayout="@layout/preference_switch_layout" />
 
-        <CheckBoxPreference
-            android:key="device_admin"
-            android:title="@string/admin_title"
-            android:summary="@string/admin_summary"
-            android:widgetLayout="@layout/preference_switch_layout" />
-
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/apps" >
-
-        <Preference
-            android:key="app"
-            android:title="@string/select_apps"
-            android:summary="@string/select_apps_summary">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:targetPackage="com.lukekorth.screennotifications"
-                android:targetClass="com.lukekorth.screennotifications.AppsActivity" />
-        </Preference>
-
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/options" >
-
-        <Preference
-            android:key="wake_length"
-            android:title="@string/wake_length" />
-
-        <Preference
-            android:key="delay"
-            android:title="@string/delay_title" />
 
 
-
-    </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/quiet_time">
 
@@ -57,13 +26,13 @@
             android:title="@string/quietHours"
             android:widgetLayout="@layout/preference_switch_layout" />
 
-        <com.lukekorth.screennotifications.views.TimePreference
+        <com.mio.jrdv.ambientnotifs.views.TimePreference
             android:defaultValue="22:00"
             android:key="startTime"
             android:showDefault="true"
             android:title="@string/startTime" />
 
-        <com.lukekorth.screennotifications.views.TimePreference
+        <com.mio.jrdv.ambientnotifs.views.TimePreference
             android:defaultValue="08:00"
             android:key="stopTime"
             android:showDefault="true"
@@ -72,6 +41,18 @@
     </PreferenceCategory>
 
 
+
+    <PreferenceCategory android:title="@string/help">
+
+
+        <Preference
+            android:key="version"
+            android:title="@string/version" />
+        <Preference
+            android:key="about"
+            android:title="(c)JRDVSoft summer 2018" />
+
+    </PreferenceCategory>
 
 
 </PreferenceScreen>
