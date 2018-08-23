@@ -38,7 +38,8 @@ import com.mio.jrdv.ambientnotifs.textclock.TextClock;
 public class AlarmReceiverActivity extends Activity {
 
     private PowerManager.WakeLock wl;//encender screen
-    private DevicePolicyManager mDPM;//lock screen
+    //mejor no o no funciona luego lahuella
+   // private DevicePolicyManager mDPM;//lock screen
 
     //PARA VERLO DE MOMENTO  AQUI
 
@@ -184,8 +185,9 @@ public class AlarmReceiverActivity extends Activity {
 
                          //y le ponemos el color al reloj:
 
-                          reloj.setColor(colorPonerReloj);
+                         // TODO poner ok reloj.setColor(colorPonerReloj);//color wahatspp 0xff075e54
 
+                          reloj.setColor(0xff075e54);
 
 
                         //el icono de wahastpp:
@@ -287,8 +289,8 @@ public class AlarmReceiverActivity extends Activity {
 
 
 
-
-        mDPM = (DevicePolicyManager)getSystemService(Context.DEVICE_POLICY_SERVICE);
+        //mejor no o no funciona luego lahuella
+      //  mDPM = (DevicePolicyManager)getSystemService(Context.DEVICE_POLICY_SERVICE);
 
 
         //recibimos data extra del intent el notification.extras!!(desde el Service)
@@ -434,7 +436,7 @@ public class AlarmReceiverActivity extends Activity {
 
 
         this.finish();
-        mDPM.lockNow();
+        //mDPM.lockNow();//mejor no o no funciona luego lahuella
     }
 
     @Override
@@ -462,7 +464,7 @@ public class AlarmReceiverActivity extends Activity {
 
 
         this.finish();
-        mDPM.lockNow();
+       // mDPM.lockNow();//mejor no o no funciona luego lahuella
 
         return false;
     }

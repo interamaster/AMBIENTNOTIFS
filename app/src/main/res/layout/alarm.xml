@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:id="@+id/mainlayout"
-    android:padding="10dp"
+    android:padding="15dp"
     android:background="@android:color/black"
 
     tools:context="com.mio.jrdv.ambientnotifs.AlarmReceiverActivity">>
@@ -21,6 +21,7 @@
         app:showSecond="false"
         app:format24Hour="true"
         android:id="@+id/reloj"
+        android:layout_marginTop="30dp"
         app:color="@color/colorPrimary"/>
 
 
@@ -32,8 +33,8 @@
         android:id="@+id/relative1">
 
 
-     <LinearLayout
-         android:layout_width="wrap_content"
+     <RelativeLayout
+         android:layout_width="match_parent"
          android:layout_height="wrap_content"
          android:padding="3dp"
          android:layout_gravity="center">
@@ -42,12 +43,18 @@
             android:layout_height="60dp"
             android:paddingRight="10dp"
             android:id="@+id/nt_largeicon"
+
             android:src="@drawable/ic_launcher_background"/>
          <TextView
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:id="@+id/nt_title"
-             android:text="sender del whaatspp"
+             android:paddingRight="40dp"
+             android:paddingLeft="40dp"
+             android:text="sender del whaatspp si es muy largo deberia ponerlo aqui in pasarse de la  raaa"
+             android:maxLines="2"
+             android:layout_alignRight="@+id/nt_appicon"
+             android:layout_alignLeft="@+id/nt_largeicon"
              android:textColor="@android:color/darker_gray"
              android:layout_margin="20dp"/>
 
@@ -56,10 +63,12 @@
             android:layout_height="60dp"
             android:paddingLeft="10dp"
             android:id="@+id/iconoApp"
+            android:layout_alignParentRight="true"
             android:src="@mipmap/ic_launcher_round"
+
             />
 
-     </LinearLayout>
+     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

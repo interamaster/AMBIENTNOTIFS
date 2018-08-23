@@ -23,7 +23,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.mio.jrdv.ambientnotifs.receivers.DeviceAdmin;
 import com.mio.jrdv.ambientnotifs.textclock.TextClock;
 
 import java.util.Set;
@@ -41,14 +40,17 @@ public class MainActivity extends AppCompatActivity {
     //v045 ANULADAS LAS SBNM DUPLICADAS..WHATASPP MANDA 2 SEGUIDAS!!!
     //v050 añadido clock modifcable en mis clases
     //v055 VERSION .8 DEL XML DEL NOTIF LISTA
+    //v059 QUITADO ADMIN MANAGER PORQUE NOS EPODIA DESBLOQUEAR CON HUELLA
 
-
+/*
     //para el device manager
-
+    //mejor no o no funciona luego lahuella
     private static final int REQUEST_CODE_ENABLE_ADMIN = 1;
     private DevicePolicyManager mDPM;
     private ComponentName mAdminName;
    // private CheckBoxPreference mDeviceAdminPreference;
+
+   */
 
 
     //PARA VERLO DE MOMENTO  AQUI
@@ -117,8 +119,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         //ver si ya sou admin:
-
-        EnableAdmin();
+        //mejor no o no funciona luego lahuella
+       // EnableAdmin();
 
         // StartServiceYa();
 
@@ -194,6 +196,9 @@ public class MainActivity extends AppCompatActivity {
     //////////////////////////////////device manager//////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+    //mejor no o no funciona luego lahuella
+    /*
     private void EnableAdmin() {
 
 
@@ -244,6 +249,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+*/
  /*
 // o asi:
 
