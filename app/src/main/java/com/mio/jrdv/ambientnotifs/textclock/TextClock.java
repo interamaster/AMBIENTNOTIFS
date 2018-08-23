@@ -85,6 +85,7 @@ public class TextClock extends LinearLayout {
 
         setTime();
 
+        //TODO pte de quitar si no necesito
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -95,7 +96,7 @@ public class TextClock extends LinearLayout {
         }, DALEY);
     }
 
-    private void setColor(int color) {
+    public void setColor(int color) {
         tvHour.setTextColor(color);
         tvMinute.setTextColor(color);
         tvDay.setTextColor(color);

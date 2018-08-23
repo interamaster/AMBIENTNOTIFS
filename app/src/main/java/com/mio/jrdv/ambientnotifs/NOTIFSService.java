@@ -43,6 +43,9 @@ public class NOTIFSService extends NotificationListenerService{
     //para el icono
 
     private String packageNameWhataspp;
+    //para el color reloj igual que del icono:
+
+    private int colorNotif;
 
 
 
@@ -178,6 +181,7 @@ public class NOTIFSService extends NotificationListenerService{
 
 
               packageNameWhataspp  = sbn.getPackageName();
+            colorNotif=sbn.getNotification().color;
 
 
             String ticker = "";
@@ -293,6 +297,8 @@ public class NOTIFSService extends NotificationListenerService{
 
 
             Log.i(TAG, "SBN APPNAME:" +  packageNameWhataspp);//SBN APPNAME:com.whatsapp
+
+            Log.i(TAG, "SBN notif color:" +  colorNotif);
 
 
             CharSequence bigText = (CharSequence) extras.getCharSequence("android.title");
@@ -456,6 +462,7 @@ public class NOTIFSService extends NotificationListenerService{
                     dialogIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     dialogIntent.putExtras(mNotification.extras);//esto no pasa el picture de la foto si la mandan ?¿?
                     dialogIntent.putExtra("packageName",packageNameWhataspp);
+                    dialogIntent.putExtra("colornotif",colorNotif);
 
 
 
@@ -537,6 +544,7 @@ public class NOTIFSService extends NotificationListenerService{
                 dialogIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 dialogIntent.putExtras(sbn.getNotification().extras);//esto no pasa el picture de la foto si la mandan ?¿?
                 dialogIntent.putExtra("packageName",packageNameWhataspp);
+                dialogIntent.putExtra("colornotif",colorNotif);
                 startActivity(dialogIntent);
 
 

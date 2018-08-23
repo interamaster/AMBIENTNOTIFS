@@ -7,110 +7,79 @@
     android:orientation="vertical"
     android:id="@+id/mainlayout"
     android:padding="10dp"
+    android:background="@android:color/black"
 
     tools:context="com.mio.jrdv.ambientnotifs.AlarmReceiverActivity">>
 
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/relative1">
+
+
+
+    <com.mio.jrdv.ambientnotifs.textclock.TextClock
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:showSecond="false"
+        app:format24Hour="true"
+        android:id="@+id/reloj"
+        app:color="@color/colorPrimary"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <com.mio.jrdv.ambientnotifs.textclock.TextClock
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:showSecond="false"
-            app:format24Hour="true"
-
-            app:color="@color/colorPrimary"/>
+        android:orientation="vertical"
+        android:layout_below="@id/mainlayout"
+        android:id="@+id/relative1">
 
 
-
+     <LinearLayout
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:padding="3dp"
+         android:layout_gravity="center">
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:paddingRight="10dp"
+            android:id="@+id/nt_largeicon"
+            android:src="@drawable/ic_launcher_background"/>
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:id="@+id/nt_title"
+             android:text="sender del whaatspp"
+             android:textColor="@android:color/darker_gray"
+             android:layout_margin="20dp"/>
 
         <ImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:paddingLeft="10dp"
             android:id="@+id/iconoApp"
-            android:layout_gravity="center"/>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+            android:src="@mipmap/ic_launcher_round"
+            />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Title: " />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/nt_title" />
-    </LinearLayout>
+     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_marginTop="15dp"
+        >
+
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Text:" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/nt_text" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Subtext:" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/nt_subtext" />
+            android:id="@+id/nt_text"
+            android:textSize="24sp"
+            android:textColor="@android:color/background_light"
+            android:text="ejemplo de u whastapp que recibamos de varias lineas a ver  que hace la criatura"/>
     </LinearLayout>
 
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="LargeIcon:" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/nt_largeicon" />
-    </LinearLayout>
 
 
-    <Button
-        android:id="@+id/stopAlarm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="203dp"
-        android:text="@string/stop_alarm" />
 
         <ImageView
             android:layout_width="match_parent"
@@ -119,6 +88,5 @@
     </LinearLayout>
 
 
-</RelativeLayout>
 
 </LinearLayout>

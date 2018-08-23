@@ -18,16 +18,17 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.mio.jrdv.ambientnotifs.textclock.TextClock;
 
 /**
  * This activity will be called when the alarm is triggered.
@@ -75,6 +76,14 @@ public class AlarmReceiverActivity extends Activity {
     //para guardar el ultimo text recibido del whataspp
 
     private  String lastWhaatspptext; //paso actualizo de moento
+
+
+
+    //para el reloj color
+
+
+    private TextClock reloj;
+    private int colorPonerReloj;
 
     BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
 
@@ -135,6 +144,17 @@ public class AlarmReceiverActivity extends Activity {
                         CharSequence notificationSubText = extrasfromService.getCharSequence(Notification.EXTRA_SUB_TEXT);
 
                         title.setText(notificationTitle);
+                        //pero no puede medir mas e un maximo:
+
+                    // This get's the width of your display.
+                    DisplayMetrics displaymetrics = new DisplayMetrics();
+                    getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+                    int width = displaymetrics.widthPixels;
+
+
+                        title.setMaxWidth(width-200);//que no oucope mas de 200
+
+
                         text.setText(notificationText);
                         //guardamos el ultimo text
 
@@ -156,6 +176,17 @@ public class AlarmReceiverActivity extends Activity {
 
 
                         Log.i(TAG, "el package name es:" + packageNameWhataspp);
+
+
+
+                        colorPonerReloj=FotoFromService.getExtras().getInt("colornotif");
+                         Log.i(TAG, "el color es:" + colorPonerReloj);
+
+                         //y le ponemos el color al reloj:
+
+                          reloj.setColor(colorPonerReloj);
+
+
 
                         //el icono de wahastpp:
                         Drawable appIcon = null;
@@ -248,19 +279,12 @@ public class AlarmReceiverActivity extends Activity {
         largeIcon = (ImageView) findViewById(R.id.nt_largeicon);
         FotoWhastapp = (ImageView) findViewById(R.id.fotowhastapp);
         IconoApp = (ImageView) findViewById(R.id.iconoApp);
+        reloj =(TextClock)findViewById(R.id.reloj);
+
+        //aqui le damos el color de la notificacion... no tras recibir intent..mas abajo
+       // reloj.setColor(Color.RED);
 
 
-
-
-
-        Button stopAlarm = (Button) findViewById(R.id.stopAlarm);
-        stopAlarm.setOnTouchListener(new OnTouchListener() {
-            public boolean onTouch(View arg0, MotionEvent arg1) {
-
-                finish();
-                return false;
-            }
-        });
 
 
 
@@ -310,7 +334,7 @@ public class AlarmReceiverActivity extends Activity {
             */
 
             CharSequence notificationText = extrasfromService.getCharSequence(Notification.EXTRA_TEXT);
-            CharSequence notificationSubText = extrasfromService.getCharSequence(Notification.EXTRA_SUB_TEXT);
+           // CharSequence notificationSubText = extrasfromService.getCharSequence(Notification.EXTRA_SUB_TEXT);//no manda anda en whastapp akl menos
 
             title.setText(notificationTitle);
             text.setText(notificationText);
@@ -318,7 +342,8 @@ public class AlarmReceiverActivity extends Activity {
 
             lastWhaatspptext= (String) notificationText;
 
-            subtext.setText(notificationSubText);
+            //subtext.setText(notificationSubText);//no mand anda en whastapp akl menos
+
 
             if (notificationLargeIcon != null) {
                 largeIcon.setImageBitmap(notificationLargeIcon);
@@ -394,7 +419,7 @@ public class AlarmReceiverActivity extends Activity {
         greyscalePaint.setColorFilter(new ColorMatrixColorFilter(cm));
 // Create a hardware layer with the greyscale paint
 
-        RelativeLayout RV=(RelativeLayout) findViewById(R.id.relative1);
+        LinearLayout RV=(LinearLayout) findViewById(R.id.relative1);
         RV.setLayerType(View.LAYER_TYPE_HARDWARE,greyscalePaint);
 
       //  v.setLayerType(LAYER_TYPE_HARDWARE, greyscalePaint);

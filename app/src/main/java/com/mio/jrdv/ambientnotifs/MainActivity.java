@@ -10,15 +10,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mio.jrdv.ambientnotifs.receivers.DeviceAdmin;
+import com.mio.jrdv.ambientnotifs.textclock.TextClock;
 
 import java.util.Set;
 
@@ -34,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     //v045 ANULADAS LAS SBNM DUPLICADAS..WHATASPP MANDA 2 SEGUIDAS!!!
     //v050 añadido clock modifcable en mis clases
+    //v055 VERSION .8 DEL XML DEL NOTIF LISTA
 
 
     //para el device manager
@@ -55,6 +62,12 @@ public class MainActivity extends AppCompatActivity {
     protected TextView subtext;
     protected ImageView largeIcon;
 
+
+    //para el reloj color
+
+
+    private TextClock reloj;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -65,7 +78,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+       // setContentView(R.layout.activity_main);
+
+        setContentView(R.layout.alarm);
 
 
         //Retrieve ui elements
@@ -74,6 +89,21 @@ public class MainActivity extends AppCompatActivity {
         subtext = (TextView) findViewById(R.id.nt_subtext);
         largeIcon = (ImageView) findViewById(R.id.nt_largeicon);
 
+
+        reloj =(TextClock)findViewById(R.id.reloj);
+        reloj.setColor(0xff075e54);
+
+        //la ponemos en balnco y negro:
+
+        // Create a paint object with 0 saturation (black and white)
+        ColorMatrix cm = new ColorMatrix();
+        cm.setSaturation(0);
+        Paint greyscalePaint = new Paint();
+        greyscalePaint.setColorFilter(new ColorMatrixColorFilter(cm));
+// Create a hardware layer with the greyscale paint
+
+        LinearLayout RV=(LinearLayout) findViewById(R.id.relative1);
+        RV.setLayerType(View.LAYER_TYPE_HARDWARE,greyscalePaint);
 
 
 //ver si ya esta habilñotado el acceso a notifs
