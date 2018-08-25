@@ -10,13 +10,14 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
+import android.util.Log;
 
 import com.mio.jrdv.ambientnotifs.helpers.NotificationServiceHelper;
 
 
 public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener {
 
-    private SharedPreferences mPrefs;
+    private SharedPreferences mPrefs;//las uso con Myapplication
 
     private boolean mServiceActive;
     private CheckBoxPreference mServicePreference;
@@ -28,7 +29,8 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.settings);
 
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());//las uso con Myapplication
+
 
         findPreference("version").setSummary(BuildConfig.VERSION_NAME);
 
@@ -97,10 +99,21 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
         Preference start = findPreference("startTime");
         Preference stop = findPreference("stopTime");
-        start.setSummary(handleTime(mPrefs.getString("startTime", "22:00")));
-        stop.setSummary(handleTime(mPrefs.getString("stopTime", "08:00")));
+        start.setSummary(handleTime(mPrefs.getString("startTime", "22:00")));//las uso con Myapplication
+
+       // start.setSummary(handleTime(Myapplication.preferences.getString(Myapplication.startTime, "22:00")));
+        stop.setSummary(handleTime(mPrefs.getString("stopTime", "08:00")));//las uso con Myapplication
+
+       // stop.setSummary(handleTime(Myapplication.preferences.getString(Myapplication.stopTime, "08:00")));
+
+
         start.setOnPreferenceChangeListener(listener);
         stop.setOnPreferenceChangeListener(listener);
+
+        Log.i("starquiettime: ",mPrefs.getString("startTime","null"));
+        Log.i("stopquiettime:  ",mPrefs.getString("stopTime","null"));
+
+
 
 
     }
@@ -132,6 +145,10 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                     + Integer.toString(lastMinute)
                     + ((lastHour >= 12) ? " PM" : " AM");
         }
+
+
+
+
     }
 
     private void showServiceDialog(int message) {

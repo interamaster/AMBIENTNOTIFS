@@ -12,6 +12,7 @@ import android.hardware.display.DisplayManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
@@ -53,7 +54,8 @@ public class NOTIFSService extends NotificationListenerService{
 
     //para el quiet time
 
-    private SharedPreferences mPrefs;
+    private SharedPreferences mPrefs;//las uso con Myapplication
+
 
 
 
@@ -122,8 +124,15 @@ public class NOTIFSService extends NotificationListenerService{
             ////////////////////////////////////ES QUIET TIME?¿?//// ///// ////////////////////
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+            mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-            isInQuietTime();
+
+
+
+
+           if (isInQuietTime()){
+               return;
+           }
 
 
 
@@ -669,8 +678,12 @@ Constant Value: 4 (0x00000004
         boolean quietTime = false;
 
         if(mPrefs.getBoolean("quiet", false)) {
+       // if(Myapplication.preferences.getBoolean(Myapplication.QuietTime, false)) {
             String startTime = mPrefs.getString("startTime", "22:00");
             String stopTime = mPrefs.getString("stopTime", "08:00");
+
+            Log.i("starquiettime: ",startTime);
+            Log.i("stopquiettime:  ",stopTime);
 
             SimpleDateFormat sdfDate = new SimpleDateFormat("H:mm");
             String currentTimeStamp = sdfDate.format(new Date());

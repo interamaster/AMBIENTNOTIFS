@@ -23,9 +23,9 @@ import android.content.SharedPreferences;
 
 public class Myapplication extends Application {
     public static SharedPreferences preferences;
-    public static  final String PREF_TiempoRestante="PrefTiempoRestante";
-    public static final String PREF_NOmbre_Nino="KidName";
-    public static final String PREF_BOOL_NINOYAOK="NO";
+    public static  final String QuietTime="quiet";
+    public static final String startTime="22:00";
+    public static final String stopTime="08:00";
     public static final String PREF_BOOL_INTENTO_CAMBIO_HORA="BoolCambioHora";
     public static final String PREF_ULTIMA_VEZ_METIO_CODE_OK="timeultimoacierto";
     public static final String PREF_HORA_ENCENDIO_APAGOPANTALLA="horacambiopantala";
