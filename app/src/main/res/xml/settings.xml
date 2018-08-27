@@ -42,6 +42,44 @@
 
 
 
+    <PreferenceCategory android:title="@string/AppsToNotify">
+
+
+        <CheckBoxPreference
+            android:key="Whastapp"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/whastspp_title"
+            android:summary="@string/service_summary"
+            android:widgetLayout="@layout/preference_switch_layout" />
+
+
+        <CheckBoxPreference
+            android:key="Gmail"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/Gmail_title"
+            android:summary="@string/service_summary"
+            android:widgetLayout="@layout/preference_switch_layout" />
+
+
+        <CheckBoxPreference
+            android:key="Outlook"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/Outlook_title"
+            android:summary="@string/service_summary"
+            android:widgetLayout="@layout/preference_switch_layout" />
+
+
+        <CheckBoxPreference
+            android:key="Telegram"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/Telegram_title"
+            android:summary="@string/service_summary"
+            android:widgetLayout="@layout/preference_switch_layout" />
+
+
+
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/help">
 
 

@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
@@ -22,6 +24,14 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     private boolean mServiceActive;
     private CheckBoxPreference mServicePreference;
 
+//para als app
+
+
+    private CheckBoxPreference mWhastappPreference;
+    private CheckBoxPreference mGmailPreference;
+    private CheckBoxPreference mOutlookPreference;
+    private CheckBoxPreference mTelegramPreference;
+
 
 
     @Override
@@ -39,7 +49,257 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
         initializeTime();
 
+        initializeApps();
 
+        CheckApp();
+
+
+    }
+
+    private void CheckApp() {
+
+
+        //1ºWhastspp ///////////////////////////////////////////////////////////////////////////////////
+
+        mWhastappPreference = (CheckBoxPreference) findPreference("Whastapp");
+        mWhastappPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                if (mWhastappPreference.isChecked()) {
+
+                    //lo guardamos a SI
+                    mPrefs.edit().putBoolean("Whastapp",true).apply();
+
+
+                    Log.i("Whastapp pref CIERTO:", String.valueOf(mPrefs.getBoolean("Whatsapp",true)));
+                } else {
+
+                    //lo guardamos a NO
+                    mPrefs.edit().putBoolean("Whastapp",false).apply();
+                    Log.i("Whastapp pref FALSO:", String.valueOf(mPrefs.getBoolean("Whastapp",true)));
+                }
+
+                // don't update checkbox until we're really active
+                return false;
+            }
+        });
+
+
+        //2º)Gmail ///////////////////////////////////////////////////////////////////////////////////
+
+        mGmailPreference = (CheckBoxPreference) findPreference("Gmail");
+        mGmailPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                if (mGmailPreference.isChecked()) {
+
+                    //lo guardamos a SI
+                    mPrefs.edit().putBoolean("Gmail",true).apply();
+                } else {
+
+                    //lo guardamos a NO
+                    mPrefs.edit().putBoolean("Gmail",false).apply();
+                }
+
+                // don't update checkbox until we're really active
+                return false;
+            }
+        });
+
+
+
+        //3º)Outlook ///////////////////////////////////////////////////////////////////////////////////
+
+
+        mOutlookPreference = (CheckBoxPreference) findPreference("Outlook");
+        mOutlookPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                if (mOutlookPreference.isChecked()) {
+
+                    //lo guardamos a SI
+                    mPrefs.edit().putBoolean("Outlook",true).apply();
+                } else {
+
+                    //lo guardamos a NO
+                    mPrefs.edit().putBoolean("Outlook",false).apply();
+                }
+
+                // don't update checkbox until we're really active
+                return false;
+            }
+        });
+
+
+
+        //4º)Telegram ///////////////////////////////////////////////////////////////////////////////////
+
+
+
+        mTelegramPreference = (CheckBoxPreference) findPreference("Telegram");
+        mTelegramPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                if (mTelegramPreference.isChecked()) {
+
+                    //lo guardamos a SI
+                    mPrefs.edit().putBoolean("Telegram",true).apply();
+                } else {
+
+                    //lo guardamos a NO
+                    mPrefs.edit().putBoolean("Telegram",false).apply();
+                }
+
+                // don't update checkbox until we're really active
+                return false;
+            }
+        });
+
+
+    }
+
+    private void initializeApps() {
+
+
+        //asi se saca el icono:
+
+        /*
+
+         //el icono de wahastpp:
+                        Drawable appIcon = null;
+                        try {
+                            appIcon = getPackageManager().getApplicationIcon(packageNameWhataspp);
+
+                            IconoApp.setImageDrawable(appIcon);
+                        } catch (PackageManager.NameNotFoundException e) {
+                            e.printStackTrace();
+                        }
+
+         */
+
+
+        //1º)whatsapp ///////////////////////////////////////////////////////////////////////////////////
+
+        Drawable appIcon = null;
+        try {
+
+
+            appIcon =getActivity().getPackageManager().getApplicationIcon("com.whatsapp");
+
+
+
+            Preference whatsapp = findPreference("Whastapp");
+            whatsapp.setIcon(appIcon);
+            //lo guardamos a SI
+            mPrefs.edit().putBoolean("Whastapp",true).commit();
+
+        } catch (PackageManager.NameNotFoundException e) {
+
+            //si no existe el icono ..tampoc existe la app
+            Preference whatsapp = findPreference("Whastapp");
+            whatsapp.setEnabled(false);
+
+            //lo guardamos a NO
+            mPrefs.edit().putBoolean("Whastapp",false).commit();
+
+
+            e.printStackTrace();
+        }
+
+
+
+        //2º)Gmail ///////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+        Drawable appIconGmail = null;
+        try {
+
+
+            appIconGmail =getActivity().getPackageManager().getApplicationIcon("com.gmail");
+
+
+
+            Preference gmail = findPreference("Gmail");
+            gmail.setIcon(appIconGmail);
+            //lo guardamos a SI
+            mPrefs.edit().putBoolean("Gmail",true).apply();
+
+        } catch (PackageManager.NameNotFoundException e) {
+
+            //si no existe el icono ..tampoc existe la app
+            Preference gmail = findPreference("Gmail");
+            gmail.setEnabled(false);
+
+            //lo guardamos a NO
+            mPrefs.edit().putBoolean("Gmail",false).apply();
+
+
+            e.printStackTrace();
+        }
+
+        //3º)Outlook ///////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+        Drawable appIconOutlook = null;
+        try {
+
+
+            appIconOutlook=getActivity().getPackageManager().getApplicationIcon("com.outlook");
+
+
+
+            Preference outlook = findPreference("Outlook");
+            outlook.setIcon(appIconOutlook);
+            //lo guardamos a SI
+            mPrefs.edit().putBoolean("Outlook",true).apply();
+
+        } catch (PackageManager.NameNotFoundException e) {
+
+            //si no existe el icono ..tampoc existe la app
+            Preference outlook = findPreference("Outlook");
+            outlook.setEnabled(false);
+
+            //lo guardamos a NO
+            mPrefs.edit().putBoolean("Outlook",false).apply();
+
+
+            e.printStackTrace();
+        }
+
+        //4º)Telegram ///////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+        Drawable appIconTelegram = null;
+        try {
+
+
+            appIconTelegram =getActivity().getPackageManager().getApplicationIcon("com.telegram");
+
+
+
+            Preference telegram = findPreference("Telegram");
+            telegram.setIcon(appIconTelegram);
+            //lo guardamos a SI
+            mPrefs.edit().putBoolean("Telegram",true).apply();
+
+        } catch (PackageManager.NameNotFoundException e) {
+
+            //si no existe el icono ..tampoc existe la app
+            Preference telegram = findPreference("Telegram");
+            telegram.setEnabled(false);
+
+            //lo guardamos a NO
+            mPrefs.edit().putBoolean("whastapp",false).apply();
+
+
+            e.printStackTrace();
+        }
     }
 
     @Override

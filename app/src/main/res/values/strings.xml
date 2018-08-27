@@ -34,8 +34,15 @@
     <string name="select_apps_summary">Enable and disable apps to turn the screen on for notifications. Apps that create a notification for the first time will automatically turn the screen on.</string>
     <string name="wake_length">Screen wake length</string>
     <string name="delay_title">Delay</string>
+    <string name="AppsToNotify">Choose Aplications to be Notified</string>
     <string name="help">Help</string>
     <string name="version">Version</string>
+
+    <string name="whastspp_title">Whatsapp</string>
+    <string name="Gmail_title">Gmail</string>
+    <string name="Outlook_title">Outlok</string>
+    <string name="Telegram_title">Telegram</string>
+
 
 
 </resources>
