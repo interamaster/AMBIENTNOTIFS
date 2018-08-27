@@ -212,12 +212,66 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
 
 
+        /*
+
+        //ESTO DA EL SBN:
+
+        SBN notification extras :Bundle[{
+        android.title=jose ramon delgado,
+         android.subText=interamaster@gmail.com,
+          android.template=android.app.Notification$BigTextStyle,
+          android.showChronometer=false,
+           android.icon=2130837958,
+           android.text=hola asunto,
+            android.progress=0,
+             android.progressMax=0,
+             android.showWhen=true,
+             android.rebuild.applicationInfo=ApplicationInfo{c7a4f5b com.google.android.gm},
+              android.people=[Ljava.lang.String;@fa3b3f8,
+              android.largeIcon=android.graphics.Bitmap@35960d1,
+               android.bigText=hola asunto  hoa cuerpo,
+               android.infoText=null,
+                android.wearable.EXTENSIONS=Bundle[mParcelledData.dataSize=1404],
+                 android.originatingUserId=0,
+                  android.progressIndeterminate=false}]
+
+
+ SBN notification  :Notification(
+ pri=0
+ contentView=com.google.android.gm/0x10900b4
+  vibrate=null
+   sound=content://settings/system/notification_sound
+   tick defaults=0x4
+   flags=0x11
+   color=0xffdb4437
+   category=email
+   actions=2
+    vis=PRIVATE
+    publicVersion=Notification(pri=0
+    contentView=com.google.android.gm/0x10900b4
+    vibrate=null
+    sound=null
+    defaults=0x0
+     flags=0x0
+     color=0xffdb4437 category=email vis=PUBLIC secFlags=0x0 secPriority=0) secFlags=0x0 secPriority=0)
+
+
+
+ RESUMEN GMAIL:
+
+ SBN notification extras:
+             android.title=jose ramon delgado,
+             android.text=hola asunto,
+             android.subText=interamaster@gmail.com,
+             android.bigText=hola asunto  hoa cuerpo,
+
+         */
 
         Drawable appIconGmail = null;
         try {
 
 
-            appIconGmail =getActivity().getPackageManager().getApplicationIcon("com.gmail");
+            appIconGmail =getActivity().getPackageManager().getApplicationIcon("com.google.android.gm");
 
 
 
@@ -248,7 +302,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         try {
 
 
-            appIconOutlook=getActivity().getPackageManager().getApplicationIcon("com.outlook");
+            appIconOutlook=getActivity().getPackageManager().getApplicationIcon("com.microsoft.office.outlook");
 
 
 
@@ -272,14 +326,32 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
         //4º)Telegram ///////////////////////////////////////////////////////////////////////////////////
 
+        /*
+        RESUMEN TELEGRAM:
+
+        SBN notification extras:
+        android.title=Yo Philips (1 mensaje nuevo)
+        android.text=  Hola que tal
+        android.subText=null
+        android.bigText=  Hola que tal
 
 
 
-        Drawable appIconTelegram = null;
+TAMBIEN MANDA 2 NOTIFS...
+
+KEY: 0|org.telegram.messenger|1|null|10200 ID: 1
+Y
+
+ KEY: 0|org.telegram.messenger|10503770|null|10200 ID: 10503770
+        */
+
+
+
+                Drawable appIconTelegram = null;
         try {
 
 
-            appIconTelegram =getActivity().getPackageManager().getApplicationIcon("com.telegram");
+            appIconTelegram =getActivity().getPackageManager().getApplicationIcon("org.telegram.messenger");
 
 
 

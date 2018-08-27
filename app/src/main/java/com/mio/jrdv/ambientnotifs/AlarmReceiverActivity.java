@@ -342,7 +342,7 @@ public class AlarmReceiverActivity extends Activity {
             text.setText(notificationText);
             //guardamos el ultimo text
 
-            lastWhaatspptext= (String) notificationText;
+            lastWhaatspptext= ""+text.getText();
 
             //subtext.setText(notificationSubText);//no mand anda en whastapp akl menos
 

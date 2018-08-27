@@ -46,7 +46,7 @@ public class NOTIFSService extends NotificationListenerService{
 
     //para el icono
 
-    private String packageNameWhataspp;
+    private String pacakgenamenotif;
     //para el color reloj igual que del icono:
 
     private int colorNotif;
@@ -95,6 +95,19 @@ public class NOTIFSService extends NotificationListenerService{
     public void onNotificationPosted(StatusBarNotification sbn) {
 
 
+        /*
+        //forma de ver los key del sbn(notific)
+
+            Log.i(TAG, "ID:" + sbn.getId());
+            Log.i(TAG, "Posted by:" + sbn.getPackageName());
+            Log.i(TAG, "tickerText:" + sbn.getNotification().tickerText);
+
+            for (String key : sbn.getNotification().extras.keySet()) {
+                Log.i(TAG, key + "=" + sbn.getNotification().extras.get(key));
+            }
+
+*/
+
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             /////////////////////////////////////para detectar sbn duplicado en whastapp///////////////////////////// ///// ////////////////////
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -118,13 +131,53 @@ public class NOTIFSService extends NotificationListenerService{
             }
 
 
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////para detectar sbn duplicado en telegram///////////////////////////// ///// ////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*
+            TAMBIEN MANDA 2 NOTIFS...
+
+            KEY: 0|org.telegram.messenger|1|null|10200 ID: 1
+            Y
+
+            KEY: 0|org.telegram.messenger|10503770|null|10200 ID: 10503770
+
+            osea el ID=1 lo descartamos y nos quedamos con el segundo!!!
+  */
+
+
+            pacakgenamenotif = sbn.getPackageName();
+            mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+
+            if (mPrefs.getBoolean("Telegram",false) && pacakgenamenotif.equals("org.telegram.messenger") && sbn.getId()==1) {
+
+                Log.i("INFO", "era un telegram con  ID=1 lo descartamos!!!");
+
+                return;
+
+            }
+
+
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////para detectar sbn duplicado en GMAIL///////////////////////////// ///// ////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+            //TODO
+
+
+
+
+
 
 
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             ////////////////////////////////////ES QUIET TIME?¿?//// ///// ////////////////////
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-            mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
 
 
 
@@ -135,6 +188,17 @@ public class NOTIFSService extends NotificationListenerService{
            }
 
 
+
+
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////QUE APLICACIOENS ESTOY VIGILANDO//// ///// ////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+           Log.i("VIGILANDO WHATASPP:", String.valueOf(mPrefs.getBoolean("Whastapp",false)));
+            Log.i("VIGILANDO GMAIL:", String.valueOf(mPrefs.getBoolean("Gmail",false)));
+            Log.i("VIGILANDO OUTLOOK:", String.valueOf(mPrefs.getBoolean("Outlook",false)));
+            Log.i("VIGILANDO TELEGRAM:", String.valueOf(mPrefs.getBoolean("Telegram",false)));
 
 
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -205,7 +269,7 @@ public class NOTIFSService extends NotificationListenerService{
             }
 
 
-              packageNameWhataspp  = sbn.getPackageName();
+              pacakgenamenotif = sbn.getPackageName();
             colorNotif=sbn.getNotification().color;
 
 
@@ -321,7 +385,7 @@ public class NOTIFSService extends NotificationListenerService{
             */
 
 
-            Log.i(TAG, "SBN APPNAME:" +  packageNameWhataspp);//SBN APPNAME:com.whatsapp
+            Log.i(TAG, "SBN APPNAME:" + pacakgenamenotif);//SBN APPNAME:com.whatsapp
 
             Log.i(TAG, "SBN notif color:" +  colorNotif);
 
@@ -347,12 +411,20 @@ public class NOTIFSService extends NotificationListenerService{
             }
 
 
+
+            CharSequence bigText4 = (CharSequence) extras.getCharSequence("android.bigText");
+            if (bigText4 != null) {
+                String TEXT = bigText4.toString();
+                Log.i("BIGTEXT", TEXT.toString());
+            }
+
+
             //this is a bitmap to be used instead of the small icon when showing the  notification
 
 
             Drawable appIcon = null;
             try {
-                appIcon = getPackageManager().getApplicationIcon(packageNameWhataspp);
+                appIcon = getPackageManager().getApplicationIcon(pacakgenamenotif);
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
             }
@@ -418,10 +490,15 @@ public class NOTIFSService extends NotificationListenerService{
 
                 //SEGUNDO VEMOS IS ES UN WHATSAPP
 
+               // if ((pacakgenamenotif.equals("com.whatsapp"))) {
 
-                if ((packageNameWhataspp.equals("com.whatsapp"))) {
+                // o ahora si es una appl habilitada:
 
-                    Log.e("ES UN WHAATSAPP", "SI!!!!");
+
+                if (isNotif4packnamehabilitada(pacakgenamenotif)) {
+
+
+                    Log.e("ES UNA APP VIGILADA: ", "SI!!!!");
 
                     Notification mNotification = sbn.getNotification();
 
@@ -459,7 +536,7 @@ public class NOTIFSService extends NotificationListenerService{
 
 
 
-                     //   new ScreenController(this, false).handleNotification(packageNameWhataspp);
+                     //   new ScreenController(this, false).handleNotification(pacakgenamenotif);
 
 
 
@@ -486,8 +563,10 @@ public class NOTIFSService extends NotificationListenerService{
                     //MEJO ASI CIERRA LA OTRA SI EXISTIA
                     dialogIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     dialogIntent.putExtras(mNotification.extras);//esto no pasa el picture de la foto si la mandan ?¿?
-                    dialogIntent.putExtra("packageName",packageNameWhataspp);
+                    dialogIntent.putExtra("packageName", pacakgenamenotif);
                     dialogIntent.putExtra("colornotif",colorNotif);
+
+
 
 
 
@@ -540,13 +619,22 @@ public class NOTIFSService extends NotificationListenerService{
                 }
             }
 
-            else if (isScreenOn(mContext)&& (packageNameWhataspp.equals("com.whatsapp") && isActivityRunning(AlarmReceiverActivity.class))){
-
-                Log.i(TAG,"LA PANTALLA ESTA ENCENDIDA PERO ES UN WHATASPP..DEBERIA HACER ALGO...");
+            //else if (isScreenOn(mContext)&& (pacakgenamenotif.equals("com.whatsapp") && isActivityRunning(AlarmReceiverActivity.class))){
 
 
+            //MEJOR CON TODAS LAS APK:
 
-                Log.i(TAG," VOY AMANDAR LA SBN.extras POR BROADCAST");
+            else if (isScreenOn(mContext)&& (isNotif4packnamehabilitada(pacakgenamenotif) && isActivityRunning(AlarmReceiverActivity.class))){
+
+                Log.i(TAG,"LA PANTALLA ESTA ENCENDIDA PERO ES UNA APK VIGILADA..DEBERIA HACER ALGO...");
+
+
+
+                //Log.i(TAG," VOY AMANDAR LA SBN.extras POR BROADCAST");
+
+                //YA NO AHOR ABRO ACTIVITY ENCIMA
+
+                Log.i(TAG," VOY AMANDAR LA SBN.extras A UNA ACTIVITY QUE CIERRA LA ANTERIOR!!");
                 /*
 
                 Intent intentbrodcast = new Intent("com.mio.jrdv.action.close");
@@ -568,7 +656,7 @@ public class NOTIFSService extends NotificationListenerService{
                 Intent dialogIntent = new Intent(this, AlarmReceiverActivity.class);
                 dialogIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 dialogIntent.putExtras(sbn.getNotification().extras);//esto no pasa el picture de la foto si la mandan ?¿?
-                dialogIntent.putExtra("packageName",packageNameWhataspp);
+                dialogIntent.putExtra("packageName", pacakgenamenotif);
                 dialogIntent.putExtra("colornotif",colorNotif);
                 startActivity(dialogIntent);
 
@@ -710,6 +798,47 @@ Constant Value: 4 (0x00000004
         Log.d(TAG,"Device is in quiet time: " + quietTime);
         return quietTime;
     }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////PARA SABER SI ES UNA NOTIFIC HABILOTADOA//////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private  boolean isNotif4packnamehabilitada(String packname){
+
+
+        if (mPrefs.getBoolean("Whastapp",false) && packname.equals("com.whatsapp")) {
+
+            Log.i("INFO","era un wahstapp!");
+
+            return true;
+        }
+
+        else if (mPrefs.getBoolean("Gmail",false) && packname.equals("com.google.android.gm")) {
+
+            Log.i("INFO","era un gmail!");
+
+            return true;
+        }
+
+        else if (mPrefs.getBoolean("Outlook",false) && packname.equals("com.microsoft.office.outlook")) {
+
+            Log.i("INFO","era un outlook!");
+
+            return true;
+        }
+
+        else if (mPrefs.getBoolean("Telegram",false) && packname.equals("org.telegram.messenger")) {
+
+            Log.i("INFO","era un telegram!");
+
+            return true;
+        }
+
+        else
+
+        return false;
+    }
+
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
