@@ -2,7 +2,6 @@ package com.mio.jrdv.ambientnotifs;
 
 import android.app.Activity;
 import android.app.Notification;
-import android.app.admin.DevicePolicyManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +9,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
@@ -84,7 +84,7 @@ public class AlarmReceiverActivity extends Activity {
 
 
     private TextClock reloj;
-    private int colorPonerReloj;
+    private String colorPonerReloj;
 
     BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
 
@@ -180,14 +180,15 @@ public class AlarmReceiverActivity extends Activity {
 
 
 
-                        colorPonerReloj=FotoFromService.getExtras().getInt("colornotif");
+                        colorPonerReloj=FotoFromService.getExtras().getString("colornotif");
                          Log.i(TAG, "el color es:" + colorPonerReloj);
 
                          //y le ponemos el color al reloj:
 
-                         // TODO poner ok reloj.setColor(colorPonerReloj);//color wahatspp 0xff075e54
+                         // TODO poner ok
+                            reloj.setColor(Color.parseColor(colorPonerReloj));//color wahatspp 0xff075e54
 
-                          reloj.setColor(0xff075e54);
+                         // reloj.setColor(0xff075e54);
 
 
                         //el icono de wahastpp:
@@ -289,6 +290,8 @@ public class AlarmReceiverActivity extends Activity {
 
 
 
+
+
         //mejor no o no funciona luego lahuella
       //  mDPM = (DevicePolicyManager)getSystemService(Context.DEVICE_POLICY_SERVICE);
 
@@ -351,6 +354,20 @@ public class AlarmReceiverActivity extends Activity {
                 largeIcon.setImageBitmap(notificationLargeIcon);
 
             }
+
+
+
+
+            colorPonerReloj=extrasfromService.getString("colornotif");
+            Log.i(TAG, "el color es:" + colorPonerReloj);
+
+            //y le ponemos el color al reloj:
+
+            // TODO poner ok
+            reloj.setColor(Color.parseColor(colorPonerReloj));//color wahatspp 0xff075e54
+
+            // reloj.setColor(0xff075e54);
+
 
 
             /*

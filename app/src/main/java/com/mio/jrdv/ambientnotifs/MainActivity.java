@@ -1,31 +1,11 @@
 package com.mio.jrdv.ambientnotifs;
 
-import android.app.Activity;
-import android.app.ActivityManager;
-import android.app.Notification;
-import android.app.admin.DevicePolicyManager;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.Bitmap;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
-import android.graphics.Paint;
 import android.os.Bundle;
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mio.jrdv.ambientnotifs.textclock.TextClock;
-
-import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     //v065 AÑADIDO PANTALLAINICIAL DE PREFERENCIA CON QUIETE TIME PTE DE IMPLEMENTAR SU LOGICA PERO CON LOGGING EN SERVICE
     //v07 AÑADIDO QUIET TIME YA FUNCIONA OK
     //v08 AÑADIDO DETECCION OK DE GMAIL,TELEGRM Y OUTLOOK ..FALLA EL DE GMAIL AL ENCENDER PANTALLA
+    //v081  AÑADIDO DETECCION DUPLICADOS  Y COLOR OK EN RELOJ
 
 /*
     //para el device manager

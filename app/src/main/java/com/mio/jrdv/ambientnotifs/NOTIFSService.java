@@ -49,7 +49,7 @@ public class NOTIFSService extends NotificationListenerService{
     private String pacakgenamenotif;
     //para el color reloj igual que del icono:
 
-    private int colorNotif;
+    private String colorNotif;
 
 
     //para el quiet time
@@ -57,6 +57,11 @@ public class NOTIFSService extends NotificationListenerService{
     private SharedPreferences mPrefs;//las uso con Myapplication
 
 
+    //para evitar duplicados
+
+    long LastWhastsppsbnTime;
+    String lastmesagetext="ultimo";
+    String Actualmesagetext="actual";
 
 
     public void onCreate() {
@@ -94,8 +99,8 @@ public class NOTIFSService extends NotificationListenerService{
         @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
 
+/*
 
-        /*
         //forma de ver los key del sbn(notific)
 
             Log.i(TAG, "ID:" + sbn.getId());
@@ -106,7 +111,28 @@ public class NOTIFSService extends NotificationListenerService{
                 Log.i(TAG, key + "=" + sbn.getNotification().extras.get(key));
             }
 
+
 */
+
+            //TODO si es una llmada del tiron pasamos:
+
+            if (sbn.isOngoing()) {
+                return;
+            }
+
+
+            //todo si no es una apk vigilada ignoramos
+
+            mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+            pacakgenamenotif = sbn.getPackageName();
+
+
+            if (!isNotif4packnamehabilitada(pacakgenamenotif)) {
+                return;
+            }
+
+
 
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             /////////////////////////////////////para detectar sbn duplicado en whastapp///////////////////////////// ///// ////////////////////
@@ -116,10 +142,25 @@ public class NOTIFSService extends NotificationListenerService{
             Log.d(TAG, "Notification has arrived");
             Log.d(TAG, "KEY: " + sbn.getKey() +" ID: " + sbn.getId() + " Posted by: " + sbn.getPackageName() + " at: " + sbn.getPostTime() + " ");
 
+            //guaradmos tiempo..luego se actualiza al recibir la notif si la pnatalla esta apagada
+            LastWhastsppsbnTime=sbn.getPostTime();
 
             //1º) KEY: 0|com.whatsapp|1|34639689367@s.whatsapp.net|10185 ID: 1 Posted by: com.whatsapp at: 1534961145878
 
             //2º KEY: 0|com.whatsapp|1|null|10185 ID: 1 Posted by: com.whatsapp at: 1534961145913
+
+
+            //si lleva foto son 4!!!
+
+            /*
+
+KEY: 0|com.whatsapp|1|34639689367@s.whatsapp.net|10185 ID: 1 Posted by: com.whatsapp at: 1535476999019
+ KEY: 0|com.whatsapp|1|null|10185 ID: 1 Posted by: com.whatsapp at: 1535476999085
+ KEY: 0|com.whatsapp|1|34639689367@s.whatsapp.net|10185 ID: 1 Posted by: com.whatsapp at: 1535477000861
+ KEY: 0|com.whatsapp|1|null|10185 ID: 1 Posted by: com.whatsapp at: 1535477000896
+             */
+
+
 
 
             String[] separated = sbn.getKey().split("\\|");
@@ -147,8 +188,7 @@ public class NOTIFSService extends NotificationListenerService{
   */
 
 
-            pacakgenamenotif = sbn.getPackageName();
-            mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
 
 
             if (mPrefs.getBoolean("Telegram",false) && pacakgenamenotif.equals("org.telegram.messenger") && sbn.getId()==1) {
@@ -241,227 +281,6 @@ public class NOTIFSService extends NotificationListenerService{
            }
 
 
-            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            //////////////////////////////////////PARA ER EL LOGGING SOLO//////////////////////////////////////////////////////////////
-            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-            // Log.i(TAG,"**********  onNotificationPosted");
-            // Log.i(TAG,"ID :" + sbn.getId() + "\t" + sbn.getNotification().tickerText + "\t" + sbn.getPackageName());
-/*
-            Log.i(TAG, "SBN :" + sbn );
-
-            Log.i(TAG, "ID:" + sbn.getId());
-            Log.i(TAG, "Posted by:" + sbn.getPackageName());
-            Log.i(TAG, "tickerText:" + sbn.getNotification().tickerText);
-
-            for (String key : sbn.getNotification().extras.keySet()) {
-                Log.i(TAG, key + "=" + sbn.getNotification().extras.get(key).toString());
-            }
-
-*/
-
-
-            //TODO si es una llmada del tiron pasamos:
-
-            if (sbn.isOngoing()) {
-                return;
-            }
-
-
-              pacakgenamenotif = sbn.getPackageName();
-            colorNotif=sbn.getNotification().color;
-
-
-            String ticker = "";
-            Log.i(TAG, "SBN notification extras :" + sbn.getNotification().extras);
-
-            //esto da: para KIDSTIMER EN EL RELOJ!! CDA SEGUNDO
-/*
-            SBN :Bundle[{android.title=null,
-             android.subText=null,
-              android.showChronometer=false,
-              android.icon=2131099752,
-               android.text=REMAINIG TIME: 01:20:57,
-                android.progress=0,
-                android.progressMax=0,
-                 android.appInfo=ApplicationInfo{c2e75d5 com.sfc.jrdv.kidstimer},
-                  android.showWhen=true,
-                   android.largeIcon=null,
-                    android.infoText=null,
-                    android.originatingUserId=0,
-                     android.progressIndeterminate=false,
-                      android.remoteInputHistory=null}]
-
-   */
-
-//ESTO DA EN UN WTASAPP
-/*
-            I/NEW: ----------
-                    08-19 18:20:32.071 30873-30873/com.mio.jrdv.ambientnotifs I/NOTIFSService: SBN notification extras :
-                    Bundle[{android.title=Gustavo Hijo: ​,
-                    android.conversationTitle=Gustavo Hijo,
-                    android.subText=null,
-                     android.car.EXTENSIONS=Bundle[mParcelledData.dataSize=1076],
-                      android.template=android.app.Notification$MessagingStyle,
-                      android.showChronometer=false,
-                      android.icon=2131231581,
-                      android.text=😂😂,
-                      android.progress=0,
-                      android.progressMax=0,
-                      android.selfDisplayName=Gustavo Hijo,
-                       android.appInfo=ApplicationInfo{6b50372 com.whatsapp},
-                       android.messages=[Landroid.os.Parcelable;@e4b63c3,
-                        android.showWhen=true,
-                         android.largeIcon=android.graphics.Bitmap@a511440,
-                          android.infoText=null,
-                          android.wearable.EXTENSIONS=Bundle[mParcelledData.dataSize=764],
-                           android.progressIndeterminate=false,
-                           android.remoteInputHistory=null}]
-
-
-
-
-
-                    */
-
-
-            Log.i(TAG, "SBN notification  :" + sbn.getNotification());
-
-            /*
-
-             //esto da: para KIDSTIMER EN EL RELOJ!! CDA SEGUNDO
-             SBN notification  :Notification(pri=0 contentView=null vibrate=null sound=null defaults=0x0 flags=0xa color=0x00000000 vis=PRIVATE)
-
-             */
-
-            /*
-            ESTO PARA WHATASAPP
-
-
-             08-19 18:20:32.074 30873-30873/com.mio.jrdv.ambientnotifs I/NOTIFSService: SBN notification
-            :Notification(channel=group_chat_defaults_2
-            pri=0
-            contentView=null
-            vibrate=null
-            sound=null
-            defaults=0x0
-            flags=0x8
-            color=0xff075e54
-            groupKey=group_key_messages
-            sortKey=3
-            actions=1
-            number=1
-            vis=PRIVATE s
-            emFlags=0x0
-            semPriority=0
-            semMissedCount=0)
-             */
-
-
-            // if (sbn.getNotification().tickerText != null) {
-            //  ticker = sbn.getNotification().tickerText.toString();
-            //   }
-            Bundle extras = sbn.getNotification().extras;
-//        try {
-//            //sbn.getNotification().contentIntent.send();
-//        } catch (PendingIntent.CanceledException e) {
-//            e.printStackTrace();
-//        }
-
-            Log.i("NEW", "----------");
-
-            /*
-            if (extras.get("android.title")!=null) {
-                //this is the title of the notification
-                //algunas veces da error!!!
-
-                //Key android.title expected String but value was a android.text.SpannableString.  The default value <null> was returned.
-
-                String title = extras.getString("android.title");
-                Log.i("Title", title);
-
-            }
-            */
-
-
-            Log.i(TAG, "SBN APPNAME:" + pacakgenamenotif);//SBN APPNAME:com.whatsapp
-
-            Log.i(TAG, "SBN notif color:" +  colorNotif);
-
-
-            CharSequence bigText = (CharSequence) extras.getCharSequence("android.title");
-            if (bigText != null) {
-                String title = bigText.toString();
-                Log.i("Title", title);
-            }
-
-
-            CharSequence bigText2 = (CharSequence) extras.getCharSequence("android.subtext");
-            if (bigText2 != null) {
-                String SUBTETXT = bigText2.toString();
-                Log.i("SUBTETXT", SUBTETXT.toString());
-            }
-
-
-            CharSequence bigText3 = (CharSequence) extras.getCharSequence("android.text");
-            if (bigText3 != null) {
-                String TEXT = bigText3.toString();
-                Log.i("TEXT", TEXT.toString());
-            }
-
-
-
-            CharSequence bigText4 = (CharSequence) extras.getCharSequence("android.bigText");
-            if (bigText4 != null) {
-                String TEXT = bigText4.toString();
-                Log.i("BIGTEXT", TEXT.toString());
-            }
-
-
-            //this is a bitmap to be used instead of the small icon when showing the  notification
-
-
-            Drawable appIcon = null;
-            try {
-                appIcon = getPackageManager().getApplicationIcon(pacakgenamenotif);
-            } catch (PackageManager.NameNotFoundException e) {
-                e.printStackTrace();
-            }
-
-
-            Bitmap largeIcon = null;
-            try {
-                largeIcon = (Bitmap) sbn.getNotification().extras.getParcelable(Notification.EXTRA_LARGE_ICON);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            Bitmap smallIcon = null;
-            try {
-                int idsmallicon = sbn.getNotification().extras.getInt(Notification.EXTRA_SMALL_ICON);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            int id1 = extras.getInt("android.icon");
-
-
-            Log.i("FINAL ", "----------");
-
-
-            /*
-            ESTO DA PARA UN WHATSAPP
-             08-19 18:20:32.074 30873-30873/com.mio.jrdv.ambientnotifs I/NEW: ----------
-                    08-19 18:20:32.074 30873-30873/com.mio.jrdv.ambientnotifs I/Title: Gustavo Hijo: ​
-            08-19 18:20:32.074 30873-30873/com.mio.jrdv.ambientnotifs I/TEXT: 😂😂
-            08-19 18:20:32.132 30873-30873/com.mio.jrdv.ambientnotifs I/ApplicationPackageManager: load=com.whatsapp, bg=96-96, dr=144-144, forDefault=false, density=0
-            08-19 18:20:32.141 30873-30873/com.mio.jrdv.ambientnotifs I/ApplicationPackageManager: scaled rate=0.59999996, size=144, alpha=2, hold=0
-            08-19 18:20:32.142 30873-30873/com.mio.jrdv.ambientnotifs I/ApplicationPackageManager: load=com.whatsapp-theme2, bg=96-96, dr=144-144, tarScale=0.59999996, relScale=0.41142857, mask=false
-
-
-             */
 
 
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -501,6 +320,18 @@ public class NOTIFSService extends NotificationListenerService{
                     Log.e("ES UNA APP VIGILADA: ", "SI!!!!");
 
                     Notification mNotification = sbn.getNotification();
+
+
+
+                    //ponemos el logging
+
+                    LogInfodelSBN(sbn);
+
+
+                    //guaradsmoa sui tiempo
+
+                    LastWhastsppsbnTime=sbn.getPostTime();
+
 
 
                     //TODO luego vemos que hacemos..de momento encender pantalla:
@@ -624,9 +455,15 @@ public class NOTIFSService extends NotificationListenerService{
 
             //MEJOR CON TODAS LAS APK:
 
-            else if (isScreenOn(mContext)&& (isNotif4packnamehabilitada(pacakgenamenotif) && isActivityRunning(AlarmReceiverActivity.class))){
+
+
+
+
+            else if (isScreenOn(mContext)&& (isNotif4packnamehabilitada(pacakgenamenotif) && isActivityRunning(AlarmReceiverActivity.class))&& checkDuplicateonTime(sbn.getPostTime(),sbn)){
 
                 Log.i(TAG,"LA PANTALLA ESTA ENCENDIDA PERO ES UNA APK VIGILADA..DEBERIA HACER ALGO...");
+
+
 
 
 
@@ -663,6 +500,78 @@ public class NOTIFSService extends NotificationListenerService{
 
             }
             }
+
+    private boolean checkDuplicateonTime( long notifctime ,StatusBarNotification sbn ) {
+
+
+        //Whaastapp si lleva foto son 4!!!
+
+            /*
+
+KEY: 0|com.whatsapp|1|34639689367@s.whatsapp.net|10185 ID: 1 Posted by: com.whatsapp at: 1535476999019
+ KEY: 0|com.whatsapp|1|null|10185 ID: 1 Posted by: com.whatsapp at: 1535476999085
+ KEY: 0|com.whatsapp|1|34639689367@s.whatsapp.net|10185 ID: 1 Posted by: com.whatsapp at: 1535477000861
+ KEY: 0|com.whatsapp|1|null|10185 ID: 1 Posted by: com.whatsapp at: 1535477000896
+             */
+
+            //1º)miramos si es el mismo text de la anterior
+
+        //buscamos el valor del text de esta ultima notif
+        Bundle extras = sbn.getNotification().extras;
+
+
+        //guaradmos el text de esta notif
+
+        CharSequence bigText3 = (CharSequence) extras.getCharSequence("android.text");
+        if (bigText3 != null) {
+            //String TEXT = bigText3.toString();
+            Actualmesagetext = bigText3.toString();
+            Log.i("TEXT", Actualmesagetext.toString());
+        }
+
+
+
+
+        Log.i("TEXTOS COMAPRE","ACTUAL:"+Actualmesagetext+" Y ULTIMO:"+lastmesagetext);
+
+            if (Actualmesagetext.equals(lastmesagetext)){
+
+
+                Log.i("TEXTOS","IGUALES la ignoramos");
+                //son iguales  return del tiron
+
+                return false;
+            }
+
+
+        Log.i("SBN","textos distinto ..ESCUCHAMOS");
+        return true;
+
+            //2º)miramos cuanto timepo ha pasado desde el anterior guaradao
+
+        //pasamos del timepo con el texto es sufcicnte
+        /*
+
+
+        Log.d( "TIMES:" , "ahora: "+System.currentTimeMillis()+" cuando se reicibio tercera notif:"+notifctime);
+        //esto da: D/TIMES:: ahora: 1535479238047 cuando se reicibio tercera notif:1535479238006 ...41 milisecs!!
+
+
+
+        if ((System.currentTimeMillis()-notifctime) <300){
+            //mas de 300 milisecs..puede ser uno nuevo
+
+            Log.i("SBN","menos de 300 milis la ignoramos");
+
+            return false;
+
+        }
+
+        Log.i("SBN","MAS de 300 milis la ESCUCHAMOS");
+            return true;
+
+*/
+    }
 
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
@@ -841,6 +750,238 @@ Constant Value: 4 (0x00000004
 
 
 
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////PARA PONER EN LOG.I TODA LA INFO QUE SE VA A PSASR//////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    private void LogInfodelSBN(StatusBarNotification sbn ){
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////PARA ER EL LOGGING SOLO//////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        // Log.i(TAG,"**********  onNotificationPosted");
+        // Log.i(TAG,"ID :" + sbn.getId() + "\t" + sbn.getNotification().tickerText + "\t" + sbn.getPackageName());
+/*
+            Log.i(TAG, "SBN :" + sbn );
+
+            Log.i(TAG, "ID:" + sbn.getId());
+            Log.i(TAG, "Posted by:" + sbn.getPackageName());
+            Log.i(TAG, "tickerText:" + sbn.getNotification().tickerText);
+
+            for (String key : sbn.getNotification().extras.keySet()) {
+                Log.i(TAG, key + "=" + sbn.getNotification().extras.get(key).toString());
+            }
+
+*/
+
+
+
+        pacakgenamenotif = sbn.getPackageName();
+        int colordelanotif=sbn.getNotification().color;//esto da valores extraños ?¿?¿ ej:SBN notif color:-16746281
+
+        colorNotif = String.format("#%06X", (0xFFFFFF & colordelanotif));
+        Log.i(TAG, "color en hex:"+colorNotif);
+
+
+        String ticker = "";
+        Log.i(TAG, "SBN notification extras :" + sbn.getNotification().extras);
+
+        //esto da: para KIDSTIMER EN EL RELOJ!! CDA SEGUNDO
+/*
+            SBN :Bundle[{android.title=null,
+             android.subText=null,
+              android.showChronometer=false,
+              android.icon=2131099752,
+               android.text=REMAINIG TIME: 01:20:57,
+                android.progress=0,
+                android.progressMax=0,
+                 android.appInfo=ApplicationInfo{c2e75d5 com.sfc.jrdv.kidstimer},
+                  android.showWhen=true,
+                   android.largeIcon=null,
+                    android.infoText=null,
+                    android.originatingUserId=0,
+                     android.progressIndeterminate=false,
+                      android.remoteInputHistory=null}]
+
+   */
+
+//ESTO DA EN UN WTASAPP
+/*
+            I/NEW: ----------
+                    08-19 18:20:32.071 30873-30873/com.mio.jrdv.ambientnotifs I/NOTIFSService: SBN notification extras :
+                    Bundle[{android.title=Gustavo Hijo: ​,
+                    android.conversationTitle=Gustavo Hijo,
+                    android.subText=null,
+                     android.car.EXTENSIONS=Bundle[mParcelledData.dataSize=1076],
+                      android.template=android.app.Notification$MessagingStyle,
+                      android.showChronometer=false,
+                      android.icon=2131231581,
+                      android.text=😂😂,
+                      android.progress=0,
+                      android.progressMax=0,
+                      android.selfDisplayName=Gustavo Hijo,
+                       android.appInfo=ApplicationInfo{6b50372 com.whatsapp},
+                       android.messages=[Landroid.os.Parcelable;@e4b63c3,
+                        android.showWhen=true,
+                         android.largeIcon=android.graphics.Bitmap@a511440,
+                          android.infoText=null,
+                          android.wearable.EXTENSIONS=Bundle[mParcelledData.dataSize=764],
+                           android.progressIndeterminate=false,
+                           android.remoteInputHistory=null}]
+
+
+
+
+
+                    */
+
+
+        Log.i(TAG, "SBN notification  :" + sbn.getNotification());
+
+            /*
+
+             //esto da: para KIDSTIMER EN EL RELOJ!! CDA SEGUNDO
+             SBN notification  :Notification(pri=0 contentView=null vibrate=null sound=null defaults=0x0 flags=0xa color=0x00000000 vis=PRIVATE)
+
+             */
+
+            /*
+            ESTO PARA WHATASAPP
+
+
+             08-19 18:20:32.074 30873-30873/com.mio.jrdv.ambientnotifs I/NOTIFSService: SBN notification
+            :Notification(channel=group_chat_defaults_2
+            pri=0
+            contentView=null
+            vibrate=null
+            sound=null
+            defaults=0x0
+            flags=0x8
+            color=0xff075e54
+            groupKey=group_key_messages
+            sortKey=3
+            actions=1
+            number=1
+            vis=PRIVATE s
+            emFlags=0x0
+            semPriority=0
+            semMissedCount=0)
+             */
+
+
+        // if (sbn.getNotification().tickerText != null) {
+        //  ticker = sbn.getNotification().tickerText.toString();
+        //   }
+        Bundle extras = sbn.getNotification().extras;
+//        try {
+//            //sbn.getNotification().contentIntent.send();
+//        } catch (PendingIntent.CanceledException e) {
+//            e.printStackTrace();
+//        }
+
+        Log.i("NEW", "----------");
+
+            /*
+            if (extras.get("android.title")!=null) {
+                //this is the title of the notification
+                //algunas veces da error!!!
+
+                //Key android.title expected String but value was a android.text.SpannableString.  The default value <null> was returned.
+
+                String title = extras.getString("android.title");
+                Log.i("Title", title);
+
+            }
+            */
+
+
+        Log.i(TAG, "SBN APPNAME:" + pacakgenamenotif);//SBN APPNAME:com.whatsapp
+
+        Log.i(TAG, "SBN notif color:" +  colorNotif);
+
+
+        CharSequence bigText = (CharSequence) extras.getCharSequence("android.title");
+        if (bigText != null) {
+            String title = bigText.toString();
+            Log.i("Title", title);
+        }
+
+
+        CharSequence bigText2 = (CharSequence) extras.getCharSequence("android.subtext");
+        if (bigText2 != null) {
+            String SUBTETXT = bigText2.toString();
+            Log.i("SUBTETXT", SUBTETXT.toString());
+        }
+
+
+        CharSequence bigText3 = (CharSequence) extras.getCharSequence("android.text");
+        if (bigText3 != null) {
+            //String TEXT = bigText3.toString();
+            lastmesagetext = bigText3.toString();
+            Log.i("TEXT", lastmesagetext.toString());
+        }
+
+
+
+        CharSequence bigText4 = (CharSequence) extras.getCharSequence("android.bigText");
+        if (bigText4 != null) {
+            String TEXT = bigText4.toString();
+            Log.i("BIGTEXT", TEXT.toString());
+        }
+
+
+        //this is a bitmap to be used instead of the small icon when showing the  notification
+
+
+        Drawable appIcon = null;
+        try {
+            appIcon = getPackageManager().getApplicationIcon(pacakgenamenotif);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+        Bitmap largeIcon = null;
+        try {
+            largeIcon = (Bitmap) sbn.getNotification().extras.getParcelable(Notification.EXTRA_LARGE_ICON);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Bitmap smallIcon = null;
+        try {
+            int idsmallicon = sbn.getNotification().extras.getInt(Notification.EXTRA_SMALL_ICON);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        int id1 = extras.getInt("android.icon");
+
+
+        Log.i("FINAL ", "----------");
+
+
+            /*
+            ESTO DA PARA UN WHATSAPP
+             08-19 18:20:32.074 30873-30873/com.mio.jrdv.ambientnotifs I/NEW: ----------
+                    08-19 18:20:32.074 30873-30873/com.mio.jrdv.ambientnotifs I/Title: Gustavo Hijo: ​
+            08-19 18:20:32.074 30873-30873/com.mio.jrdv.ambientnotifs I/TEXT: 😂😂
+            08-19 18:20:32.132 30873-30873/com.mio.jrdv.ambientnotifs I/ApplicationPackageManager: load=com.whatsapp, bg=96-96, dr=144-144, forDefault=false, density=0
+            08-19 18:20:32.141 30873-30873/com.mio.jrdv.ambientnotifs I/ApplicationPackageManager: scaled rate=0.59999996, size=144, alpha=2, hold=0
+            08-19 18:20:32.142 30873-30873/com.mio.jrdv.ambientnotifs I/ApplicationPackageManager: load=com.whatsapp-theme2, bg=96-96, dr=144-144, tarScale=0.59999996, relScale=0.41142857, mask=false
+
+
+             */
+
+
+    }
+
+
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////LO QUE SE CAPTA AL EXPANDIR UN WHASTAPP CON FOTO//////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -948,5 +1089,10 @@ Constant Value: 4 (0x00000004
             secPriority=0)
 */
 
+
+
+/*
+
+ */
 
 }
