@@ -66,7 +66,9 @@ public class AlarmReceiverActivity extends Activity {
 
     //para el autolock timepo
 
-    long tiempoAutoLock=10000;//5 secs
+    long tiempoAutoLock=5000;//5 secs
+
+    long tiempoAutoFinish=12000;//5 secs
 
 
     //para el broadcast:
@@ -244,6 +246,16 @@ public class AlarmReceiverActivity extends Activity {
 
 
 
+        //a los 15 segundos se autoeliminara
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                AutoFinish();
+            }
+        }, tiempoAutoFinish);
+
+
         //lo primero es crear un broadcast receiver para que desde el service no sobligue a cerralas si hay una nueva NOTIF:
         //https://stackoverflow.com/questions/25841544/how-to-finish-activity-from-service-class-in-android
 
@@ -268,14 +280,22 @@ public class AlarmReceiverActivity extends Activity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN | 
         	    WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD | 
         	    WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | 
-        	    WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON,
+        	    WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON  ,
         	    WindowManager.LayoutParams.FLAG_FULLSCREEN | 
         	    WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD | 
         	    WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | 
-        	    WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+        	    WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON) ;
 
-        this.getWindow().addFlags(WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY);
+
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+
+
+
         setContentView(R.layout.alarm);
+
+
 
 
 
@@ -316,6 +336,8 @@ public class AlarmReceiverActivity extends Activity {
 
             //rellenamos como en Main
 
+
+
             String notificationTitle = extrasfromService.getString(Notification.EXTRA_TITLE);
             int notificationIcon = extrasfromService.getInt(Notification.EXTRA_SMALL_ICON);
             Bitmap notificationLargeIcon = ((Bitmap) extrasfromService.getParcelable(Notification.EXTRA_LARGE_ICON));
@@ -345,8 +367,16 @@ public class AlarmReceiverActivity extends Activity {
             CharSequence notificationText = extrasfromService.getCharSequence(Notification.EXTRA_TEXT);
            // CharSequence notificationSubText = extrasfromService.getCharSequence(Notification.EXTRA_SUB_TEXT);//no manda anda en whastapp akl menos
 
-            title.setText(notificationTitle);
-            text.setText(notificationText);
+
+            if (notificationTitle!= null){
+                title.setText(notificationTitle);
+            }
+
+            if (notificationText !=null){
+
+                text.setText(notificationText);
+            }
+
             //guardamos el ultimo text
 
             lastWhaatspptext= ""+text.getText();
@@ -450,13 +480,24 @@ public class AlarmReceiverActivity extends Activity {
 
     }
 
+    private void AutoFinish() {
+
+        if (wl.isHeld())
+            wl.release();
+
+
+
+        this.finish();
+    }
+
     private void AutoLock() {
 
         if (wl.isHeld())
             wl.release();
 
 
-        this.finish();
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+      //  this.finish();
         //mDPM.lockNow();//mejor no o no funciona luego lahuella
     }
 
@@ -502,6 +543,8 @@ public class AlarmReceiverActivity extends Activity {
 
     @Override
     protected void onResume() {
+
+        Log.i(TAG,"onresume");
         super.onResume();
         FullScreencall();
 
@@ -519,6 +562,9 @@ public class AlarmReceiverActivity extends Activity {
             int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
             decorView.setSystemUiVisibility(uiOptions);
         }
+
+
+      //  getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
 
