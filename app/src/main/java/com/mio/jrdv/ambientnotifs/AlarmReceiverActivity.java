@@ -14,6 +14,7 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
@@ -258,9 +259,10 @@ public class AlarmReceiverActivity extends Activity {
 
 
 
+
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
 		wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "My Tag");
-		wl.acquire();
+	     wl.acquire();
         
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN | 
@@ -271,6 +273,8 @@ public class AlarmReceiverActivity extends Activity {
         	    WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD | 
         	    WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | 
         	    WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+
+        this.getWindow().addFlags(WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY);
         setContentView(R.layout.alarm);
 
 
@@ -487,6 +491,35 @@ public class AlarmReceiverActivity extends Activity {
     }
 
 
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////PARA que esconda el navigation bar//////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    //https://stackoverflow.com/questions/21724420/how-to-hide-navigation-bar-permanently-in-android-activity
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FullScreencall();
+
+
+
+    }
+
+    public void FullScreencall() {
+        if(Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) { // lower api
+            View v = this.getWindow().getDecorView();
+            v.setSystemUiVisibility(View.GONE);
+        } else if(Build.VERSION.SDK_INT >= 19) {
+            //for new api versions.
+            View decorView = getWindow().getDecorView();
+            int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+            decorView.setSystemUiVisibility(uiOptions);
+        }
+    }
 
 
 /*

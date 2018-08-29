@@ -367,7 +367,36 @@ Y
             telegram.setEnabled(false);
 
             //lo guardamos a NO
-            mPrefs.edit().putBoolean("whastapp",false).apply();
+            mPrefs.edit().putBoolean("Telegram",false).apply();
+
+
+            e.printStackTrace();
+        }
+
+
+        // TELEGRAM X:
+
+        try {
+
+
+            appIconTelegram =getActivity().getPackageManager().getApplicationIcon("org.thunderdog.challegram");
+
+
+
+            Preference telegram = findPreference("Telegram");
+            telegram.setIcon(appIconTelegram);
+            //lo guardamos a SI
+            mPrefs.edit().putBoolean("Telegram",true).apply();
+            telegram.setEnabled(true);
+
+        } catch (PackageManager.NameNotFoundException e) {
+
+            //si no existe el icono ..tampoc existe la app
+            Preference telegram = findPreference("Telegram");
+            telegram.setEnabled(false);
+
+            //lo guardamos a NO
+            mPrefs.edit().putBoolean("Telegram",false).apply();
 
 
             e.printStackTrace();

@@ -191,7 +191,7 @@ KEY: 0|com.whatsapp|1|34639689367@s.whatsapp.net|10185 ID: 1 Posted by: com.what
 
 
 
-            if (mPrefs.getBoolean("Telegram",false) && pacakgenamenotif.equals("org.telegram.messenger") && sbn.getId()==1) {
+            if (mPrefs.getBoolean("Telegram",false) && (pacakgenamenotif.equals("org.telegram.messenger") && sbn.getId()==1 || pacakgenamenotif.equals("org.thunderdog.challegram") && sbn.getId()==1 ) ) {
 
                 Log.i("INFO", "era un telegram con  ID=1 lo descartamos!!!");
 
@@ -199,6 +199,12 @@ KEY: 0|com.whatsapp|1|34639689367@s.whatsapp.net|10185 ID: 1 Posted by: com.what
 
             }
 
+
+
+            //Y EL TELEGRAM X IGUAL
+
+            //KEY: 0|org.thunderdog.challegram|5|null|10202 ID: 5 Posted by: org.thunderdog.challegram at: 1535570658980
+            //KEY: 0|org.thunderdog.challegram|1|null|10202 ID: 1 Posted by: org.thunderdog.challegram at: 1535570659183
 
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             /////////////////////////////////////para detectar sbn duplicado en GMAIL///////////////////////////// ///// ////////////////////
@@ -736,7 +742,7 @@ Constant Value: 4 (0x00000004
             return true;
         }
 
-        else if (mPrefs.getBoolean("Telegram",false) && packname.equals("org.telegram.messenger")) {
+        else if (mPrefs.getBoolean("Telegram",false) && (packname.equals("org.telegram.messenger") ||packname.equals("org.thunderdog.challegram"))  ) {
 
             Log.i("INFO","era un telegram!");
 
