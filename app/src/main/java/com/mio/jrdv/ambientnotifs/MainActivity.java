@@ -1,8 +1,25 @@
 package com.mio.jrdv.ambientnotifs;
 
+import android.animation.ObjectAnimator;
+import android.content.pm.PackageManager;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewConfiguration;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.animation.Animation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mio.jrdv.ambientnotifs.textclock.TextClock;
@@ -29,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     //v09 AÑADIDO AUTODEJAR APAGAR PANTALLA A LSO 5 SEGS Y A LOS 12 SE AUTO ELIMINA(SUELEN SER 5+6 DE SCREENTIMOUT DEL LOCK
     //OJO PARA QUE NOP SALGAN LAS HEADS UP SI HAY MAS DE UNA NOTIFI HAY QUE HACERLO EN OREO EN AJUSTES DE AL APK NO MOISTRAR EN BLOQUEO
 
+    //v091 CAMBIADO XML DE PRESENTACION Y DETCETA CLICK PARA HACER UN DIMISS
 
 /*
     //para el device manager
@@ -49,13 +67,18 @@ public class MainActivity extends AppCompatActivity {
     protected TextView title;
     protected TextView text;
     protected TextView subtext;
-    protected ImageView largeIcon;
+    protected ImageView largeIcon, appicon;
+    protected ImageView Fondodifuminar;
 
 
     //para el reloj color
 
 
     private TextClock reloj;
+
+
+    // variable to track event time
+    private long mLastClickTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,32 +90,153 @@ public class MainActivity extends AppCompatActivity {
 
 
         super.onCreate(savedInstanceState);
-       // setContentView(R.layout.activity_main);
 
 
 
 
-        setContentView(R.layout.settings);
 
+    setContentView(R.layout.settings);
 
+/*
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /////////////////////////////////PARA PROBAR LA VENTANA NOTIF////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
-        setContentView(R.layout.alarm);
+
+
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN |
+                        WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON  ,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN |
+                        WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON) ;
+
+
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+
+
+
+
+        if(Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) { // lower api
+            View v = this.getWindow().getDecorView();
+            v.setSystemUiVisibility(View.GONE);
+        } else if(Build.VERSION.SDK_INT >= 19) {
+            //for new api versions.
+            View decorView = getWindow().getDecorView();
+            int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+            decorView.setSystemUiVisibility(uiOptions);
+        }
+
+
+        setContentView(R.layout.alarm2);
 
         //Retrieve ui elements
         title = (TextView) findViewById(R.id.nt_title);
         text = (TextView) findViewById(R.id.nt_text);
         subtext = (TextView) findViewById(R.id.nt_subtext);
         largeIcon = (ImageView) findViewById(R.id.nt_largeicon);
-
+        appicon = (ImageView) findViewById(R.id.iconoApp);
 
         reloj =(TextClock)findViewById(R.id.reloj);
         reloj.setColor(0xff075e54);
 
-        //la ponemos en balnco y negro:
 
+        title.setTextColor(0xff075e54);
+
+
+        Fondodifuminar=(ImageView)findViewById(R.id.fondodifuminar);
+        Fondodifuminar.setAlpha(0.0f);
+
+
+
+        //aqui le damos el click listener al fondo:
+
+        Fondodifuminar.setOnTouchListener(new View.OnTouchListener() {
+            Handler handler = new Handler();
+
+            int numberOfTaps = 0;
+            long lastTapTimeMs = 0;
+            long touchDownMs = 0;
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        touchDownMs = System.currentTimeMillis();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        handler.removeCallbacksAndMessages(null);
+
+                        if ((System.currentTimeMillis() - touchDownMs) > ViewConfiguration.getTapTimeout()) {
+                            //it was not a tap
+
+                            numberOfTaps = 0;
+                            lastTapTimeMs = 0;
+                            break;
+                        }
+
+                        if (numberOfTaps > 0
+                                && (System.currentTimeMillis() - lastTapTimeMs) < ViewConfiguration.getDoubleTapTimeout()) {
+                            numberOfTaps += 1;
+                        } else {
+                            numberOfTaps = 1;
+                        }
+
+                        lastTapTimeMs = System.currentTimeMillis();
+
+                        if (numberOfTaps == 2) {
+
+                            //TODO FINALIZAMOS ..DEBERIA SER LANZAR NOTIF EN APP
+
+                            finish();
+
+                        }
+
+                        if (numberOfTaps ==1){
+
+                            Log.i("INFO", "pulsado para dismiss en DIFUMINAR VIEW");
+                            Fondodifuminar.animate()
+                                    .alpha(1f)
+                                    .setDuration(1500)
+                                    .withEndAction(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            // Do something.
+
+                                            Log.i("INFO", "FINAL DIFUMINAR VIEW");
+
+                                            AutoLock();
+                                        }
+                                    })
+                                    .start();
+                        }
+
+
+
+                }
+
+                return true;
+            }
+        });
+
+        //icono whastspp
+
+        //el icono de wahastpp:
+        Drawable appIcon = null;
+        try {
+            appIcon = getPackageManager().getApplicationIcon("com.whatsapp");
+
+            appicon.setImageDrawable(appIcon);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        //la ponemos en balnco y negro:
+/*
         // Create a paint object with 0 saturation (black and white)
         ColorMatrix cm = new ColorMatrix();
         cm.setSaturation(0);
@@ -102,9 +246,13 @@ public class MainActivity extends AppCompatActivity {
 
         LinearLayout RV=(LinearLayout) findViewById(R.id.relative1);
         RV.setLayerType(View.LAYER_TYPE_HARDWARE,greyscalePaint);
+
 */
 
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 //ver si ya esta habilñotado el acceso a notifs
@@ -351,8 +499,51 @@ private void initializeDeviceAdmin() {
 
     }
 
+    private void AutoLock() {
 
 
+
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        //  this.finish();
+        //mDPM.lockNow();//mejor no o no funciona luego lahuella
+    }
+    /*
+    public void pulsadodifuminar(View view) {
+
+
+
+        // Preventing multiple clicks, using threshold of 1 second
+        if (SystemClock.elapsedRealtime() - mLastClickTime < 1600) {
+            return;
+        }
+        mLastClickTime = SystemClock.elapsedRealtime();
+        Log.i("INFO", "pulsado para dismiss en DIFUMINAR VIEW");
+
+
+        /*
+        // Make the object 50% transparent
+        ObjectAnimator anim = ObjectAnimator.ofFloat(Fondodifuminar,"alpha",1.0f);
+        anim.setDuration(1000); // duration 3 seconds
+        anim.start();
+        */
+/*
+        Fondodifuminar.animate()
+                .alpha(1f)
+                .setDuration(1500)
+                .withEndAction(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Do something.
+
+                        Log.i("INFO", "FINAL DIFUMINAR VIEW");
+
+                        finish();
+                    }
+                })
+                .start();
+    }
+
+*/
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////PARA PASARLO A ALGUN SITIO DE MOMENTO A  MAIN//////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

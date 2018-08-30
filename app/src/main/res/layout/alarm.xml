@@ -44,7 +44,7 @@
             android:paddingRight="10dp"
             android:id="@+id/nt_largeicon"
 
-            android:src="@drawable/ic_launcher_background"/>
+            android:src="@drawable/personicon"/>
          <TextView
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
              android:paddingLeft="40dp"
              android:text="sender del whaatspp si es muy largo deberia ponerlo aqui in pasarse de la  raaa"
              android:maxLines="2"
-             android:layout_alignRight="@+id/nt_appicon"
+             android:layout_alignRight="@+id/iconoApp"
              android:layout_alignLeft="@+id/nt_largeicon"
              android:textColor="@android:color/darker_gray"
              android:layout_margin="20dp"/>

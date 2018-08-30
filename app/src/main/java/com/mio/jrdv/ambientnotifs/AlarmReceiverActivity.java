@@ -18,13 +18,16 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
+import android.os.SystemClock;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -53,6 +56,7 @@ public class AlarmReceiverActivity extends Activity {
     protected ImageView largeIcon;
     protected ImageView FotoWhastapp;
     protected ImageView IconoApp;
+    protected ImageView Fondodifuminar;
 
 
     //icono app
@@ -88,6 +92,14 @@ public class AlarmReceiverActivity extends Activity {
 
     private TextClock reloj;
     private String colorPonerReloj;
+
+
+
+    // variable to track event time
+    private long mLastClickTime = 0;
+
+
+
 
     BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
 
@@ -293,7 +305,11 @@ public class AlarmReceiverActivity extends Activity {
 
 
 
-        setContentView(R.layout.alarm);
+        //setContentView(R.layout.alarm);
+
+        //otro modelo
+
+        setContentView(R.layout.alarm2);
 
 
 
@@ -307,7 +323,84 @@ public class AlarmReceiverActivity extends Activity {
         FotoWhastapp = (ImageView) findViewById(R.id.fotowhastapp);
         IconoApp = (ImageView) findViewById(R.id.iconoApp);
         reloj =(TextClock)findViewById(R.id.reloj);
+        Fondodifuminar=(ImageView)findViewById(R.id.fondodifuminar);
 
+
+        /*
+
+        //aqui le damos el click listener al fondo mejor qeu al aXML onclcik para poder detectar mas de un tap
+
+        Fondodifuminar.setOnTouchListener(new View.OnTouchListener() {
+            Handler handler = new Handler();
+
+            int numberOfTaps = 0;
+            long lastTapTimeMs = 0;
+            long touchDownMs = 0;
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        touchDownMs = System.currentTimeMillis();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        handler.removeCallbacksAndMessages(null);
+
+                        if ((System.currentTimeMillis() - touchDownMs) > ViewConfiguration.getTapTimeout()) {
+                            //it was not a tap
+
+                            numberOfTaps = 0;
+                            lastTapTimeMs = 0;
+                            break;
+                        }
+
+                        if (numberOfTaps > 0
+                                && (System.currentTimeMillis() - lastTapTimeMs) < ViewConfiguration.getDoubleTapTimeout()) {
+                            numberOfTaps += 1;
+                        } else {
+                            numberOfTaps = 1;
+                        }
+
+                        lastTapTimeMs = System.currentTimeMillis();
+
+                         if (numberOfTaps == 2) {
+
+                             //TODO FINALIZAMOS ..DEBERIA SER LANZAR NOTIF EN APP
+
+                             finish();
+
+                            }
+
+                       else  if (numberOfTaps ==1){
+
+                             Log.i("INFO", "pulsado para dismiss en DIFUMINAR VIEW");
+                             Fondodifuminar.animate()
+                                     .alpha(1f)
+                                     .setDuration(1500)
+                                     .withEndAction(new Runnable() {
+                                         @Override
+                                         public void run() {
+                                             // Do something.
+
+                                             Log.i("INFO", "FINAL DIFUMINAR VIEW");
+
+                                             AutoLock();
+                                         }
+                                     })
+                                     .start();
+                         }
+
+
+
+
+                }
+
+                return true;
+            }
+        });
+
+*/
         //aqui le damos el color de la notificacion... no tras recibir intent..mas abajo
        // reloj.setColor(Color.RED);
 
@@ -400,6 +493,8 @@ public class AlarmReceiverActivity extends Activity {
             // TODO poner ok
             reloj.setColor(Color.parseColor(colorPonerReloj));//color wahatspp 0xff075e54
 
+            title.setTextColor(Color.parseColor(colorPonerReloj));
+
             // reloj.setColor(0xff075e54);
 
 
@@ -464,6 +559,8 @@ public class AlarmReceiverActivity extends Activity {
 
 
         //la ponemos en balnco y negro:
+        //no!!!
+        /*
 
         // Create a paint object with 0 saturation (black and white)
         ColorMatrix cm = new ColorMatrix();
@@ -476,6 +573,8 @@ public class AlarmReceiverActivity extends Activity {
         RV.setLayerType(View.LAYER_TYPE_HARDWARE,greyscalePaint);
 
       //  v.setLayerType(LAYER_TYPE_HARDWARE, greyscalePaint);
+
+*/
 
 
     }
@@ -518,20 +617,30 @@ public class AlarmReceiverActivity extends Activity {
 
     }
 
-
+/*
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         Log.i("INFO", "pulsado para dismiss");
 
+        //mejor lo hago en el click de la view Difuminar
 
 
-        this.finish();
+
+        //lo hacemos animado
+
+        TranslateAnimation animate = new TranslateAnimation(0,0,0,Fondodifuminar.getHeight());
+        animate.setDuration(500);
+        animate.setFillAfter(true);
+        Fondodifuminar.startAnimation(animate);
+        Fondodifuminar.setVisibility(View.VISIBLE);
+
+       // this.finish();
        // mDPM.lockNow();//mejor no o no funciona luego lahuella
 
         return false;
     }
 
-
+*/
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////PARA que esconda el navigation bar//////////////////////////////////////////////////////////////
@@ -638,4 +747,54 @@ public class AlarmReceiverActivity extends Activity {
 
         mLocalBroadcastManager.unregisterReceiver(mBroadcastReceiver);
     }
+
+    public void pulsadodifuminar(View view) {
+
+
+
+
+
+        // Preventing multiple clicks, using threshold of 1 second
+        if (SystemClock.elapsedRealtime() - mLastClickTime < 1600) {
+            return;
+        }
+        mLastClickTime = SystemClock.elapsedRealtime();
+        Log.i("INFO", "pulsado para dismiss en DIFUMINAR VIEW");
+        //desahbilitamos el poder volver a pulsar
+
+        Fondodifuminar.setClickable(false);
+        Fondodifuminar.setEnabled(false);
+
+
+        /*
+        // Make the object 50% transparent
+        ObjectAnimator anim = ObjectAnimator.ofFloat(Fondodifuminar,"alpha",1.0f);
+        anim.setDuration(1000); // duration 3 seconds
+        anim.start();
+        */
+
+        Fondodifuminar.animate()
+                .alpha(1f)
+                .setDuration(1500)
+                .withEndAction(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Do something.
+
+                        Log.i("INFO", "FINAL DIFUMINAR VIEW");
+
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                finish();
+                            }
+                        }, 6000);
+                    }
+                })
+                .start();
+
+    }
+
+
 }

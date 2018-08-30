@@ -26,10 +26,10 @@ public class TextClock extends LinearLayout {
     private Calendar mTime;
     private TextView tvHour;
     private TextView tvMinute;
-    private TextView tvDay;
-    private TextView tvMonth;
+  //  private TextView tvDay;
+   // private TextView tvMonth;
     private TextView tvSecond;
-    private TextView tvMeridian;
+   // private TextView tvMeridian;
     private boolean is24HourFormat;
     private boolean showSecond;
 
@@ -64,9 +64,9 @@ public class TextClock extends LinearLayout {
 
         tvHour = (TextView) findViewById(R.id.hour);
         tvMinute = (TextView) findViewById(R.id.minute);
-        tvDay = (TextView) findViewById(R.id.day);
-        tvMonth = (TextView) findViewById(R.id.month);
-        tvMeridian = (TextView) findViewById(R.id.meridian);
+      //  tvDay = (TextView) findViewById(R.id.day);
+        //tvMonth = (TextView) findViewById(R.id.month);
+       // tvMeridian = (TextView) findViewById(R.id.meridian);
         tvSecond = (TextView) findViewById(R.id.second);
         int color;
 
@@ -99,11 +99,11 @@ public class TextClock extends LinearLayout {
     public void setColor(int color) {
         tvHour.setTextColor(color);
         tvMinute.setTextColor(color);
-        tvDay.setTextColor(color);
-        tvMonth.setTextColor(color);
-        tvMeridian.setTextColor(color);
+     //   tvDay.setTextColor(color);
+     //   tvMonth.setTextColor(color);
+//        tvMeridian.setTextColor(color);
         tvSecond.setTextColor(color);
-        findViewById(R.id.separador).setBackgroundColor(color);
+     //   findViewById(R.id.separador).setBackgroundColor(color);
     }
 
     private void createTime(String timeZone) {
@@ -122,9 +122,9 @@ public class TextClock extends LinearLayout {
 
         tvMinute.setText(DateFormat.format("mm", mTime));
         tvSecond.setText(String.valueOf(mTime.get(Calendar.SECOND)));
-        tvMeridian.setText(DateFormat.format("a", mTime));
+        //tvMeridian.setText(DateFormat.format("a", mTime));
 
-        tvDay.setText(String.valueOf(mTime.get(Calendar.DAY_OF_MONTH)));
-        tvMonth.setText(DateFormat.format("MMM", mTime));
+      //  tvDay.setText(String.valueOf(mTime.get(Calendar.DAY_OF_MONTH)));
+      //  tvMonth.setText(DateFormat.format("MMM", mTime));
     }
 }
