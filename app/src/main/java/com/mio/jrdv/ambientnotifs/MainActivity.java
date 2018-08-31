@@ -1,25 +1,9 @@
 package com.mio.jrdv.ambientnotifs;
 
-import android.animation.ObjectAnimator;
-import android.content.pm.PackageManager;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
-import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewConfiguration;
-import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mio.jrdv.ambientnotifs.textclock.TextClock;
@@ -47,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     //OJO PARA QUE NOP SALGAN LAS HEADS UP SI HAY MAS DE UNA NOTIFI HAY QUE HACERLO EN OREO EN AJUSTES DE AL APK NO MOISTRAR EN BLOQUEO
 
     //v091 CAMBIADO XML DE PRESENTACION Y DETCETA CLICK PARA HACER UN DIMISS
+    //v0915 CAMBIADA SINGÑLE TAP DISMIS Y DOBLE TAP FINISH
 
 /*
     //para el device manager
@@ -79,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
     // variable to track event time
     private long mLastClickTime = 0;
+    private boolean issingleclicked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
 
-
+        issingleclicked=false;
 
 
     setContentView(R.layout.settings);
@@ -197,9 +183,10 @@ public class MainActivity extends AppCompatActivity {
 
                         }
 
-                        if (numberOfTaps ==1){
+                        if (numberOfTaps ==1 && !issingleclicked){
 
                             Log.i("INFO", "pulsado para dismiss en DIFUMINAR VIEW");
+                            issingleclicked=true;
                             Fondodifuminar.animate()
                                     .alpha(1f)
                                     .setDuration(1500)

@@ -10,15 +10,11 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
-import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
-import android.os.SystemClock;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -27,9 +23,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mio.jrdv.ambientnotifs.textclock.TextClock;
@@ -97,6 +91,7 @@ public class AlarmReceiverActivity extends Activity {
 
     // variable to track event time
     private long mLastClickTime = 0;
+    private boolean issingleclicked;
 
 
 
@@ -326,9 +321,8 @@ public class AlarmReceiverActivity extends Activity {
         Fondodifuminar=(ImageView)findViewById(R.id.fondodifuminar);
 
 
-        /*
 
-        //aqui le damos el click listener al fondo mejor qeu al aXML onclcik para poder detectar mas de un tap
+        //aqui le damos el click listener al fondo:
 
         Fondodifuminar.setOnTouchListener(new View.OnTouchListener() {
             Handler handler = new Handler();
@@ -364,33 +358,33 @@ public class AlarmReceiverActivity extends Activity {
 
                         lastTapTimeMs = System.currentTimeMillis();
 
-                         if (numberOfTaps == 2) {
+                        if (numberOfTaps == 2) {
 
-                             //TODO FINALIZAMOS ..DEBERIA SER LANZAR NOTIF EN APP
+                            //TODO FINALIZAMOS ..DEBERIA SER LANZAR NOTIF EN APP
 
-                             finish();
+                            finish();
 
-                            }
+                        }
 
-                       else  if (numberOfTaps ==1){
+                        if (numberOfTaps ==1 && !issingleclicked){
 
-                             Log.i("INFO", "pulsado para dismiss en DIFUMINAR VIEW");
-                             Fondodifuminar.animate()
-                                     .alpha(1f)
-                                     .setDuration(1500)
-                                     .withEndAction(new Runnable() {
-                                         @Override
-                                         public void run() {
-                                             // Do something.
+                            Log.i("INFO", "pulsado para dismiss en DIFUMINAR VIEW");
+                            issingleclicked=true;
+                            Fondodifuminar.animate()
+                                    .alpha(1f)
+                                    .setDuration(1500)
+                                    .withEndAction(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            // Do something.
 
-                                             Log.i("INFO", "FINAL DIFUMINAR VIEW");
+                                            Log.i("INFO", "FINAL DIFUMINAR VIEW");
 
-                                             AutoLock();
-                                         }
-                                     })
-                                     .start();
-                         }
-
+                                            AutoLock();
+                                        }
+                                    })
+                                    .start();
+                        }
 
 
 
@@ -400,7 +394,6 @@ public class AlarmReceiverActivity extends Activity {
             }
         });
 
-*/
         //aqui le damos el color de la notificacion... no tras recibir intent..mas abajo
        // reloj.setColor(Color.RED);
 
@@ -748,6 +741,7 @@ public class AlarmReceiverActivity extends Activity {
         mLocalBroadcastManager.unregisterReceiver(mBroadcastReceiver);
     }
 
+    /*
     public void pulsadodifuminar(View view) {
 
 
@@ -772,7 +766,7 @@ public class AlarmReceiverActivity extends Activity {
         anim.setDuration(1000); // duration 3 seconds
         anim.start();
         */
-
+/*
         Fondodifuminar.animate()
                 .alpha(1f)
                 .setDuration(1500)
@@ -795,6 +789,6 @@ public class AlarmReceiverActivity extends Activity {
                 .start();
 
     }
-
+*/
 
 }
