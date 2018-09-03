@@ -120,7 +120,7 @@ public class TextClock extends LinearLayout {
                 mTime.get(Calendar.HOUR_OF_DAY) :
                 mTime.get(Calendar.HOUR)));
 
-        tvMinute.setText(DateFormat.format("mm", mTime));
+        tvMinute.setText(":"+DateFormat.format("mm", mTime));
         tvSecond.setText(String.valueOf(mTime.get(Calendar.SECOND)));
         //tvMeridian.setText(DateFormat.format("a", mTime));
 

@@ -265,6 +265,53 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
              android.subText=interamaster@gmail.com,
              android.bigText=hola asunto  hoa cuerpo,
 
+
+    MANDA 1 KEY AL PRINICIPIO PERO DA ERROR: Not allowed to write file descriptors here SI ES EL PRIMER MENSAJE!!!
+
+   KEY: 0|com.google.android.gm|0|gig:2060997336:^sq_ig_i_personal|10120 ID: 0 Posted by: com.google.android.gm at: 1535994595967
+
+
+   EL SEGUNDO MENSAJE NO DA ERROR PERO SOLO MANDA EL TITLE
+
+    I/NOTIFSService: SBN notification extras :Bundle
+    [{android.title=2 mensajes nuevos,
+     android.textLines=[Ljava.lang.CharSequence;@2283619,
+      android.subText=interamaster@gmail.com,
+      android.template=android.app.Notification$InboxStyle,
+       android.showChronometer=false,
+       android.icon=2130838004,
+        android.text=null,
+        android.progress=0,
+         android.progressMax=0,
+          android.showWhen=true,
+           android.rebuild.applicationInfo=ApplicationInfo{bf0d6de com.google.android.gm},
+            android.people=[Ljava.lang.String;@4b750bf,
+            android.infoText=null,
+             android.originatingUserId=0,
+             android.progressIndeterminate=false}]
+
+09-03 19:12:50.882 14240-14253/com.mio.jrdv.ambientnotifs I/NOTIFSService: SBN notification
+:Notification(pri=0
+contentView=com.google.android.gm/0x10900b4
+ vibrate=null
+  sound=content://settings/system/notification_sound tick
+  defaults=0x4
+  flags=0x219
+  color=0xffdb4437
+   category=email
+    groupKey=gig:2060997336:^sq_ig_i_personal
+    sortKey=92233705008600077230
+    vis=PRIVATE publicVersion=Notification(pri=0
+    contentView=com.google.android.gm/0x10900b4
+    vibrate=null sound=content://settings/system/notification_sound tick
+     defaults=0x4 flags=0x19 color=0xffdb4437 category=email vis=PUBLIC secFlags=0x0 secPriority=0) secFlags=0x0 secPriority=0)
+
+   I/NEW: ----------
+ SBN APPNAME:com.google.android.gm
+ SBN notif color:#D44638
+ I/Title: 2 mensajes nuevos
+  I/FINAL: ----------
+
          */
 
         Drawable appIconGmail = null;

@@ -721,6 +721,7 @@ Constant Value: 4 (0x00000004
         if (mPrefs.getBoolean("Whastapp",false) && packname.equals("com.whatsapp")) {
 
             Log.i("INFO","era un wahstapp!");
+            colorNotif="#25d366";
 
             return true;
         }
@@ -728,6 +729,7 @@ Constant Value: 4 (0x00000004
         else if (mPrefs.getBoolean("Gmail",false) && packname.equals("com.google.android.gm")) {
 
             Log.i("INFO","era un gmail!");
+            colorNotif="#D44638";
 
             return true;
         }
@@ -735,6 +737,7 @@ Constant Value: 4 (0x00000004
         else if (mPrefs.getBoolean("Outlook",false) && packname.equals("com.microsoft.office.outlook")) {
 
             Log.i("INFO","era un outlook!");
+            colorNotif="#0072C6";
 
             return true;
         }
@@ -742,6 +745,7 @@ Constant Value: 4 (0x00000004
         else if (mPrefs.getBoolean("Telegram",false) && (packname.equals("org.telegram.messenger") ||packname.equals("org.thunderdog.challegram"))  ) {
 
             Log.i("INFO","era un telegram!");
+            colorNotif="#0072C6";
 
             return true;
         }
@@ -783,11 +787,15 @@ Constant Value: 4 (0x00000004
 
 
         pacakgenamenotif = sbn.getPackageName();
+
+        /*
+        //PASO EL COLOR A MANO EN isNotif4packnamehabilitada
+
         int colordelanotif=sbn.getNotification().color;//esto da valores extraños ?¿?¿ ej:SBN notif color:-16746281
 
         colorNotif = String.format("#%06X", (0xFFFFFF & colordelanotif));
         Log.i(TAG, "color en hex:"+colorNotif);
-
+        */
 
         String ticker = "";
         Log.i(TAG, "SBN notification extras :" + sbn.getNotification().extras);
