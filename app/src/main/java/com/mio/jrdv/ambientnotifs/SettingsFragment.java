@@ -266,7 +266,29 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
              android.bigText=hola asunto  hoa cuerpo,
 
 
-    MANDA 1 KEY AL PRINICIPIO PERO DA ERROR: Not allowed to write file descriptors here SI ES EL PRIMER MENSAJE!!!
+    MANDA 1 KEY AL PRINICIPIO PERO DA ERROR: Not allowed to write file descriptors here SI ES EL PRIMER MENSAJE!!!:
+
+
+    I/NOTIFSService: SBN notification extras :Bundle[{android.title=mí, android.subText=interamaster@gmail.com, android.template=android.app.Notification$BigTextStyle, android.showChronometer=false, android.icon=2130837958, android.text=ASUNTO, android.progress=0, android.progressMax=0, android.showWhen=true, android.rebuild.applicationInfo=ApplicationInfo{45055e6 com.google.android.gm}, android.people=[Ljava.lang.String;@644d727, android.largeIcon=android.graphics.Bitmap@407add4, android.bigText=ASUNTO
+                                                                           TEXTO 1 SOLO, android.infoText=null, android.wearable.EXTENSIONS=Bundle[mParcelledData.dataSize=1500], android.originatingUserId=0, android.progressIndeterminate=false}]
+09-03 23:33:13.139 16258-18793/com.mio.jrdv.ambientnotifs I/NOTIFSService: SBN notification  :Notification(pri=0 contentView=com.google.android.gm/0x10900b4 vibrate=null sound=content://settings/system/notification_sound tick defaults=0x4 flags=0x219 color=0xffdb4437 category=email groupKey=gig:2060997336:^sq_ig_i_personal sortKey=92233705008443867500 actions=2 vis=PRIVATE publicVersion=Notification(pri=0 contentView=com.google.android.gm/0x10900b4 vibrate=null sound=content://settings/system/notification_sound tick defaults=0x4 flags=0x19 color=0xffdb4437 category=email vis=PUBLIC secFlags=0x0 secPriority=0) secFlags=0x0 secPriority=0)
+
+
+
+  I/NEW: ----------
+ I/NOTIFSService: SBN APPNAME:com.google.android.gm
+  I/NOTIFSService: SBN notif color:#D44638
+  I/Title: mí
+ I/TEXT: ASUNTO
+0 I/BIGTEXT: ASUNTO
+                                                                     TEXTO 1 SOLO
+  I/FINAL: ----------
+
+
+
+
+
+
 
    KEY: 0|com.google.android.gm|0|gig:2060997336:^sq_ig_i_personal|10120 ID: 0 Posted by: com.google.android.gm at: 1535994595967
 
@@ -303,8 +325,7 @@ contentView=com.google.android.gm/0x10900b4
     sortKey=92233705008600077230
     vis=PRIVATE publicVersion=Notification(pri=0
     contentView=com.google.android.gm/0x10900b4
-    vibrate=null sound=content://settings/system/notification_sound tick
-     defaults=0x4 flags=0x19 color=0xffdb4437 category=email vis=PUBLIC secFlags=0x0 secPriority=0) secFlags=0x0 secPriority=0)
+    vibrate=null sound=content://settings/system/notification_sound tick defaults=0x4 flags=0x19 color=0xffdb4437 category=email vis=PUBLIC secFlags=0x0 secPriority=0) secFlags=0x0 secPriority=0)
 
    I/NEW: ----------
  SBN APPNAME:com.google.android.gm
@@ -312,7 +333,7 @@ contentView=com.google.android.gm/0x10900b4
  I/Title: 2 mensajes nuevos
   I/FINAL: ----------
 
-         */
+     */
 
         Drawable appIconGmail = null;
         try {

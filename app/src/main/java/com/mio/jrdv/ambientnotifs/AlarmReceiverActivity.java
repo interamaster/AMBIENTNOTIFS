@@ -419,15 +419,29 @@ public class AlarmReceiverActivity extends Activity {
 
 
 
+            Log.i(TAG, "SBN notification  :" +    extrasfromService.getBundle("bundle"));
 
             //rellenamos como en Main
 
+            /*
+            //PASANDO UN BUNDLE ON EXTRAS NO SE SACARLOS
+            String titulodesdebunlde=extrasfromService.getBundle("bundle").getString(Notification.EXTRA_TITLE);
+            int notificationIcondesdebundle = extrasfromService.getBundle("bundle").getInt(Notification.EXTRA_SMALL_ICON);
+            Bitmap LargeIcondesdebundle = ((Bitmap) extrasfromService.getBundle("bundle").getParcelable(Notification.EXTRA_LARGE_ICON));
+           */
 
-
+            //METODO ORIGINAL PASANDO EL EXTRA COMPLETO:
+            /*
             String notificationTitle = extrasfromService.getString(Notification.EXTRA_TITLE);
             int notificationIcon = extrasfromService.getInt(Notification.EXTRA_SMALL_ICON);
             Bitmap notificationLargeIcon = ((Bitmap) extrasfromService.getParcelable(Notification.EXTRA_LARGE_ICON));
+            */
 
+            //METODO SACANDO EL EXTRA DE CADA COSA
+
+            String notificationTitle = extrasfromService.getString("EXTRA_TITLE");
+
+            Bitmap notificationLargeIcon = ((Bitmap) extrasfromService.getParcelable("fotoCONTACTO"));
 
             /*
             //foto ..no simepore tiene  la recueprpo del intent si existe mejor ver FORMA 3
@@ -450,7 +464,9 @@ public class AlarmReceiverActivity extends Activity {
 
             */
 
-            CharSequence notificationText = extrasfromService.getCharSequence(Notification.EXTRA_TEXT);
+            //CharSequence notificationText = extrasfromService.getCharSequence(Notification.EXTRA_TEXT);
+
+            CharSequence notificationText = extrasfromService.getCharSequence("EXTRA_TEXT");
            // CharSequence notificationSubText = extrasfromService.getCharSequence(Notification.EXTRA_SUB_TEXT);//no manda anda en whastapp akl menos
 
 

@@ -396,7 +396,50 @@ KEY: 0|com.whatsapp|1|34639689367@s.whatsapp.net|10185 ID: 1 Posted by: com.what
                    // dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     //MEJO ASI CIERRA LA OTRA SI EXISTIA
                     dialogIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    dialogIntent.putExtras(mNotification.extras);//esto no pasa el picture de la foto si la mandan ?¿?
+
+                    //PASANDO EL INTENT CON EXTRAS DEL TIRON FALLA EN GMAIL
+
+                    //dialogIntent.putExtras(mNotification.extras);//esto no pasa el picture de la foto si la mandan ?¿?
+
+                    //ASI QUE LO PONEMOS EN UN BUNDLE:NO FUNCIONA O NO SE SACARLO DE UN BUNDLE
+                    /*
+                    Bundle bundle =new Bundle();
+                    bundle.putBundle("bundle",sbn.getNotification().extras);
+
+                    dialogIntent.putExtra("bundle",bundle);
+                    */
+
+                    //ASI QUE PASAMOS LA FOTO Y EL TITULO Y EL TEXT
+
+                    String notificationTitle = sbn.getNotification().extras.getString(Notification.EXTRA_TITLE);
+
+                    //y lo ponemos de extra en el intent:
+                    dialogIntent.putExtra("EXTRA_TITLE",notificationTitle);
+
+                    CharSequence notificationText = sbn.getNotification().extras.getCharSequence(Notification.EXTRA_TEXT);
+
+                    //y lo ponemos de extra en el intent:
+                    dialogIntent.putExtra("EXTRA_TEXT",notificationText);
+
+
+                    if (sbn.getNotification().extras.containsKey(Notification.EXTRA_LARGE_ICON)) {
+
+
+                        Bitmap FOTOCONTACTO = (Bitmap) mNotification.extras.get(Notification.EXTRA_LARGE_ICON);
+
+                        //si queremos comprimir:
+                        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                        FOTOCONTACTO.compress(Bitmap.CompressFormat.PNG, 10, byteArrayOutputStream);
+
+
+
+                        //y lo ponemos de extra en el intent:
+                        dialogIntent.putExtra("fotoCONTACTO",FOTOCONTACTO);
+
+
+                    }
+
+
                     dialogIntent.putExtra("packageName", pacakgenamenotif);
                     dialogIntent.putExtra("colornotif",colorNotif);
 
@@ -495,7 +538,43 @@ KEY: 0|com.whatsapp|1|34639689367@s.whatsapp.net|10185 ID: 1 Posted by: com.what
 
                 Intent dialogIntent = new Intent(this, AlarmReceiverActivity.class);
                 dialogIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                dialogIntent.putExtras(sbn.getNotification().extras);//esto no pasa el picture de la foto si la mandan ?¿?
+
+                //PASANDO EL INTENT CON EXTRAS DEL TIRON FALLA EN GMAIL
+                //dialogIntent.putExtras(sbn.getNotification().extras);//esto no pasa el picture de la foto si la mandan ?¿?
+
+
+                //ASI QUE PASAMOS LA FOTO Y EL TITULO Y EL TEXT
+
+                String notificationTitle = sbn.getNotification().extras.getString(Notification.EXTRA_TITLE);
+
+                //y lo ponemos de extra en el intent:
+                dialogIntent.putExtra("EXTRA_TITLE",notificationTitle);
+
+                CharSequence notificationText = sbn.getNotification().extras.getCharSequence(Notification.EXTRA_TEXT);
+
+                //y lo ponemos de extra en el intent:
+                dialogIntent.putExtra("EXTRA_TEXT",notificationText);
+
+
+                if (sbn.getNotification().extras.containsKey(Notification.EXTRA_LARGE_ICON)) {
+
+
+                    Bitmap FOTOCONTACTO = (Bitmap) sbn.getNotification().extras.get(Notification.EXTRA_LARGE_ICON);
+
+                    //si queremos comprimir:
+                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    FOTOCONTACTO.compress(Bitmap.CompressFormat.PNG, 10, byteArrayOutputStream);
+
+
+
+                    //y lo ponemos de extra en el intent:
+                    dialogIntent.putExtra("fotoCONTACTO",FOTOCONTACTO);
+
+
+                }
+
+
+
                 dialogIntent.putExtra("packageName", pacakgenamenotif);
                 dialogIntent.putExtra("colornotif",colorNotif);
                 startActivity(dialogIntent);
