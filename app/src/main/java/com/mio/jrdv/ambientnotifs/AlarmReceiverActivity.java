@@ -470,13 +470,34 @@ public class AlarmReceiverActivity extends Activity {
            // CharSequence notificationSubText = extrasfromService.getCharSequence(Notification.EXTRA_SUB_TEXT);//no manda anda en whastapp akl menos
 
 
+            CharSequence notificationBIGText = extrasfromService.getCharSequence("EXTRA_BIG_TEXT");
+
             if (notificationTitle!= null){
                 title.setText(notificationTitle);
             }
 
-            if (notificationText !=null){
+            if (notificationText !=null ){
 
                 text.setText(notificationText);
+            }
+
+            //si es un outlook recortamos el bigtext del text para tener el contenido del email!!:
+            //en whatspp TET y BIGTEXT son lo mismo!!!!
+
+            if (notificationBIGText !=null && !notificationBIGText.equals(notificationText)){
+
+                //primeor contamos las letras el encbaezado(title)
+                int numerocartacterestitulo=notificationText.length();
+
+                //segundo los restamos empezadon por la izqda
+
+                String cuerpoFinal=notificationBIGText.toString().substring(numerocartacterestitulo);
+
+                //tercero actualizamos le texto del tittulo y el texto
+
+                text.setText(cuerpoFinal);
+                title.setText(notificationText);
+
             }
 
             //guardamos el ultimo text

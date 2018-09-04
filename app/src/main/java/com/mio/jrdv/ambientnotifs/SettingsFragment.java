@@ -469,6 +469,56 @@ Y
 
             e.printStackTrace();
         }
+
+
+
+
+
+        //SPOTIFY
+
+
+
+        /*
+        ID:2131363978
+09-04 18:24:07.787 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: Posted by:com.spotify.music
+09-04 18:24:07.787 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: tickerText:El Cielo Cambió de Forma — Robe
+09-04 18:24:07.787 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: android.title=El Cielo Cambió de Forma
+09-04 18:24:07.787 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: android.subText=Robe Iniesta
+09-04 18:24:07.787 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: android.template=android.app.Notification$MediaStyle
+09-04 18:24:07.787 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: android.showChronometer=false
+09-04 18:24:07.787 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: android.icon=2131231420
+09-04 18:24:07.787 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: android.text=Robe
+09-04 18:24:07.787 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: android.progress=0
+09-04 18:24:07.787 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: android.progressMax=0
+09-04 18:24:07.787 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: android.appInfo=ApplicationInfo{7d2b55d com.spotify.music}
+09-04 18:24:07.787 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: android.showWhen=true
+09-04 18:24:07.787 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: android.largeIcon=android.graphics.Bitmap@ae7bed2
+09-04 18:24:07.787 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: android.infoText=null
+09-04 18:24:07.787 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: android.mediaSession=android.media.session.MediaSession$Token@ebc3b3b
+09-04 18:24:07.787 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: android.progressIndeterminate=false
+09-04 18:24:07.787 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: android.remoteInputHistory=null
+09-04 18:24:07.787 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: android.compactActions=[I@93c6ba3
+09-04 18:24:07.855 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: ID:2131363978
+09-04 18:24:07.855 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: Posted by:com.spotify.music
+09-04 18:24:07.855 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: tickerText:El Cielo Cambió de Forma — Robe
+09-04 18:24:07.855 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: android.title=El Cielo Cambió de Forma
+09-04 18:24:07.856 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: android.subText=Robe Iniesta
+09-04 18:24:07.856 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: android.template=android.app.Notification$MediaStyle
+09-04 18:24:07.856 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: android.showChronometer=false
+09-04 18:24:07.856 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: android.icon=2131231420
+09-04 18:24:07.856 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: android.text=Robe
+09-04 18:24:07.856 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: android.progress=0
+09-04 18:24:07.856 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: android.progressMax=0
+09-04 18:24:07.856 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: android.appInfo=ApplicationInfo{a97aea0 com.spotify.music}
+09-04 18:24:07.856 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: android.showWhen=true
+09-04 18:24:07.859 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: android.largeIcon=android.graphics.Bitmap@98a4a59
+09-04 18:24:07.859 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: android.infoText=null
+09-04 18:24:07.860 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: android.mediaSession=android.media.session.MediaSession$Token@ebc3b3b
+09-04 18:24:07.860 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: android.progressIndeterminate=false
+09-04 18:24:07.861 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: android.remoteInputHistory=null
+09-04 18:24:07.861 3776-3776/com.mio.jrdv.ambientnotifs I/NOTIFSService: android.compactActions=[I@c5ef61e
+09-04 18:24:07.939 3776-3792/com.mio.jrdv.ambientnotifs I/zygote64: NativeAllocBackground concurrent copying GC freed 23069(4MB) AllocSpace objects, 3(60KB) LOS objects, 81% free, 1378KB/7MB, paused 4.295ms total 112.342ms
+         */
     }
 
     @Override

@@ -67,7 +67,7 @@
             android:text="@string/textoejemplo"
             android:maxLines="2"
             android:layout_gravity="center"
-            android:textColor="@android:color/darker_gray"
+            android:textColor="@android:color/holo_red_light"
             android:layout_margin="0dp"/>
 
 

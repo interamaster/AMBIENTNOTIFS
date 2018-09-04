@@ -129,6 +129,9 @@ public class NOTIFSService extends NotificationListenerService{
 
 
             if (!isNotif4packnamehabilitada(pacakgenamenotif)) {
+
+
+
                 return;
             }
 
@@ -213,9 +216,30 @@ KEY: 0|com.whatsapp|1|34639689367@s.whatsapp.net|10185 ID: 1 Posted by: com.what
 
             //TODO
 
+           // KEY: 0|com.google.android.gm|0|gig:2060997336:^sq_ig_i_personal|10139 ID: 0 Posted by: com.google.android.gm at: 1536077157871
+            //KEY: 0|com.google.android.gm|451854755|gig:2060997336:^sq_ig_i_personal|10139 ID: 451854755 Posted by: com.google.android.gm at: 1536077157909
 
 
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////para detectar sbn duplicado en OUTLOOK///////////////////////////// ///// ////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+            //TODO
+
+            //KEY: 0|com.microsoft.office.outlook|2|1:[1:AAMkAD... ID: 2 Posted by: com.microsoft.office.outlook at: 1536074763260
+            //KEY: 0|com.microsoft.office.outlook|1|notifGroup:1|10230 ID: 1 Posted by: com.microsoft.office.outlook at: 1536074763392
+
+
+            //osea debo ignorar el ID1
+
+            if (mPrefs.getBoolean("Outlook",false) && (pacakgenamenotif.equals("com.microsoft.office.outlook") && sbn.getId()==1 )) {
+
+                Log.i("INFO", "era un OUTLOOK con  ID=1 lo descartamos!!!");
+
+                return;
+
+            }
 
 
 
@@ -416,6 +440,16 @@ KEY: 0|com.whatsapp|1|34639689367@s.whatsapp.net|10185 ID: 1 Posted by: com.what
                     //y lo ponemos de extra en el intent:
                     dialogIntent.putExtra("EXTRA_TITLE",notificationTitle);
 
+
+                    //EL BIG TEXT SOLO LO USA OUTLOOK:
+                    CharSequence notificationBigTitle = sbn.getNotification().extras.getCharSequence(Notification.EXTRA_BIG_TEXT);
+
+                    //y lo ponemos de extra en el intent:
+                    dialogIntent.putExtra("EXTRA_BIG_TEXT",notificationBigTitle);
+
+
+
+
                     CharSequence notificationText = sbn.getNotification().extras.getCharSequence(Notification.EXTRA_TEXT);
 
                     //y lo ponemos de extra en el intent:
@@ -427,17 +461,24 @@ KEY: 0|com.whatsapp|1|34639689367@s.whatsapp.net|10185 ID: 1 Posted by: com.what
 
                         Bitmap FOTOCONTACTO = (Bitmap) mNotification.extras.get(Notification.EXTRA_LARGE_ICON);
 
-                        //si queremos comprimir:
-                        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                        FOTOCONTACTO.compress(Bitmap.CompressFormat.PNG, 10, byteArrayOutputStream);
+                        if (FOTOCONTACTO!=null) {
+
+                            //si queremos comprimir:
+
+                            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                            FOTOCONTACTO.compress(Bitmap.CompressFormat.PNG, 10, byteArrayOutputStream);
 
 
+                            //y lo ponemos de extra en el intent:
+                            dialogIntent.putExtra("fotoCONTACTO", FOTOCONTACTO);
 
-                        //y lo ponemos de extra en el intent:
-                        dialogIntent.putExtra("fotoCONTACTO",FOTOCONTACTO);
+                        }
 
 
                     }
+
+
+
 
 
                     dialogIntent.putExtra("packageName", pacakgenamenotif);
@@ -561,14 +602,17 @@ KEY: 0|com.whatsapp|1|34639689367@s.whatsapp.net|10185 ID: 1 Posted by: com.what
 
                     Bitmap FOTOCONTACTO = (Bitmap) sbn.getNotification().extras.get(Notification.EXTRA_LARGE_ICON);
 
-                    //si queremos comprimir:
-                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                    FOTOCONTACTO.compress(Bitmap.CompressFormat.PNG, 10, byteArrayOutputStream);
+
+                    if (FOTOCONTACTO!=null) {
+                        //si queremos comprimir:
+                        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                        FOTOCONTACTO.compress(Bitmap.CompressFormat.PNG, 10, byteArrayOutputStream);
 
 
+                        //y lo ponemos de extra en el intent:
+                        dialogIntent.putExtra("fotoCONTACTO", FOTOCONTACTO);
 
-                    //y lo ponemos de extra en el intent:
-                    dialogIntent.putExtra("fotoCONTACTO",FOTOCONTACTO);
+                    }
 
 
                 }
