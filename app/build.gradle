@@ -28,4 +28,13 @@ dependencies {
 
     implementation 'com.android.support:support-annotations:27.1.1'
 
+    //ANUNCIOS
+
+    implementation 'com.google.firebase:firebase-ads:15.0.1'
+    implementation 'com.google.android.gms:play-services-ads:15.0.0'
+
+
 }
+
+//ANUNCIOS
+apply plugin: 'com.google.gms.google-services'

@@ -26,6 +26,10 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.mio.jrdv.ambientnotifs.textclock.TextClock;
 
 /**
@@ -92,6 +96,11 @@ public class AlarmReceiverActivity extends Activity {
     // variable to track event time
     private long mLastClickTime = 0;
     private boolean issingleclicked;
+
+    //para los anuncios
+
+    private AdView mAdView;
+
 
 
 
@@ -242,6 +251,7 @@ public class AlarmReceiverActivity extends Activity {
 
 
 
+
         //a los 5 segundos se autocerrara si no hemos pulasdo antes
 
         new Handler().postDelayed(new Runnable() {
@@ -306,6 +316,60 @@ public class AlarmReceiverActivity extends Activity {
 
         setContentView(R.layout.alarm2);
 
+
+        //anuncios//////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        //ads initialize:
+
+        // Initialize the Mobile Ads SDK.
+        MobileAds.initialize(this, "ca-app-pub-6700746515260621~7458435159");
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+
+        mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+                Log.i("TAG","Code to be executed when an ad finishes loading.");
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                // Code to be executed when an ad request fails.
+                Log.i("TAG","Code to be executed when an ad request fails.");
+            }
+
+            @Override
+            public void onAdOpened() {
+                // Code to be executed when an ad opens an overlay that
+                // covers the screen.
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                // Code to be executed when the user has left the app.
+
+                Log.i("TAG","Code to be executed when the user has left the app.");
+            }
+
+            @Override
+            public void onAdClosed() {
+                // Code to be executed when when the user is about to return
+                // to the app after tapping on an ad.
+
+                Log.i("TAG","// Code to be executed when when the user is about to return\n" +
+                        "                // to the app after tapping on an ad.");
+
+            }
+        });
+
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -687,6 +751,10 @@ public class AlarmReceiverActivity extends Activity {
         super.onResume();
         FullScreencall();
 
+        if (mAdView != null) {
+            mAdView.resume();
+        }
+
 
 
     }
@@ -776,6 +844,18 @@ public class AlarmReceiverActivity extends Activity {
 
 
         mLocalBroadcastManager.unregisterReceiver(mBroadcastReceiver);
+
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mAdView != null) {
+            mAdView.pause();
+        }
     }
 
     /*

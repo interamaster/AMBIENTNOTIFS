@@ -1,5 +1,12 @@
 <resources>
     <string name="app_name">AMBIENT NOTIFS</string>
+     //ANUNCIOS banner ID
+    <string name="banner_inferior_ad_unit_id">ca-app-pub-6700746515260621/9785215598</string>
+
+
+    <string name="banner_inferior_ad_unit_id_demo_test">ca-app-pub-3940256099942544/6300978111</string>
+
+
 
 
     <string name="apps">Apps</string>
@@ -44,6 +51,7 @@
     <string name="Telegram_title">Telegram</string>
     <string name="textoejemplo">sender del whaatspp si es muy largo deberia ponerlo aqui in pasarse de la raaa</string>
     <string name="textlargoejemplo">ejemplo de u whastapp que recibamos de varias lineas a ver que hace la criatura. Apps that create a notification for the first time will automatically turn the screen on.</string>
+
 
 
 </resources>

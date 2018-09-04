@@ -6,7 +6,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:id="@+id/mainlayout"
-    android:padding="15dp"
+    android:paddingRight="15dp"
+    android:paddingLeft="15dp"
+
     android:background="@android:color/black"
     tools:context="com.mio.jrdv.ambientnotifs.AlarmReceiverActivity">>
 
@@ -90,12 +92,19 @@
 
 
 
-
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="wrap_content"
             android:id="@+id/fotowhastapp"/>
+
+
+
+
+
+
     </LinearLayout>
+
+
 
 
 
@@ -104,9 +113,23 @@
         android:layout_height="match_parent"
         android:background="@android:color/black"
         android:alpha="0.3"
-        android:onClick="pulsadodifuminar"
+
         android:id="@+id/fondodifuminar"/>
 
+
+    <com.google.android.gms.ads.AdView
+
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/banner_inferior_ad_unit_id">
+    </com.google.android.gms.ads.AdView>
 
 
 </FrameLayout>

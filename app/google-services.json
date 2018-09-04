@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1092243924333",
+    "firebase_url": "https://ambient-notifs.firebaseio.com",
+    "project_id": "ambient-notifs",
+    "storage_bucket": "ambient-notifs.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1092243924333:android:315c7fbaa6008f2f",
+        "android_client_info": {
+          "package_name": "com.mio.jrdv.ambientnotifs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1092243924333-g3p17qkrn3hti8adhkf9ebrur4ieqq6b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5sQI0Y5EXMYAa4SMH7hBjl0JstOqEYS8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
