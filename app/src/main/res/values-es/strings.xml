@@ -1,0 +1,57 @@
+<resources>
+    <string name="app_name">AMBIENT NOTIFS</string>
+     //ANUNCIOS banner ID
+    <string name="banner_inferior_ad_unit_id">ca-app-pub-6700746515260621/9785215598</string>
+
+
+    <string name="banner_inferior_ad_unit_id_demo_test">ca-app-pub-3940256099942544/6300978111</string>
+
+
+
+
+    <string name="apps">Apps</string>
+    <string name="options">Options</string>
+     <string name="quiet_time">Tiempo No molestar</string>
+    <string name="select">Selecciona Aplicaciones</string>
+    <string name="inverse">Inverse</string>
+    <string name="uncheck_all">Uncheck all</string>
+    <string name="loading">Loading. Please wait...</string>
+    <string name="quietHours">Habilita no molestar</string>
+    <string name="quietSum">No notificar en las siguinetes horas</string>
+    <string name="startTime">Inicio No molestar</string>
+    <string name="stopTime">Fin No molestar</string>
+    <string name="set">Ajusta</string>
+    <string name="notification_listener_launch">Ahora te saldra una ventana con los ajustes de Notificaciones, si quieres que esto deje de funcionar simplemnte deshabilitame.</string>
+    <string name="notification_listener_warning">Si pulsas OK se abrira la ventana de Ajuste de Notificacioens.Para que esta Aplicacion funcione debes marcar AMBIENT NOTIFS.
+        Android te va avisar de que leer las notificacioens puede capturar datos privados,pero es la unica manera de que funciones y AMBIENT NOTIFS nunca leera el contenido de ellas, solo te los pondra a ti.</string>
+
+
+
+    <string name="stop_alarm">Stop Alarm</string>
+
+
+    <string name="service">Servicio</string>
+    <string name="service_title">AMBIENT NOTIFS Servicio</string>
+    <string name="service_summary">Habilita para poder funcionar</string>
+    <string name="admin_title">Device Admin</string>
+    <string name="admin_summary">Enable to allow shorter screen timeouts</string>
+    <string name="select_apps">Selecciona Aplicaciones</string>
+    <string name="select_apps_summary">Habilita o Deshabilita las aplicaciones que quieres te notifiquen.</string>
+    <string name="wake_length">Screen wake length</string>
+    <string name="delay_title">Delay</string>
+    <string name="AppsToNotify">Eliges Aplicaciones que te notifiquen</string>
+    <string name="help">Info</string>
+    <string name="version">Version</string>
+
+    <string name="whastspp_title">Whatsapp</string>
+    <string name="Gmail_title">Gmail</string>
+    <string name="Outlook_title">Outlok</string>
+    <string name="Telegram_title">Telegram</string>
+    <string name="textoejemplo">sender del whaatspp si es muy largo deberia ponerlo aqui in pasarse de la raaa</string>
+    <string name="textlargoejemplo">ejemplo de u whastapp que recibamos de varias lineas a ver que hace la criatura. Apps that create a notification for the first time will automatically turn the screen on.</string>
+    <string name="info">Pistas</string>
+    <string name="onetap">1 toque para ocultar notificaion y apagar pantalla</string>
+    <string name="twotaps">2 toques para salir a pantalla de bloqueo</string>
+
+
+</resources>

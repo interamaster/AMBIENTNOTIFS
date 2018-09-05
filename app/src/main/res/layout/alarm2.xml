@@ -108,14 +108,6 @@
 
 
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/black"
-        android:alpha="0.3"
-
-        android:id="@+id/fondodifuminar"/>
-
 
     <com.google.android.gms.ads.AdView
 
@@ -131,5 +123,14 @@
         ads:adUnitId="@string/banner_inferior_ad_unit_id">
     </com.google.android.gms.ads.AdView>
 
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/black"
+        android:alpha="0.3"
+
+        android:id="@+id/fondodifuminar"/>
 
 </FrameLayout>

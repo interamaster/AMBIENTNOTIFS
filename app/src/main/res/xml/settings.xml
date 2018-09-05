@@ -4,6 +4,20 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
+
+    <PreferenceCategory android:title="@string/info">
+
+
+        <Preference
+            android:key="onetap"
+            android:title="@string/onetap" />
+        <Preference
+            android:key="twotap"
+            android:title="@string/twotaps" />
+
+    </PreferenceCategory>
+
+
   <PreferenceCategory android:title="@string/service" >
 
         <CheckBoxPreference

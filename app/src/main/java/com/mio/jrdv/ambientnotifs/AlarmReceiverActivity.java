@@ -252,6 +252,7 @@ public class AlarmReceiverActivity extends Activity {
 
 
 
+
         //a los 5 segundos se autocerrara si no hemos pulasdo antes
 
         new Handler().postDelayed(new Runnable() {
@@ -322,50 +323,69 @@ public class AlarmReceiverActivity extends Activity {
 
         //ads initialize:
 
-        // Initialize the Mobile Ads SDK.
-        MobileAds.initialize(this, "ca-app-pub-6700746515260621~7458435159");
 
-        mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+      //  if (!(lasttimepulse7timesadsfree>100) || (System.currentTimeMillis()-(lasttimepulse7timesadsfree+7*24*60*60*1000))>0  )
+            //para probar 60 segs
 
 
-        mAdView.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                // Code to be executed when an ad finishes loading.
-                Log.i("TAG","Code to be executed when an ad finishes loading.");
-            }
+            // Initialize the Mobile Ads SDK.
+            MobileAds.initialize(this, "ca-app-pub-6700746515260621~7458435159");
 
-            @Override
-            public void onAdFailedToLoad(int errorCode) {
-                // Code to be executed when an ad request fails.
-                Log.i("TAG","Code to be executed when an ad request fails.");
-            }
+            mAdView = findViewById(R.id.adView);
+           // AdRequest adRequest = new AdRequest.Builder().build();
+          //  mAdView.loadAd(adRequest);
 
-            @Override
-            public void onAdOpened() {
-                // Code to be executed when an ad opens an overlay that
-                // covers the screen.
-            }
+        //TODO quitar cunado se acaben para test:
 
-            @Override
-            public void onAdLeftApplication() {
-                // Code to be executed when the user has left the app.
+                AdRequest adRequest = new AdRequest.Builder()
+                //.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                // Check the LogCat to get your test device ID
+               // .addTestDevice("29C041BA6E3ACCE9AB0FCBF2740B1E3D")//note 4
+                .addTestDevice("60246B11E032931F244C3FD34084E0D2") //note 8
+                .build();
 
-                Log.i("TAG","Code to be executed when the user has left the app.");
-            }
+            mAdView.loadAd(adRequest);
 
-            @Override
-            public void onAdClosed() {
-                // Code to be executed when when the user is about to return
-                // to the app after tapping on an ad.
 
-                Log.i("TAG","// Code to be executed when when the user is about to return\n" +
-                        "                // to the app after tapping on an ad.");
 
-            }
-        });
+            mAdView.setAdListener(new AdListener() {
+                @Override
+                public void onAdLoaded() {
+                    // Code to be executed when an ad finishes loading.
+                    Log.i("TAG", "Code to be executed when an ad finishes loading.");
+                }
+
+                @Override
+                public void onAdFailedToLoad(int errorCode) {
+                    // Code to be executed when an ad request fails.
+                    Log.i("TAG", "Code to be executed when an ad request fails.");
+                }
+
+                @Override
+                public void onAdOpened() {
+                    // Code to be executed when an ad opens an overlay that
+                    // covers the screen.
+                }
+
+                @Override
+                public void onAdLeftApplication() {
+                    // Code to be executed when the user has left the app.
+
+                    Log.i("TAG", "Code to be executed when the user has left the app.");
+                }
+
+                @Override
+                public void onAdClosed() {
+                    // Code to be executed when when the user is about to return
+                    // to the app after tapping on an ad.
+
+                    Log.i("TAG", "// Code to be executed when when the user is about to return\n" +
+                            "                // to the app after tapping on an ad.");
+
+                }
+            });
+
+
 
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -416,19 +436,26 @@ public class AlarmReceiverActivity extends Activity {
                         if (numberOfTaps > 0
                                 && (System.currentTimeMillis() - lastTapTimeMs) < ViewConfiguration.getDoubleTapTimeout()) {
                             numberOfTaps += 1;
+
+
+
+
                         } else {
                             numberOfTaps = 1;
                         }
 
                         lastTapTimeMs = System.currentTimeMillis();
 
-                        if (numberOfTaps == 2) {
+
+
+                        if (numberOfTaps == 2  ) {
 
                             //TODO FINALIZAMOS ..DEBERIA SER LANZAR NOTIF EN APP
 
                             finish();
 
                         }
+
 
                         if (numberOfTaps ==1 && !issingleclicked){
 
