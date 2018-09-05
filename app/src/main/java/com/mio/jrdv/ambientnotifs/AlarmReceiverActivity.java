@@ -50,7 +50,7 @@ public class AlarmReceiverActivity extends Activity {
     //public static String INTENT_ACTION_NOTIFICATION = "com.mio.jrdv.ambientnotifs";//NUCA LLEGABAN DATOS
     protected TextView title;
     protected TextView text;
-    protected TextView subtext;
+    ///protected TextView subtext;
     protected ImageView largeIcon;
     protected ImageView FotoWhastapp;
     protected ImageView IconoApp;
@@ -180,7 +180,7 @@ public class AlarmReceiverActivity extends Activity {
 
                         lastWhaatspptext= (String) notificationText;
 
-                        subtext.setText(notificationSubText);
+                        //subtext.setText(notificationSubText);
 
                         if (notificationLargeIcon != null) {
                             largeIcon.setImageBitmap(notificationLargeIcon);
@@ -397,7 +397,7 @@ public class AlarmReceiverActivity extends Activity {
         //Retrieve ui elements
         title = (TextView) findViewById(R.id.nt_title);
         text = (TextView) findViewById(R.id.nt_text);
-        subtext = (TextView) findViewById(R.id.nt_subtext);
+       // subtext = (TextView) findViewById(R.id.nt_subtext);
         largeIcon = (ImageView) findViewById(R.id.nt_largeicon);
         FotoWhastapp = (ImageView) findViewById(R.id.fotowhastapp);
         IconoApp = (ImageView) findViewById(R.id.iconoApp);
@@ -616,6 +616,11 @@ public class AlarmReceiverActivity extends Activity {
 
             title.setTextColor(Color.parseColor(colorPonerReloj));
 
+            //si e sgmail se ve muy mal lopongo luego a rojo al ver que apk es
+
+
+
+
             // reloj.setColor(0xff075e54);
 
 
@@ -665,6 +670,15 @@ public class AlarmReceiverActivity extends Activity {
 
         packageNameWhataspp  = FotoFromService.getExtras().getString("packageName");
 
+        //si e sgmail se ve muy mal el colo del texto si es gamil lo pongo rojo;
+
+
+        if (packageNameWhataspp.equals("com.google.android.gm")){
+
+            title.setTextColor(Color.RED);
+            text.setTextColor(Color.LTGRAY);
+        }
+
 
         Log.i(TAG, "el package name es:" + packageNameWhataspp);
 
@@ -706,6 +720,9 @@ public class AlarmReceiverActivity extends Activity {
             wl.release();
 
 
+
+        if (mAdView != null) {
+            mAdView.destroy();}
 
         this.finish();
     }
