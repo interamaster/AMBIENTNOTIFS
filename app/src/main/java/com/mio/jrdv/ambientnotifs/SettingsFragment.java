@@ -12,7 +12,6 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
-import android.util.Log;
 
 import com.mio.jrdv.ambientnotifs.helpers.NotificationServiceHelper;
 
@@ -71,12 +70,12 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
                     mPrefs.edit().putBoolean("Whastapp",true).apply();
 
 
-                    Log.i("Whastapp pref CIERTO:", String.valueOf(mPrefs.getBoolean("Whatsapp",true)));
+                  //  Log.i("Whastapp pref CIERTO:", String.valueOf(mPrefs.getBoolean("Whatsapp",true)));
                 } else {
 
                     //lo guardamos a NO
                     mPrefs.edit().putBoolean("Whastapp",false).apply();
-                    Log.i("Whastapp pref FALSO:", String.valueOf(mPrefs.getBoolean("Whastapp",true)));
+                  //  Log.i("Whastapp pref FALSO:", String.valueOf(mPrefs.getBoolean("Whastapp",true)));
                 }
 
                 // don't update checkbox until we're really active
@@ -589,8 +588,8 @@ Y
         start.setOnPreferenceChangeListener(listener);
         stop.setOnPreferenceChangeListener(listener);
 
-        Log.i("starquiettime: ",mPrefs.getString("startTime","null"));
-        Log.i("stopquiettime:  ",mPrefs.getString("stopTime","null"));
+     //   Log.i("starquiettime: ",mPrefs.getString("startTime","null"));
+     //   Log.i("stopquiettime:  ",mPrefs.getString("stopTime","null"));
 
 
 

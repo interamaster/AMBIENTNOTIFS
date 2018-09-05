@@ -15,7 +15,6 @@ import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
-import android.util.Log;
 import android.view.Display;
 
 import java.io.ByteArrayOutputStream;
@@ -71,7 +70,7 @@ public class NOTIFSService extends NotificationListenerService{
         //mio:
         ServiceYaRunning=false;
 
-        Log.i("INICIO SERVIVIO NOTIFS:", "OK");
+     //   Log.i("INICIO SERVIVIO NOTIFS:", "OK");
 
 
         mContext = this;
@@ -83,7 +82,7 @@ public class NOTIFSService extends NotificationListenerService{
     public void onDestroy() {
         super.onDestroy();
 
-        Log.i("FINAL SERVIVIO NOTIFS:", "OK");
+      //  Log.i("FINAL SERVIVIO NOTIFS:", "OK");
 
 
 
@@ -114,14 +113,14 @@ public class NOTIFSService extends NotificationListenerService{
 
 */
 
-            //TODO si es una llmada del tiron pasamos:
+
 
             if (sbn.isOngoing()) {
                 return;
             }
 
 
-            //todo si no es una apk vigilada ignoramos
+
 
             mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -142,8 +141,8 @@ public class NOTIFSService extends NotificationListenerService{
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-            Log.d(TAG, "Notification has arrived");
-            Log.d(TAG, "KEY: " + sbn.getKey() +" ID: " + sbn.getId() + " Posted by: " + sbn.getPackageName() + " at: " + sbn.getPostTime() + " ");
+         //   Log.d(TAG, "Notification has arrived");
+          //  Log.d(TAG, "KEY: " + sbn.getKey() +" ID: " + sbn.getId() + " Posted by: " + sbn.getPackageName() + " at: " + sbn.getPostTime() + " ");
 
             //guaradmos tiempo..luego se actualiza al recibir la notif si la pnatalla esta apagada
             LastWhastsppsbnTime=sbn.getPostTime();
@@ -169,7 +168,7 @@ KEY: 0|com.whatsapp|1|34639689367@s.whatsapp.net|10185 ID: 1 Posted by: com.what
             String[] separated = sbn.getKey().split("\\|");
             if (separated[3].equalsIgnoreCase("null")&&sbn.getPackageName().equals("com.whatsapp")){
 
-                Log.d(TAG, "Notification has arrived but the terrcer campo es null!!!..duplicada");
+             //   Log.d(TAG, "Notification has arrived but the terrcer campo es null!!!..duplicada");
                 return;
 
             }
@@ -196,7 +195,7 @@ KEY: 0|com.whatsapp|1|34639689367@s.whatsapp.net|10185 ID: 1 Posted by: com.what
 
             if (mPrefs.getBoolean("Telegram",false) && (pacakgenamenotif.equals("org.telegram.messenger") && sbn.getId()==1 || pacakgenamenotif.equals("org.thunderdog.challegram") && sbn.getId()==1 ) ) {
 
-                Log.i("INFO", "era un telegram con  ID=1 lo descartamos!!!");
+              //  Log.i("INFO", "era un telegram con  ID=1 lo descartamos!!!");
 
                 return;
 
@@ -214,7 +213,7 @@ KEY: 0|com.whatsapp|1|34639689367@s.whatsapp.net|10185 ID: 1 Posted by: com.what
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-            //TODO
+
 
            // KEY: 0|com.google.android.gm|0|gig:2060997336:^sq_ig_i_personal|10139 ID: 0 Posted by: com.google.android.gm at: 1536077157871
             //KEY: 0|com.google.android.gm|451854755|gig:2060997336:^sq_ig_i_personal|10139 ID: 451854755 Posted by: com.google.android.gm at: 1536077157909
@@ -225,7 +224,7 @@ KEY: 0|com.whatsapp|1|34639689367@s.whatsapp.net|10185 ID: 1 Posted by: com.what
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-            //TODO
+
 
             //KEY: 0|com.microsoft.office.outlook|2|1:[1:AAMkAD... ID: 2 Posted by: com.microsoft.office.outlook at: 1536074763260
             //KEY: 0|com.microsoft.office.outlook|1|notifGroup:1|10230 ID: 1 Posted by: com.microsoft.office.outlook at: 1536074763392
@@ -235,7 +234,7 @@ KEY: 0|com.whatsapp|1|34639689367@s.whatsapp.net|10185 ID: 1 Posted by: com.what
 
             if (mPrefs.getBoolean("Outlook",false) && (pacakgenamenotif.equals("com.microsoft.office.outlook") && sbn.getId()==1 )) {
 
-                Log.i("INFO", "era un OUTLOOK con  ID=1 lo descartamos!!!");
+             //   Log.i("INFO", "era un OUTLOOK con  ID=1 lo descartamos!!!");
 
                 return;
 
@@ -265,10 +264,10 @@ KEY: 0|com.whatsapp|1|34639689367@s.whatsapp.net|10185 ID: 1 Posted by: com.what
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-           Log.i("VIGILANDO WHATASPP:", String.valueOf(mPrefs.getBoolean("Whastapp",false)));
-            Log.i("VIGILANDO GMAIL:", String.valueOf(mPrefs.getBoolean("Gmail",false)));
-            Log.i("VIGILANDO OUTLOOK:", String.valueOf(mPrefs.getBoolean("Outlook",false)));
-            Log.i("VIGILANDO TELEGRAM:", String.valueOf(mPrefs.getBoolean("Telegram",false)));
+        //   Log.i("VIGILANDO WHATASPP:", String.valueOf(mPrefs.getBoolean("Whastapp",false)));
+        //    Log.i("VIGILANDO GMAIL:", String.valueOf(mPrefs.getBoolean("Gmail",false)));
+         //   Log.i("VIGILANDO OUTLOOK:", String.valueOf(mPrefs.getBoolean("Outlook",false)));
+        //    Log.i("VIGILANDO TELEGRAM:", String.valueOf(mPrefs.getBoolean("Telegram",false)));
 
 
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -331,7 +330,7 @@ KEY: 0|com.whatsapp|1|34639689367@s.whatsapp.net|10185 ID: 1 Posted by: com.what
 
             if (!isScreenOn(mContext)) {
                 // YOUR CODE
-                Log.e("PANTALLA ENCENDIDA ", "NO!!!!");
+             //   Log.e("PANTALLA ENCENDIDA ", "NO!!!!");
 
 
                 //SEGUNDO VEMOS IS ES UN WHATSAPP
@@ -344,7 +343,7 @@ KEY: 0|com.whatsapp|1|34639689367@s.whatsapp.net|10185 ID: 1 Posted by: com.what
                 if (isNotif4packnamehabilitada(pacakgenamenotif)) {
 
 
-                    Log.e("ES UNA APP VIGILADA: ", "SI!!!!");
+                  //  Log.e("ES UNA APP VIGILADA: ", "SI!!!!");
 
                     Notification mNotification = sbn.getNotification();
 
@@ -361,59 +360,7 @@ KEY: 0|com.whatsapp|1|34639689367@s.whatsapp.net|10185 ID: 1 Posted by: com.what
 
 
 
-                    //TODO luego vemos que hacemos..de momento encender pantalla:
-                /*
-                    Log.i("NEW", "enviando a MAIN!!!");
-                    if (mNotification != null) {
 
-                        Log.i("NEW", "NO ERA NULL--VA  A MAIN!!!");
-                        Intent intent = new Intent(MainActivity.INTENT_ACTION_NOTIFICATION);
-                        intent.putExtras(mNotification.extras);
-                        sendBroadcast(intent);
-
-                        Notification.Action[] mActions = mNotification.actions;
-                        if (mActions != null) {
-                            for (Notification.Action mAction : mActions) {
-                                int icon = mAction.icon;
-                                CharSequence actionTitle = mAction.title;
-                                PendingIntent pendingIntent = mAction.actionIntent;
-                            }
-                        }
-                    }
-
-                }
-
-                else {
-
-
-                    Log.e("ES UN WHAATSAPP", "NO!!!!");
-                }
-
-*/
-                    //TODO luego vemos que hacemos..de moento encender pantalla:
-
-
-
-                     //   new ScreenController(this, false).handleNotification(pacakgenamenotif);
-
-
-
-
-                        //TODO  o esto de alarma:
-
-                    /*
-                    //Create an offset from the current time in which the alarm will go off.
-                    Calendar cal = Calendar.getInstance();
-                    cal.add(Calendar.SECOND, 2);
-
-                    //Create a new PendingIntent and add it to the AlarmManager
-                    Intent intent = new Intent(this, AlarmReceiverActivity.class);
-                    PendingIntent pendingIntent = PendingIntent.getActivity(this,
-                            12345, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-                    AlarmManager am = (AlarmManager)getSystemService(Activity.ALARM_SERVICE);
-                    am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
-                            pendingIntent);
-                    */
 
 
                     Intent dialogIntent = new Intent(this, AlarmReceiverActivity.class);
@@ -506,7 +453,7 @@ KEY: 0|com.whatsapp|1|34639689367@s.whatsapp.net|10185 ID: 1 Posted by: com.what
 
 
 
-                        Log.i(TAG, "SI FOTO DESDE SERVICE" + fotodelaNotif);
+                       // Log.i(TAG, "SI FOTO DESDE SERVICE" + fotodelaNotif);
 
                         //y lo ponemos de extra en el intent:
                         dialogIntent.putExtra("foto",fotodelaNotif);
@@ -515,7 +462,7 @@ KEY: 0|com.whatsapp|1|34639689367@s.whatsapp.net|10185 ID: 1 Posted by: com.what
                     }
                     else {
 
-                        Log.i(TAG, "NO FOTO DESDE SERVICE !!!!!"  );
+                       // Log.i(TAG, "NO FOTO DESDE SERVICE !!!!!"  );
                     }
 
 
@@ -548,7 +495,7 @@ KEY: 0|com.whatsapp|1|34639689367@s.whatsapp.net|10185 ID: 1 Posted by: com.what
 
             else if (isScreenOn(mContext)&& (isNotif4packnamehabilitada(pacakgenamenotif) && isActivityRunning(AlarmReceiverActivity.class))&& checkDuplicateonTime(sbn.getPostTime(),sbn)){
 
-                Log.i(TAG,"LA PANTALLA ESTA ENCENDIDA PERO ES UNA APK VIGILADA..DEBERIA HACER ALGO...");
+              //  Log.i(TAG,"LA PANTALLA ESTA ENCENDIDA PERO ES UNA APK VIGILADA..DEBERIA HACER ALGO...");
 
 
 
@@ -558,7 +505,7 @@ KEY: 0|com.whatsapp|1|34639689367@s.whatsapp.net|10185 ID: 1 Posted by: com.what
 
                 //YA NO AHOR ABRO ACTIVITY ENCIMA
 
-                Log.i(TAG," VOY AMANDAR LA SBN.extras A UNA ACTIVITY QUE CIERRA LA ANTERIOR!!");
+              //  Log.i(TAG," VOY AMANDAR LA SBN.extras A UNA ACTIVITY QUE CIERRA LA ANTERIOR!!");
                 /*
 
                 Intent intentbrodcast = new Intent("com.mio.jrdv.action.close");
@@ -652,25 +599,25 @@ KEY: 0|com.whatsapp|1|34639689367@s.whatsapp.net|10185 ID: 1 Posted by: com.what
         if (bigText3 != null) {
             //String TEXT = bigText3.toString();
             Actualmesagetext = bigText3.toString();
-            Log.i("TEXT", Actualmesagetext.toString());
+           // Log.i("TEXT", Actualmesagetext.toString());
         }
 
 
 
 
-        Log.i("TEXTOS COMAPRE","ACTUAL:"+Actualmesagetext+" Y ULTIMO:"+lastmesagetext);
+       // Log.i("TEXTOS COMAPRE","ACTUAL:"+Actualmesagetext+" Y ULTIMO:"+lastmesagetext);
 
             if (Actualmesagetext.equals(lastmesagetext)){
 
 
-                Log.i("TEXTOS","IGUALES la ignoramos");
+              //  Log.i("TEXTOS","IGUALES la ignoramos");
                 //son iguales  return del tiron
 
                 return false;
             }
 
 
-        Log.i("SBN","textos distinto ..ESCUCHAMOS");
+      //  Log.i("SBN","textos distinto ..ESCUCHAMOS");
         return true;
 
             //2º)miramos cuanto timepo ha pasado desde el anterior guaradao
@@ -701,8 +648,8 @@ KEY: 0|com.whatsapp|1|34639689367@s.whatsapp.net|10185 ID: 1 Posted by: com.what
 
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
-        Log.i(TAG,"********** onNOtificationRemoved");
-        Log.i(TAG,"ID :" + sbn.getId() + "\t" + sbn.getNotification().tickerText +"\t" + sbn.getPackageName());
+      //  Log.i(TAG,"********** onNOtificationRemoved");
+       // Log.i(TAG,"ID :" + sbn.getId() + "\t" + sbn.getNotification().tickerText +"\t" + sbn.getPackageName());
 
     }
 
@@ -720,7 +667,7 @@ KEY: 0|com.whatsapp|1|34639689367@s.whatsapp.net|10185 ID: 1 Posted by: com.what
             for (Display display : dm.getDisplays()) {
 
 
-                Log.i("***ESTADO DEL SCREEN:", String.valueOf(display.getState()));
+             //   Log.i("***ESTADO DEL SCREEN:", String.valueOf(display.getState()));
 
                 /*
                 OJO CON AOD EL ESTADO ES 3 O 4
@@ -755,7 +702,7 @@ Constant Value: 4 (0x00000004
             }
 
 
-            Log.i("***DEVUELVO  SCREEN:", String.valueOf(screenOn));
+          //  Log.i("***DEVUELVO  SCREEN:", String.valueOf(screenOn));
 
             return screenOn;
         } else {
@@ -805,8 +752,8 @@ Constant Value: 4 (0x00000004
             String startTime = mPrefs.getString("startTime", "22:00");
             String stopTime = mPrefs.getString("stopTime", "08:00");
 
-            Log.i("starquiettime: ",startTime);
-            Log.i("stopquiettime:  ",stopTime);
+          //  Log.i("starquiettime: ",startTime);
+          //  Log.i("stopquiettime:  ",stopTime);
 
             SimpleDateFormat sdfDate = new SimpleDateFormat("H:mm");
             String currentTimeStamp = sdfDate.format(new Date());
@@ -830,7 +777,7 @@ Constant Value: 4 (0x00000004
             }
         }
 
-        Log.d(TAG,"Device is in quiet time: " + quietTime);
+      //  Log.d(TAG,"Device is in quiet time: " + quietTime);
         return quietTime;
     }
 
@@ -843,7 +790,7 @@ Constant Value: 4 (0x00000004
 
         if (mPrefs.getBoolean("Whastapp",false) && packname.equals("com.whatsapp")) {
 
-            Log.i("INFO","era un wahstapp!");
+          //  Log.i("INFO","era un wahstapp!");
             colorNotif="#25d366";
 
             return true;
@@ -851,7 +798,7 @@ Constant Value: 4 (0x00000004
 
         else if (mPrefs.getBoolean("Gmail",false) && packname.equals("com.google.android.gm")) {
 
-            Log.i("INFO","era un gmail!");
+          //  Log.i("INFO","era un gmail!");
             colorNotif="#D44638";
 
             return true;
@@ -859,7 +806,7 @@ Constant Value: 4 (0x00000004
 
         else if (mPrefs.getBoolean("Outlook",false) && packname.equals("com.microsoft.office.outlook")) {
 
-            Log.i("INFO","era un outlook!");
+          //  Log.i("INFO","era un outlook!");
             colorNotif="#0072C6";
 
             return true;
@@ -867,7 +814,7 @@ Constant Value: 4 (0x00000004
 
         else if (mPrefs.getBoolean("Telegram",false) && (packname.equals("org.telegram.messenger") ||packname.equals("org.thunderdog.challegram"))  ) {
 
-            Log.i("INFO","era un telegram!");
+         //   Log.i("INFO","era un telegram!");
             colorNotif="#0072C6";
 
             return true;
@@ -921,7 +868,7 @@ Constant Value: 4 (0x00000004
         */
 
         String ticker = "";
-        Log.i(TAG, "SBN notification extras :" + sbn.getNotification().extras);
+      //  Log.i(TAG, "SBN notification extras :" + sbn.getNotification().extras);
 
         //esto da: para KIDSTIMER EN EL RELOJ!! CDA SEGUNDO
 /*
@@ -973,7 +920,7 @@ Constant Value: 4 (0x00000004
                     */
 
 
-        Log.i(TAG, "SBN notification  :" + sbn.getNotification());
+     //   Log.i(TAG, "SBN notification  :" + sbn.getNotification());
 
             /*
 
@@ -1016,7 +963,7 @@ Constant Value: 4 (0x00000004
 //            e.printStackTrace();
 //        }
 
-        Log.i("NEW", "----------");
+      //  Log.i("NEW", "----------");
 
             /*
             if (extras.get("android.title")!=null) {
@@ -1032,22 +979,22 @@ Constant Value: 4 (0x00000004
             */
 
 
-        Log.i(TAG, "SBN APPNAME:" + pacakgenamenotif);//SBN APPNAME:com.whatsapp
+      //  Log.i(TAG, "SBN APPNAME:" + pacakgenamenotif);//SBN APPNAME:com.whatsapp
 
-        Log.i(TAG, "SBN notif color:" +  colorNotif);
+      //  Log.i(TAG, "SBN notif color:" +  colorNotif);
 
 
         CharSequence bigText = (CharSequence) extras.getCharSequence("android.title");
         if (bigText != null) {
             String title = bigText.toString();
-            Log.i("Title", title);
+          //  Log.i("Title", title);
         }
 
 
         CharSequence bigText2 = (CharSequence) extras.getCharSequence("android.subtext");
         if (bigText2 != null) {
             String SUBTETXT = bigText2.toString();
-            Log.i("SUBTETXT", SUBTETXT.toString());
+          //  Log.i("SUBTETXT", SUBTETXT.toString());
         }
 
 
@@ -1055,7 +1002,7 @@ Constant Value: 4 (0x00000004
         if (bigText3 != null) {
             //String TEXT = bigText3.toString();
             lastmesagetext = bigText3.toString();
-            Log.i("TEXT", lastmesagetext.toString());
+           // Log.i("TEXT", lastmesagetext.toString());
         }
 
 
@@ -1063,7 +1010,7 @@ Constant Value: 4 (0x00000004
         CharSequence bigText4 = (CharSequence) extras.getCharSequence("android.bigText");
         if (bigText4 != null) {
             String TEXT = bigText4.toString();
-            Log.i("BIGTEXT", TEXT.toString());
+          //  Log.i("BIGTEXT", TEXT.toString());
         }
 
 
@@ -1096,7 +1043,7 @@ Constant Value: 4 (0x00000004
         int id1 = extras.getInt("android.icon");
 
 
-        Log.i("FINAL ", "----------");
+     //   Log.i("FINAL ", "----------");
 
 
             /*
