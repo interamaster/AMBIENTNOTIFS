@@ -100,6 +100,24 @@
         <Preference
             android:key="version"
             android:title="@string/version" />
+
+        <Preference
+            android:key="fechainstall"
+            android:title="@string/fechainstall" />
+        <Preference
+            android:key="usoswhastaspp"
+            android:title="@string/usoswhatsapp" />
+        <Preference
+            android:key="usosgmail"
+            android:title="@string/usosgmail" />
+
+        <Preference
+            android:key="usosoutlook"
+            android:title="@string/usosoutlook" />
+        <Preference
+            android:key="usostelegram"
+            android:title="@string/usostelegram" />
+
         <Preference
             android:key="about"
             android:title="(c)JRDVSoft summer 2018" />

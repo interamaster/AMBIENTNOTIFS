@@ -12,8 +12,12 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
+import android.util.Log;
 
 import com.mio.jrdv.ambientnotifs.helpers.NotificationServiceHelper;
+
+import java.text.SimpleDateFormat;
+import java.util.concurrent.TimeUnit;
 
 
 public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener {
@@ -31,6 +35,12 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     private CheckBoxPreference mOutlookPreference;
     private CheckBoxPreference mTelegramPreference;
 
+    //para als estadisticas de uso
+
+    int numWhastapp,numgamil,numoutlook,numtelegram;
+    long FechaInicio;
+
+
 
 
     @Override
@@ -39,6 +49,9 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         addPreferencesFromResource(R.xml.settings);
 
         mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());//las uso con Myapplication
+
+
+        actulizarEstadisticas();
 
 
         findPreference("version").setSummary(BuildConfig.VERSION_NAME);
@@ -51,6 +64,68 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         initializeApps();
 
         CheckApp();
+
+
+    }
+
+    private void actulizarEstadisticas() {
+
+        //recupermaos numero de usos..por defecto es 0
+        numWhastapp=mPrefs.getInt("numWhastapp",0);
+        numgamil=mPrefs.getInt("numgamil",0);
+        numoutlook=mPrefs.getInt("numoutlook",0);
+        numtelegram=mPrefs.getInt("numtelegram",0);
+
+
+
+        //para la fecha inicio
+        FechaInicio = mPrefs.getLong("FechaInicio",0);//por defecto vale 0)
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        String fechainicio = formatter.format(FechaInicio);
+        Log.d("INFO","se instalo el "+fechainicio);
+
+        //dias que se instalo
+        //http://stackoverflow.com/questions/23323792/android-days-between-two-dates
+
+        long msDiff = System.currentTimeMillis() - FechaInicio;
+        long diasDesdeInstalo = TimeUnit.MILLISECONDS.toDays(msDiff);
+
+        Log.d("INFO","hace "+diasDesdeInstalo+" DIAS");
+
+
+        if (FechaInicio==0){
+
+            //si es 0 qeu ponga aun no esta lista:
+            fechainicio="TODAY!";
+            diasDesdeInstalo=1;
+            //guaradamo el dia de ahora mismo
+            mPrefs.edit().putLong("FechaInicio",System.currentTimeMillis()).apply();
+
+
+        }
+
+        if (diasDesdeInstalo<1){
+            diasDesdeInstalo=1;
+        }
+        double whatasppaldianum=  numWhastapp/diasDesdeInstalo;
+        String whatasppaldia="TOTAL: "+String.valueOf(numWhastapp)+" --->"+ String.format("%.1f",whatasppaldianum)+"/DAY";
+        double Gmailsaldianum=   numgamil/diasDesdeInstalo;
+        String Gmailsaldia="TOTAL: "+String.valueOf(numgamil)+" --->"+String.format("%.1f",Gmailsaldianum)+"/DAY";
+        double Outlookaldianum=   numoutlook/diasDesdeInstalo;
+        String Outlookaldia="TOTAL: "+String.valueOf(numoutlook)+" --->"+String.format("%.1f",Outlookaldianum)+"/DAY";
+        double Telegramaldianum=   numtelegram/diasDesdeInstalo;
+        String Telegramaldia="TOTAL: "+String.valueOf(numtelegram)+" --->"+String.format("%.1f",Telegramaldianum)+"/DAY";
+
+
+        //lo actualizamos
+
+
+        findPreference("fechainstall").setSummary(fechainicio);
+        findPreference("usoswhastaspp").setSummary(whatasppaldia);
+        findPreference("usosgmail").setSummary (Gmailsaldia);
+        findPreference("usosoutlook").setSummary(Outlookaldia);
+        findPreference("usostelegram").setSummary(Telegramaldia);
 
 
     }

@@ -53,5 +53,11 @@
     <string name="onetap">1 toque para ocultar notificaion y apagar pantalla</string>
     <string name="twotaps">2 toques para salir a pantalla de bloqueo</string>
 
+    <string name="usoswhatsapp">Usos Whastapp</string>
+    <string name="usostelegram">Usos Telegram</string>
+    <string name="usosgmail">Usos Gmail</string>
+    <string name="usosoutlook">Usos Outlook</string>
+    <string name="fechainstall">Fecha instalación</string>
+
 
 </resources>

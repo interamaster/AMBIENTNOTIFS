@@ -63,6 +63,13 @@ public class NOTIFSService extends NotificationListenerService{
     String Actualmesagetext="actual";
 
 
+    //para als estadisticas de uso
+
+    int numWhastapp,numgamil,numoutlook,numtelegram;
+    long FechaInicio;
+
+
+
     public void onCreate() {
         super.onCreate();
 
@@ -74,6 +81,21 @@ public class NOTIFSService extends NotificationListenerService{
 
 
         mContext = this;
+
+
+
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+
+        //recupermaos numero de usos..por defecto es 0
+        numWhastapp=mPrefs.getInt("numWhastapp",0);
+        numgamil=mPrefs.getInt("numgamil",0);
+        numoutlook=mPrefs.getInt("numoutlook",0);
+        numtelegram=mPrefs.getInt("numtelegram",0);
+
+        FechaInicio=mPrefs.getLong("FechaInicio",0);
+
+
 
 
     }
@@ -121,13 +143,30 @@ public class NOTIFSService extends NotificationListenerService{
 
 
 
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            ////////////////////////////////////ES QUIET TIME?¿?//// ///// ////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-            mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+
+
+
+
+
+            if (isInQuietTime()){
+                return;
+            }
+
+
+
+
+
+         //   mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
             pacakgenamenotif = sbn.getPackageName();
 
 
-            if (!isNotif4packnamehabilitada(pacakgenamenotif)) {
+            if (!isNotif4packnamehabilitada(pacakgenamenotif,false)) {
 
 
 
@@ -169,6 +208,8 @@ KEY: 0|com.whatsapp|1|34639689367@s.whatsapp.net|10185 ID: 1 Posted by: com.what
             if (separated[3].equalsIgnoreCase("null")&&sbn.getPackageName().equals("com.whatsapp")){
 
              //   Log.d(TAG, "Notification has arrived but the terrcer campo es null!!!..duplicada");
+
+
                 return;
 
             }
@@ -196,6 +237,9 @@ KEY: 0|com.whatsapp|1|34639689367@s.whatsapp.net|10185 ID: 1 Posted by: com.what
             if (mPrefs.getBoolean("Telegram",false) && (pacakgenamenotif.equals("org.telegram.messenger") && sbn.getId()==1 || pacakgenamenotif.equals("org.thunderdog.challegram") && sbn.getId()==1 ) ) {
 
               //  Log.i("INFO", "era un telegram con  ID=1 lo descartamos!!!");
+
+
+
 
                 return;
 
@@ -236,25 +280,11 @@ KEY: 0|com.whatsapp|1|34639689367@s.whatsapp.net|10185 ID: 1 Posted by: com.what
 
              //   Log.i("INFO", "era un OUTLOOK con  ID=1 lo descartamos!!!");
 
+
+
                 return;
 
             }
-
-
-
-            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            ////////////////////////////////////ES QUIET TIME?¿?//// ///// ////////////////////
-            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-           if (isInQuietTime()){
-               return;
-           }
 
 
 
@@ -340,7 +370,7 @@ KEY: 0|com.whatsapp|1|34639689367@s.whatsapp.net|10185 ID: 1 Posted by: com.what
                 // o ahora si es una appl habilitada:
 
 
-                if (isNotif4packnamehabilitada(pacakgenamenotif)) {
+                if (isNotif4packnamehabilitada(pacakgenamenotif,true)) {
 
 
                   //  Log.e("ES UNA APP VIGILADA: ", "SI!!!!");
@@ -493,7 +523,7 @@ KEY: 0|com.whatsapp|1|34639689367@s.whatsapp.net|10185 ID: 1 Posted by: com.what
 
 
 
-            else if (isScreenOn(mContext)&& (isNotif4packnamehabilitada(pacakgenamenotif) && isActivityRunning(AlarmReceiverActivity.class))&& checkDuplicateonTime(sbn.getPostTime(),sbn)){
+            else if (isScreenOn(mContext)&& (isNotif4packnamehabilitada(pacakgenamenotif,true) && isActivityRunning(AlarmReceiverActivity.class))&& checkDuplicateonTime(sbn.getPostTime(),sbn)){
 
               //  Log.i(TAG,"LA PANTALLA ESTA ENCENDIDA PERO ES UNA APK VIGILADA..DEBERIA HACER ALGO...");
 
@@ -785,13 +815,20 @@ Constant Value: 4 (0x00000004
     //////////////////////////////////////PARA SABER SI ES UNA NOTIFIC HABILOTADOA//////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private  boolean isNotif4packnamehabilitada(String packname){
+    private  boolean isNotif4packnamehabilitada(String packname,boolean anadirestadistica){
 
 
         if (mPrefs.getBoolean("Whastapp",false) && packname.equals("com.whatsapp")) {
 
           //  Log.i("INFO","era un wahstapp!");
             colorNotif="#25d366";
+
+            if (anadirestadistica) {
+
+
+                numWhastapp++;
+                mPrefs.edit().putInt("numWhastapp", numWhastapp).commit();
+            }
 
             return true;
         }
@@ -801,6 +838,12 @@ Constant Value: 4 (0x00000004
           //  Log.i("INFO","era un gmail!");
             colorNotif="#D44638";
 
+            if (anadirestadistica) {
+                numgamil++;
+                mPrefs.edit().putInt("numgamil", numgamil).commit();
+            }
+
+
             return true;
         }
 
@@ -809,6 +852,12 @@ Constant Value: 4 (0x00000004
           //  Log.i("INFO","era un outlook!");
             colorNotif="#0072C6";
 
+            if (anadirestadistica) {
+
+                numoutlook++;
+                mPrefs.edit().putInt("numoutlook", numoutlook).commit();
+            }
+
             return true;
         }
 
@@ -816,6 +865,13 @@ Constant Value: 4 (0x00000004
 
          //   Log.i("INFO","era un telegram!");
             colorNotif="#0072C6";
+
+            if (anadirestadistica) {
+
+                numtelegram++;
+                mPrefs.edit().putInt("numtelegram", numtelegram).commit();
+
+            }
 
             return true;
         }

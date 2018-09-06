@@ -55,5 +55,11 @@
     <string name="onetap">single tap to dismiss and turn off screen</string>
     <string name="twotaps">double tap to bring Lockscreen</string>
 
+    <string name="usoswhatsapp">Used Whastapp</string>
+    <string name="usostelegram">Used Telegram</string>
+    <string name="usosgmail">Used Gmail</string>
+    <string name="usosoutlook">Used Outlook</string>
+    <string name="fechainstall">Install Date</string>
+
 
 </resources>
