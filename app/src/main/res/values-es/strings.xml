@@ -58,6 +58,8 @@
     <string name="usosgmail">Usos Gmail</string>
     <string name="usosoutlook">Usos Outlook</string>
     <string name="fechainstall">Fecha instalación</string>
+    <string name="TODAY">MEDIA DIARIA</string>
+    <string name="TOTALES">DESDE QUE SE INSTALO</string>
 
 
 </resources>

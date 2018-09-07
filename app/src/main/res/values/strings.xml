@@ -60,6 +60,8 @@
     <string name="usosgmail">Used Gmail</string>
     <string name="usosoutlook">Used Outlook</string>
     <string name="fechainstall">Install Date</string>
+    <string name="TODAY">PER DAY</string>
+    <string name="TOTALES">SINCE INSTALLED</string>
 
 
 </resources>

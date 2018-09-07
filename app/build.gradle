@@ -33,6 +33,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-ads:15.0.1'
     implementation 'com.google.android.gms:play-services-ads:15.0.0'
 
+    //pie chart
+
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+
 
 }
 

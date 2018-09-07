@@ -864,7 +864,7 @@ Constant Value: 4 (0x00000004
         else if (mPrefs.getBoolean("Telegram",false) && (packname.equals("org.telegram.messenger") ||packname.equals("org.thunderdog.challegram"))  ) {
 
          //   Log.i("INFO","era un telegram!");
-            colorNotif="#0072C6";
+            colorNotif="#0088cc";
 
             if (anadirestadistica) {
 

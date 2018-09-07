@@ -104,19 +104,26 @@
         <Preference
             android:key="fechainstall"
             android:title="@string/fechainstall" />
+
+
+        <!--
         <Preference
-            android:key="usoswhastaspp"
-            android:title="@string/usoswhatsapp" />
-        <Preference
-            android:key="usosgmail"
-            android:title="@string/usosgmail" />
+            android:key="TODAY"
+            android:title="@string/TODAY" />
+
+
+        <com.mio.jrdv.ambientnotifs.views.HorizontalBarPreference
+            android:key="piegraphtoday"
+            android:layout="@layout/horizontalbarchart"/>
+            -->
 
         <Preference
-            android:key="usosoutlook"
-            android:title="@string/usosoutlook" />
-        <Preference
-            android:key="usostelegram"
-            android:title="@string/usostelegram" />
+        android:key="TOTALES"
+        android:title="@string/TOTALES" />
+
+        <com.mio.jrdv.ambientnotifs.views.PiegraphPreference
+            android:key="piegraphtotal"
+            android:layout="@layout/piegraph"/>
 
         <Preference
             android:key="about"

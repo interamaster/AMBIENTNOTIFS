@@ -1,10 +1,12 @@
 package com.mio.jrdv.ambientnotifs;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -13,10 +15,23 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
+import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.HorizontalBarChart;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.mio.jrdv.ambientnotifs.helpers.NotificationServiceHelper;
+import com.mio.jrdv.ambientnotifs.views.HorizontalBarPreference;
+import com.mio.jrdv.ambientnotifs.views.PiegraphPreference;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 
@@ -51,7 +66,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());//las uso con Myapplication
 
 
-        actulizarEstadisticas();
+       actulizarEstadisticas();
 
 
         findPreference("version").setSummary(BuildConfig.VERSION_NAME);
@@ -66,7 +81,13 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         CheckApp();
 
 
+
+
     }
+
+
+
+
 
     private void actulizarEstadisticas() {
 
@@ -122,12 +143,94 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
 
         findPreference("fechainstall").setSummary(fechainicio);
+
+        /*
+        //NO LO PONGO EN GRAFICAS MAS BONITO
         findPreference("usoswhastaspp").setSummary(whatasppaldia);
         findPreference("usosgmail").setSummary (Gmailsaldia);
         findPreference("usosoutlook").setSummary(Outlookaldia);
         findPreference("usostelegram").setSummary(Telegramaldia);
+        */
+
+/*
+    //TODO HORIONTAL PARA LAS MEDIAS
+
+        //ponemos en unn grafico horchar
+
+        HorizontalBarPreference horizontalchart = (HorizontalBarPreference) findPreference("piegraphtoday");
+
+        //y desde aqui le paso los datos
+
+        horizontalchart.SetDatas(numWhastapp,numgamil,numoutlook,numtelegram);
+*/
+
+        //idem con valores totales/dia
 
 
+        PiegraphPreference piecharttotal = (PiegraphPreference) findPreference("piegraphtotal");
+
+        //y desde aqui le paso los datos
+
+        piecharttotal.SetDatas((int) whatasppaldianum, (int) Gmailsaldianum, (int) Outlookaldianum, (int) Telegramaldianum);
+
+       // piechart.getView(null,null);
+
+
+        /*
+
+        //1º)obtenemos la preference
+
+
+        //asi no lo pilla:
+      Preference piechartpref = findPreference("piegraph");
+
+         View v = piechartpref.getView(null, null);
+
+
+
+        //a ver asi:
+
+        //tampoco
+       // LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+     //  View v = inflater.inflate(R.layout.piegraph, null);
+
+
+        //3ºpasandole la view en l emtod desde oncreateview..tampoco
+
+
+
+        PieChart pieChart=(PieChart)v.findViewById(R.id.piechart_1);
+
+
+
+        pieChart.setVisibility(View.INVISIBLE);
+
+
+        pieChart.setUsePercentValues(true);
+        pieChart.getDescription().setEnabled(true);
+        pieChart.setExtraOffsets(5,10,5,5);
+        pieChart.setDragDecelerationFrictionCoef(0.9f);
+        pieChart.setTransparentCircleRadius(61f);
+        pieChart.setHoleColor(Color.WHITE);
+        pieChart.animateY(1000, Easing.EasingOption.EaseInOutCubic);
+        ArrayList<PieEntry> yValues = new ArrayList<>();
+        yValues.add(new PieEntry(34f,"Ilala"));
+        yValues.add(new PieEntry(56f,"Temeke"));
+        yValues.add(new PieEntry(66f,"Kinondoni"));
+        yValues.add(new PieEntry(45f,"Kigamboni"));
+
+        PieDataSet dataSet = new PieDataSet(yValues, "Desease Per   Regions");
+                dataSet.setSliceSpace(3f);
+        dataSet.setSelectionShift(5f);
+        dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        PieData pieData = new PieData((dataSet));
+        pieData.setValueTextSize(10f);
+        pieData.setValueTextColor(Color.YELLOW);
+        pieChart.setData(pieData);
+        //PieChart Ends Here
+
+
+*/
     }
 
     private void CheckApp() {
