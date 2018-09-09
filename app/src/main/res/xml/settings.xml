@@ -106,16 +106,16 @@
             android:title="@string/fechainstall" />
 
 
-        <!--
+
         <Preference
             android:key="TODAY"
             android:title="@string/TODAY" />
 
 
-        <com.mio.jrdv.ambientnotifs.views.HorizontalBarPreference
+        <com.mio.jrdv.ambientnotifs.views.PiegraphPreference
             android:key="piegraphtoday"
-            android:layout="@layout/horizontalbarchart"/>
-            -->
+            android:layout="@layout/piegraph"/>
+
 
         <Preference
         android:key="TOTALES"

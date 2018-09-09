@@ -9,11 +9,9 @@ import android.view.ViewGroup;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.mio.jrdv.ambientnotifs.R;
 
 import java.util.ArrayList;
@@ -24,9 +22,18 @@ import java.util.ArrayList;
 
 
 
-public class PiegraphPreference  extends Preference{
+public class PiegraphPreference  extends Preference  {
 
     int  numWhats,numGmail,numutlook,numTelegram;
+
+
+    //PARA EL LOGGING
+
+    private String TAG = this.getClass().getSimpleName();
+
+    //para la ref al piechart
+
+    PieChart pieChart;
 
 
     public PiegraphPreference(Context context) {
@@ -38,7 +45,7 @@ public class PiegraphPreference  extends Preference{
     }
 
 
-    public void SetDatas(int numWhatsfromPref, int numGmailfromPref, int numutlookfromPref, int numTelegramfromPref)
+    public void SetDatas(int numWhatsfromPref, int numGmailfromPref, int numutlookfromPref, int numTelegramfromPref )
 
     {
 
@@ -46,6 +53,8 @@ public class PiegraphPreference  extends Preference{
         numGmail=Math.abs(numGmailfromPref);
         numutlook=Math.abs(numutlookfromPref);
         numTelegram=Math.abs(numTelegramfromPref);
+
+
 
     }
 
@@ -73,7 +82,7 @@ public class PiegraphPreference  extends Preference{
 
 
 
-        PieChart pieChart=(PieChart)v.findViewById(R.id.piechart_1);
+          pieChart=(PieChart)v.findViewById(R.id.piechart_1);
 
 
 
@@ -83,15 +92,27 @@ public class PiegraphPreference  extends Preference{
         pieChart.getDescription().setEnabled(true);
         pieChart.setExtraOffsets(5,10,5,5);
         pieChart.setDragDecelerationFrictionCoef(0.9f);
-        pieChart.setTransparentCircleRadius(61f);
+        pieChart.setTransparentCircleRadius(61f);//orig 61
         pieChart.setHoleColor(Color.WHITE);
         pieChart.animateY(1000, Easing.EasingOption.EaseInOutCubic);
         ArrayList<PieEntry> yValues = new ArrayList<>();
 
-        yValues.add(new PieEntry((float)numWhats,"Whastapp"));
-        yValues.add(new PieEntry((float)numGmail,"Gmail"));
-        yValues.add(new PieEntry((float)numutlook,"Outlook"));
-        yValues.add(new PieEntry((float)numTelegram,"Telegram"));
+        if (numWhats>0){
+            yValues.add(new PieEntry((float)numWhats,"Whastapp"));
+        }
+
+        if (numGmail>0){
+            yValues.add(new PieEntry((float)numGmail,"Gmail"));
+        }
+
+        if (numutlook>0){
+            yValues.add(new PieEntry((float)numutlook,"Outlook"));
+        }
+        if (numTelegram>0){
+
+            yValues.add(new PieEntry((float)numTelegram,"Telegram"));
+        }
+
 
 
 
@@ -113,5 +134,6 @@ public class PiegraphPreference  extends Preference{
 
         return v;
     }
+
 
 }

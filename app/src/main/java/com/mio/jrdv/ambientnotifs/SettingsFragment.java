@@ -1,12 +1,10 @@
 package com.mio.jrdv.ambientnotifs;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -15,23 +13,11 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
-import com.github.mikephil.charting.animation.Easing;
-import com.github.mikephil.charting.charts.HorizontalBarChart;
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.mio.jrdv.ambientnotifs.helpers.NotificationServiceHelper;
-import com.mio.jrdv.ambientnotifs.views.HorizontalBarPreference;
 import com.mio.jrdv.ambientnotifs.views.PiegraphPreference;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 
@@ -56,6 +42,9 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     long FechaInicio;
 
 
+    //PARA EL LOGGING
+
+    private String TAG = this.getClass().getSimpleName();
 
 
     @Override
@@ -64,6 +53,8 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         addPreferencesFromResource(R.xml.settings);
 
         mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());//las uso con Myapplication
+
+        rellenardatosimageniario();
 
 
        actulizarEstadisticas();
@@ -85,8 +76,17 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
     }
 
+    private void rellenardatosimageniario() {
 
 
+
+    mPrefs.edit().putInt("numWhastapp",456).commit();
+        mPrefs.edit().putInt("numgamil",1237).commit();
+        mPrefs.edit().putInt("numoutlook",45).commit();
+        mPrefs.edit().putInt("numtelegram",0).commit();
+
+
+    }
 
 
     private void actulizarEstadisticas() {
@@ -96,6 +96,10 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         numgamil=mPrefs.getInt("numgamil",0);
         numoutlook=mPrefs.getInt("numoutlook",0);
         numtelegram=mPrefs.getInt("numtelegram",0);
+
+
+
+        Log.d(TAG,"numwha: "+numWhastapp+ " numgmnail: "+numgamil+" numout: "+numoutlook+" numtel: "+numtelegram);
 
 
 
@@ -112,7 +116,13 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         long msDiff = System.currentTimeMillis() - FechaInicio;
         long diasDesdeInstalo = TimeUnit.MILLISECONDS.toDays(msDiff);
 
-        Log.d("INFO","hace "+diasDesdeInstalo+" DIAS");
+
+        //TODO quitar
+
+        diasDesdeInstalo=3;
+
+
+        Log.d(TAG,"hace "+diasDesdeInstalo+" DIAS");
 
 
         if (FechaInicio==0){
@@ -138,6 +148,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         double Telegramaldianum=   numtelegram/diasDesdeInstalo;
         String Telegramaldia="TOTAL: "+String.valueOf(numtelegram)+" --->"+String.format("%.1f",Telegramaldianum)+"/DAY";
 
+        Log.d(TAG,"MEDIA DIARIA: numwha: "+numWhastapp+ " numgmnail: "+numgamil+" numout: "+numoutlook+" numtel: "+numtelegram);
 
         //lo actualizamos
 
@@ -164,6 +175,16 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         horizontalchart.SetDatas(numWhastapp,numgamil,numoutlook,numtelegram);
 */
 
+        //ponemos en unn grafico horchar
+
+        PiegraphPreference horizontalchart = (PiegraphPreference) findPreference("piegraphtoday");
+
+        //y desde aqui le paso los datos
+
+        horizontalchart.SetDatas( (int) whatasppaldianum, (int) Gmailsaldianum, (int) Outlookaldianum, (int) Telegramaldianum );
+
+
+
         //idem con valores totales/dia
 
 
@@ -171,7 +192,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
         //y desde aqui le paso los datos
 
-        piecharttotal.SetDatas((int) whatasppaldianum, (int) Gmailsaldianum, (int) Outlookaldianum, (int) Telegramaldianum);
+        piecharttotal.SetDatas((int) numWhastapp, (int) numgamil, (int) numoutlook, (int) numtelegram );
 
        // piechart.getView(null,null);
 
