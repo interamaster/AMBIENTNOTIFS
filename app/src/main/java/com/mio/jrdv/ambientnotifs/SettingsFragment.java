@@ -54,7 +54,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
         mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());//las uso con Myapplication
 
-        rellenardatosimageniario();
+       // rellenardatosimageniario();//para ver como va
 
 
        actulizarEstadisticas();
@@ -119,7 +119,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
 
         //TODO quitar
 
-        diasDesdeInstalo=3;
+       // diasDesdeInstalo=3;
 
 
         Log.d(TAG,"hace "+diasDesdeInstalo+" DIAS");

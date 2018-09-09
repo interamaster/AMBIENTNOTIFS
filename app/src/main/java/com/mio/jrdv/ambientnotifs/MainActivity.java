@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     //V1.1 AÑADIDAS ESTADISTICAS DE USO
     //V1.1.01 CON GRAFICOS MAS BONITA
     //V1.1.02 CON GARFICOS DE TOTALES Y MEDIA
+    //v1.1.03 iconos oreo ok
 
 
 
