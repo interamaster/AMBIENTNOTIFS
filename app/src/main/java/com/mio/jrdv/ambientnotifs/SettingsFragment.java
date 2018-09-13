@@ -122,7 +122,6 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
        // diasDesdeInstalo=3;
 
 
-        Log.d(TAG,"hace "+diasDesdeInstalo+" DIAS");
 
 
         if (FechaInicio==0){
@@ -132,13 +131,20 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
             diasDesdeInstalo=1;
             //guaradamo el dia de ahora mismo
             mPrefs.edit().putLong("FechaInicio",System.currentTimeMillis()).apply();
-
+            diasDesdeInstalo=0;
 
         }
 
         if (diasDesdeInstalo<1){
             diasDesdeInstalo=1;
         }
+        else  diasDesdeInstalo++;//le sumo +1 porque no cuenta le dia inicial!!!
+        //aun asi no es perfecto porquer cuneta desde q se instalo los dias+
+
+
+        Log.d(TAG,"hace "+diasDesdeInstalo+" DIAS");
+
+
         double whatasppaldianum=  numWhastapp/diasDesdeInstalo;
         String whatasppaldia="TOTAL: "+String.valueOf(numWhastapp)+" --->"+ String.format("%.1f",whatasppaldianum)+"/DAY";
         double Gmailsaldianum=   numgamil/diasDesdeInstalo;

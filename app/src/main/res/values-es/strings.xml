@@ -17,13 +17,13 @@
     <string name="uncheck_all">Uncheck all</string>
     <string name="loading">Loading. Please wait...</string>
     <string name="quietHours">Habilita no molestar</string>
-    <string name="quietSum">No notificar en las siguinetes horas</string>
+    <string name="quietSum">No notificar en las siguientes horas</string>
     <string name="startTime">Inicio No molestar</string>
     <string name="stopTime">Fin No molestar</string>
     <string name="set">Ajusta</string>
-    <string name="notification_listener_launch">Ahora te saldra una ventana con los ajustes de Notificaciones, si quieres que esto deje de funcionar simplemnte deshabilitame.</string>
-    <string name="notification_listener_warning">Si pulsas OK se abrira la ventana de Ajuste de Notificacioens.Para que esta Aplicacion funcione debes marcar AMBIENT NOTIFS.
-        Android te va avisar de que leer las notificacioens puede capturar datos privados,pero es la unica manera de que funciones y AMBIENT NOTIFS nunca leera el contenido de ellas, solo te los pondra a ti.</string>
+    <string name="notification_listener_launch">Ahora te saldrá una ventana con los ajustes de Notificaciones, si quieres que esto deje de funcionar simplemente deshabilitame.</string>
+    <string name="notification_listener_warning">Si pulsas OK se abrirá la ventana de Ajuste de Notificaciones.Para que esta Aplicación funcione debes marcar AMBIENT NOTIFS.
+        Android te va avisar de que leer las notificaciones puede capturar datos privados,pero es la única manera de que funcione y AMBIENT NOTIFS nunca leera el contenido de ellas, solo te los pondra a ti.</string>
 
 
 
@@ -50,7 +50,7 @@
     <string name="textoejemplo">sender del whaatspp si es muy largo deberia ponerlo aqui in pasarse de la raaa</string>
     <string name="textlargoejemplo">ejemplo de u whastapp que recibamos de varias lineas a ver que hace la criatura. Apps that create a notification for the first time will automatically turn the screen on.</string>
     <string name="info">Pistas</string>
-    <string name="onetap">1 toque para ocultar notificaion y apagar pantalla</string>
+    <string name="onetap">1 toque para ocultar notificación y apagar pantalla</string>
     <string name="twotaps">2 toques para salir a pantalla de bloqueo</string>
 
     <string name="usoswhatsapp">Usos Whastapp</string>

@@ -24,8 +24,8 @@
     <string name="notification_listener_launch">You will be now taken to the notification settings.
         If you wish to stop Screen Notifications, simply turn it off.</string>
     <string name="notification_listener_warning">Clicking ok will take you to the notification settings.
-        For this app to work you will need to turn on Screen Notifications.
-        Android will warn you that the app may capture your private data, Screen Notifications never reads the content of notifications.</string>
+        For this app to work you will need to turn on AMBIENT NOTIFICATIONS.
+        Android will warn you that the app may capture your private data, AMBIENT NOTIFICATIONS never reads the content of notifications.</string>
 
 
 
