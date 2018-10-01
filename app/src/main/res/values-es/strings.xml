@@ -60,6 +60,7 @@
     <string name="fechainstall">Fecha instalación</string>
     <string name="TODAY">MEDIA DIARIA</string>
     <string name="TOTALES">DESDE QUE SE INSTALO</string>
+    <string name="PrivacyPolicy">Politica de Privacidad</string>
 
 
 </resources>

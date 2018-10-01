@@ -62,6 +62,7 @@
     <string name="fechainstall">Install Date</string>
     <string name="TODAY">PER DAY</string>
     <string name="TOTALES">SINCE INSTALLED</string>
+    <string name="PrivacyPolicy">Privacy Policy</string>
 
 
 </resources>

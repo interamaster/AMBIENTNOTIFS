@@ -106,6 +106,16 @@
             android:title="@string/fechainstall" />
 
 
+        <Preference
+            android:key="Privacy Policy"
+            android:title="@string/PrivacyPolicy">
+
+
+
+        <intent android:action="android.intent.action.VIEW"
+            android:data="https://jrdvsoftblog.wordpress.com/2018/10/01/privacy-policy-ambient-notificaciones/" />
+
+        </Preference>
 
         <Preference
             android:key="TODAY"
